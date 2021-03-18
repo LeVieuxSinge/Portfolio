@@ -10,10 +10,18 @@
     "deploy": "push-dir --dir=dist --branch=gh-pages --cleanup"
   },
   "dependencies": {
+    "animejs": "^3.2.1",
     "core-js": "^3.8.3",
-    "nuxt": "^2.14.12"
+    "nuxt": "^2.14.12",
+    "popmotion": "^8.7.6",
+    "three": "^0.126.1",
+    "three-gltf-loader": "^1.111.0"
   },
   "devDependencies": {
-    "push-dir": "^0.4.1"
+    "@nuxtjs/style-resources": "^1.0.0",
+    "nuxt-animejs": "^1.2.1",
+    "push-dir": "^0.4.1",
+    "sass": "^1.32.8",
+    "sass-loader": "^10.1.1"
   }
 }

@@ -1,0 +1,41 @@
+/* Small to large phone */
+@mixin for-xs {
+  @media (max-width: 599px) {
+    @content;
+  }
+}
+
+/* Small to medium tablet */
+@mixin for-sm {
+  @media (min-width: 600px) {
+    @content;
+  }
+}
+
+/* Large tablet to laptop */
+@mixin for-md {
+  @media (min-width: 960px) {
+    @content;
+  }
+}
+
+/* Desktop */
+@mixin for-lg {
+  @media (min-width: 1264px) {
+    @content;
+  }
+}
+
+/* 4K and ultra-wide */
+@mixin for-xl {
+  @media (min-width: 1904px) {
+    @content;
+  }
+}
+
+/* Hover available */
+@mixin for-hover {
+  @media (hover: hover) {
+    @content;
+  }
+}

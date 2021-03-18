@@ -1,0 +1,24 @@
+/* Multi browser animation */
+@mixin animation($property) {
+  -webkit-animation: $property;
+  -moz-animation: $property;
+  -o-animation: $property;
+  animation: $property;
+}
+
+/* Multi browser transform */
+@mixin transform($property) {
+  -webkit-transform: $property;
+  -ms-transform: $property;
+  -moz-transform: $property;
+  -o-transform: $property;
+  transform: $property;
+}
+
+/* Multi browser transition */
+@mixin transition($property, $property1: null) {
+  -webkit-transition: $property, $property1;
+  -moz-transition: $property, $property1;
+  -o-transition: $property, $property1;
+  transition: $property, $property1;
+}
