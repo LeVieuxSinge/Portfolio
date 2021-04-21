@@ -3,6 +3,10 @@ import {
   fragment,
   vertex
 } from "./ShowcaseShaders";
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
+import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js';
 
 import { Environment } from '../Simplicity/src/Environments/Environment.js';
 import { Geometry } from '../Simplicity/src/Objects/Geometry.js';
@@ -29,17 +33,21 @@ class ShowcaseGL {
 
     var _params = params !== undefined ? params : {};
     
-    this.targetEnvironments = _params.targetEnvironments !== undefined ? _params.targetEnvironments : [];
-    this.totalEntries = this.targetEnvironments.length;
+    this.projects = _params.targetEnvironments !== undefined ? _params.targetEnvironments : [];
+    this.totalEntries = this.projects.length;
     this.loadedEntries = 0;
     this.render = this.render.bind(this);
-    this.textures = this.targetEnvironments.map((entry, i) =>
-      new THREE.TextureLoader().load(
-        entry.image,
-        this.calculateAspectRatioFactor.bind(this, i),
-      )
-    );
-    this.factors = this.targetEnvironments.map(e => new THREE.Vector2(1, 1));
+    console.log(this.projects);
+    this.textures = this.projects.map((entry, i) => {
+      // new THREE.TextureLoader().load(
+      //   entry.environment.renderer.texture,
+      //   this.calculateAspectRatioFactor.bind(this, i),
+      // )
+      var texture = entry.environment.renderer.texture;
+      // this.calculateAspectRatioFactor(i, texture);
+      return texture;
+    });
+    this.factors = this.projects.map(e => new THREE.Vector2(1, 1));
     this.currentIndex = 0;
     this.nextIndex = 0;
     this.textureProgress = 0;
@@ -62,6 +70,7 @@ class ShowcaseGL {
     // this.environment.renderer.setPixelRatio(window.devicePixelRatio);
 
     this.scene = new THREE.Scene();
+    this.scene.background = new THREE.Color(0x121212);
     this.camera = new THREE.PerspectiveCamera(45, 1, 0.1, 10000);
     this.camera.position.z = 5;
     this.camera.lookAt = this.scene.position;
@@ -70,8 +79,21 @@ class ShowcaseGL {
       alpha: true,
       antialias: true
     });
+    console.log(this.renderer.capabilities.getMaxAnisotropy());
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.renderer.setPixelRatio(window.devicePixelRatio);
+
+    // Post effects
+    this.renderPass = new RenderPass(this.scene, this.camera);
+    this.fxaaPass = new ShaderPass(FXAAShader);
+    var pixelRatio = this.renderer.pixelRatio;
+    this.fxaaPass.material.uniforms[ 'resolution' ].value.x = 1 / ( window.innerWidth * window.devicePixelRatio );
+		this.fxaaPass.material.uniforms[ 'resolution' ].value.y = 1 / ( window.innerHeight * window.devicePixelRatio );
+    this.composer = new EffectComposer(this.renderer);
+    this.composer.addPass(this.renderPass);
+    this.composer.addPass(this.fxaaPass); 
+    this.composer.setSize(window.innerWidth, window.innerHeight);
+    this.composer.setPixelRatio(window.devicePixelRatio);
 
   }
 
@@ -195,12 +217,19 @@ class ShowcaseGL {
       },
       vertexShader: vertex,
       fragmentShader: fragment,
-      side: THREE.DoubleSide
+      side: THREE.DoubleSide,
+      precision: 'highp',
     });
     this.mesh = new THREE.Mesh(geometry, material);
+    console.log(this.mesh);
     this.scene.add(this.mesh);
     // this.mesh.material = material;
     // this.environment.addObject('plane', this.mesh);
+
+    // Update aspect ratio
+    for (var i = 0; i < this.textures.length; i++) {
+      this.calculateAspectRatioFactor(i, this.textures[i]);
+    }
   }
 
   updateTexture(newIndex, progress) {
@@ -255,7 +284,20 @@ class ShowcaseGL {
     if (!this.initialRender) {
       this.initialRender = true;
     }
-    this.renderer.render(this.scene, this.camera);
+
+     // draw render target scene to render target
+     this.renderer.setRenderTarget(this.projects[this.currentIndex].environment.renderer);
+     this.renderer.render(this.projects[this.currentIndex].environment.scene, this.projects[this.currentIndex].environment.camera);
+     this.renderer.setRenderTarget(null);
+
+     // draw render target scene to render target
+     this.renderer.setRenderTarget(this.projects[this.nextIndex].environment.renderer);
+     this.renderer.render(this.projects[this.nextIndex].environment.scene, this.projects[this.nextIndex].environment.camera);
+     this.renderer.setRenderTarget(null);
+
+    // this.renderer.render(this.scene, this.camera);
+
+    this.composer.render();
   }
 
   mount(container) {
@@ -267,6 +309,10 @@ class ShowcaseGL {
     this.mesh.geometry.dispose();
     this.mesh = null;
     this.environment = null;
+  //   this.renderer = null;
+  // this.camera = null;
+  // this.scene = null;
+  // this.container = null;
   }
 
   onResize() {

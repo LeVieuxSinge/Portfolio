@@ -35,8 +35,6 @@ class Basics {
 
     this.camera = _params.camera !== undefined ? _params.camera : DefaultCamera();
     this.scene = _params.scene !== undefined ? _params.scene : DefaultScene();
-    this.onShow = _params.onShow !== undefined ? _params.onShow : function () {};
-    this.onHide = _params.onHide !== undefined ? _params.onHide : function () {};
 
   }
 

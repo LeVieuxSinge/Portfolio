@@ -1,28 +1,24 @@
 import Vue from 'vue';
 import * as Simplicity from '../Simplicity/index.js';
+import { Showcase } from '~/plugins/Custom/Showcase.js';
 
 // IMPORT SIMPLICITY COMPONENTS
 // Object.keys(Simplicity.Components).forEach(name => {
 //   Vue.component(name, Simplicity.Components[name]);
 // });
 
-const Events = new Simplicity.EventManager({
-  debug: false,
-});
-
-Events.add('onActiveIndexChange');
-Events.add('onIndexChange');
-Events.add('onZoomStart');
-Events.add('onZoomFinish');
-Events.add('onFullScreenStart');
-Events.add('onFullScreenFinish');
+var breakpoints = Vue.observable(new Simplicity.BreakpointManager({}));
 
 export default ({
   app
 }, inject) => {
   inject('simplicity', Simplicity);
   inject('assets', new Simplicity.AssetManager({
-    debug: false,
+    debug: true,
   }));
-  inject('events', Events);
+  inject('breakpoints', breakpoints);
+  inject('events', new Simplicity.EventManager({
+    debug: true,
+  }));
+  inject('showcase', Showcase);
 }

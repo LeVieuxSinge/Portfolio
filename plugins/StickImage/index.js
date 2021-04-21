@@ -43,15 +43,15 @@ const showcase = new Showcase(slidesData, {
     slides.onActiveIndexChange(activeIndex);
   },
   onIndexChange: index => {
-    slides.onMove(index);
+    slides.onMove(index); //
   },
   onZoomOutStart: ({ activeIndex }) => {
-    cursor.enter();
+    cursor.enter(); //
     slides.appear();
   },
   onZoomOutFinish: ({ activeIndex }) => {},
   onFullscreenStart: ({ activeIndex }) => {
-    cursor.leave();
+    cursor.leave(); //
     slides.disperse(activeIndex);
   },
   onFullscreenFinish: ({ activeIndex }) => {}

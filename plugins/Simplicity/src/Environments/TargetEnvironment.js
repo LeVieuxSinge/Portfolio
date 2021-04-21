@@ -1,5 +1,8 @@
 import {
-  WebGLRenderTarget
+  WebGLRenderTarget,
+  NearestFilter,
+  NearestMipMapNearestFilter,
+  LinearFilter,
 } from 'three';
 import {
   Basics
@@ -17,8 +20,7 @@ import {
 var DefaultTargetRenderer = (function () {
 
   var _renderer;
-  _renderer = new WebGLRenderTarget(window.innerWidth, window.innerHeight);
-  _renderer.setSize(window.innerWidth, window.innerHeight);
+  _renderer = new WebGLRenderTarget(window.innerWidth * 4, window.innerHeight * 4);
   return _renderer;
 
 });
@@ -57,7 +59,7 @@ class TargetEnvironment extends Basics {
 
   get renderer() {
 
-    return this.renderer;
+    return this._renderer;
 
   }
 

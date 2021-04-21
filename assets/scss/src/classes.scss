@@ -1,13 +1,51 @@
-/* Classa*/
+/* Classes */
 .--wrapper {
   position: relative;
 }
 
+.--section {
+
+  @include for-xs {
+    margin-top: 100px;
+    margin-bottom: 100px;
+  }
+
+  @include for-sm {
+    margin-top: 120px;
+    margin-bottom: 120px;
+  }
+
+  @include for-md {
+    margin-top: 120px;
+    margin-bottom: 120px;
+  }
+
+  @include for-lg {
+    margin-top: 120px;
+    margin-bottom: 120px;
+  }
+
+  @include for-xl {
+    margin-top: 120px;
+    margin-bottom: 120px;
+  }
+
+}
+
 .--container {
-  height: 100%;
+  position: relative;
   width: 100%;
+  padding: 0 20px;
+}
+
+.--container--fluid {
+  @extend .--container;
   margin-right: auto;
   margin-left: auto;
+
+  @include for-sm {
+    max-width: 900px;
+  }
 
   @include for-md {
     max-width: 900px;
@@ -18,8 +56,18 @@
   }
 
   @include for-xl {
-    max-width: 1785px;
+    max-width: 1285px;
   }
+}
+
+.--container--full {
+  @extend .--container;
+  min-height: 100vh;
+}
+
+.--container--child {
+  @extend .--container;
+  height: 100%;
 }
 
 .--float {

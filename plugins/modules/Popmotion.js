@@ -1,7 +1,7 @@
-import * as POPMOTION from 'popmotion';
+import * as POPMOTION from '~/node_modules/popmotion/dist/popmotion';
 
 export default ({
   app
 }, inject) => {
-  inject('motion', POPMOTION);
+  inject('popmotion', POPMOTION);
 }

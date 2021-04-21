@@ -34,7 +34,7 @@ class Slides {
     for (let i = 0; i < this.slides.length; i++) {
       if (activeIndex === i) {
         this.slides[i].classList.remove("next");
-        this.slides[i].classList.remove("prev");
+        this.slides[i].classList.remove("prev"); 
       } else {
         if (activeIndex > i) {
           this.slides[i].classList.remove("next");

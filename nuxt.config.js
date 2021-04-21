@@ -7,6 +7,13 @@ export default {
     base: '/Portfolio/',
   },
 
+  // Exlude route from static build
+  // generate: {
+  //   exclude: [
+  //     /^\/projects/,
+  //   ]
+  // },
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'Portfolio',
@@ -25,13 +32,25 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Anton&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/icon?family=Material+Icons' },
     ]
+  },
+
+  // Custom Loading (https://nuxtjs.org/docs/2.x/features/loading)
+  loading: '~/components/Loading.vue',
+
+  // Transitions
+  pageTransition: {
+    name: 'page',
+    css: true,
+    mode: 'out-in',
+    appear: true,
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    '~/assets/css/base.css',
-    '~/assets/css/styles.css',
     '~/assets/scss/_reset.scss',
   ],
 
@@ -41,7 +60,7 @@ export default {
     {src: '~/plugins/modules/Three.js', mode: 'client'},
     {src: '~/plugins/modules/Anime.js', mode: 'client'},
     {src: '~/plugins/modules/Popmotion.js', mode: 'client'},
-    // {src: '~/plugins/StickImage/index.js', mode: 'client'},
+    {src: '~/plugins/Environments.js', mode: 'client'},
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -62,5 +81,8 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    transpile: [
+      'three'
+    ], 
   }
 }

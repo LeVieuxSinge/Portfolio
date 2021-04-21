@@ -1,4 +1,4 @@
-'use strict';
+// 'use strict';
 
 // COMPONENTS
 // export { Components } from './Components/Components';
@@ -9,6 +9,7 @@ export { TargetEnvironment } from './src/Environments/TargetEnvironment';
 
 // MANAGERS
 export { AssetManager } from './src/Managers/AssetManager';
+export { BreakpointManager } from './src/Managers/BreakpointManager';
 export { EventManager } from './src/Managers/EventManager';
 
 // OBJECTS

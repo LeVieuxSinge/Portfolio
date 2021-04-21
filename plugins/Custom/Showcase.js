@@ -10,7 +10,7 @@ import {
 import {
   spring,
   parallel
-} from '~/node_modules/popmotion/dist/popmotion.es';
+} from '~/node_modules/popmotion/dist/popmotion';
 
 /* ============================================================= */
 
@@ -36,9 +36,9 @@ class Showcase {
 
     var _params = params !== undefined ? params : {};
 
-    this.targetEnvironments = _params.targetEnvironments !== undefined ? _params.targetEnvironments : [];
+    this.projects = _params.targetEnvironments !== undefined ? _params.targetEnvironments : [];
     this.GL = new ShowcaseGL({
-      targetEnvironments: this.targetEnvironments,
+      targetEnvironments: this.projects,
     });
     this.GL.createPlane();
     this.progress = 0;
@@ -218,8 +218,8 @@ class Showcase {
 
   onGrabMove(scroll) {
 
-    this.index.target = clamp(this.index.initial + scroll.delta / this.index.scrollSize, -this.targetEnvironments.length + 0.51, 0.49);
-    var index = clamp(Math.round(-this.index.target), 0, this.targetEnvironments.length - 1);
+    this.index.target = clamp(this.index.initial + scroll.delta / this.index.scrollSize, -this.projects.length + 0.51, 0.49);
+    var index = clamp(Math.round(-this.index.target), 0, this.projects.length - 1);
 
     if (this.index.active !== index) {
       this.index.active = index;
