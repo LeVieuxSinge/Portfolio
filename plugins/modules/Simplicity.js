@@ -14,11 +14,11 @@ export default ({
 }, inject) => {
   inject('simplicity', Simplicity);
   inject('assets', new Simplicity.AssetManager({
-    debug: true,
+    debug: false,
   }));
   inject('breakpoints', breakpoints);
   inject('events', new Simplicity.EventManager({
-    debug: true,
+    debug: false,
   }));
   inject('showcase', Showcase);
 }

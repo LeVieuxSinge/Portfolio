@@ -23,7 +23,7 @@
           <!-- HELLO -->
           <div class="welcome-hello">
             <div class="transition-language">
-              {{ $store.state.lang === 'eng' ? 'Hello Captain' : 'Salut Capitaine' }}
+              {{ $store.state.lang === 'eng' ? 'Hello' : 'Salut' }}
             </div>
           </div>
 
@@ -164,7 +164,7 @@
             <!-- TITLE -->
             <div class="contacts-title">
               <div class="transition-language">
-                {{ $store.state.lang === 'eng' ? 'Come Say Hello !' : 'Venez Dire Salut !' }}
+                {{ $store.state.lang === 'eng' ? 'Come Say Hello !' : 'Viens Dire Salut !' }}
               </div>
             </div>
 
@@ -257,6 +257,7 @@ export default {
         // Set environment
         this.environment = new this.$environments.Primary({
           canvas: this.canvas,
+          manualRender: true,
           orbitControls: false,
           postProcessing: true,
           bloomSettings: {
@@ -414,11 +415,14 @@ export default {
         autoplay: false,
         easing: 'easeOutQuad',
         duration: 100,
+        update: () => {
+          this.environment.render();
+        },
       });
       this.pageTimeline.add({
         targets: this.environment.GL.camera.position,
         y: -10,
-        duration: 5,
+        duration: 100,
       }, 0);
 
     },
@@ -581,7 +585,7 @@ export default {
   color: rgba($color: $color_white, $alpha: 0.1);
   font-family: $font_family_anton;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 10px;
   text-align: center;
 
   @include for-xs {

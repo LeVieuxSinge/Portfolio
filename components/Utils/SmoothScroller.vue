@@ -17,6 +17,7 @@ export default {
     progress: 0,
     animation: null,
     mobile: {
+      velocity: null,
       currentPosition: null,
       lastPosition: null,
       lastDirection: 0,
@@ -66,12 +67,17 @@ export default {
     onTouchstart(ev) {
       // Initate touch position
       this.mobile.currentPosition = ev.touches[0].clientY;
+      // Reset last position
+      this.mobile.lastPosition = ev.touches[0].clientY;
     },
     onTouchmove(ev) {
 
       // Calculate direction when last position is recorded
       if (this.mobile.lastPosition) {
         this.mobile.currentPosition > this.mobile.lastPosition ? this.direction = -1 : this.direction = 1;
+
+        // Velocity
+        this.mobile.velocity = Math.abs(this.mobile.currentPosition - this.mobile.lastPosition);
 
         // Stop velocity if direction changes while holding to limit increase of velocity
         if (this.direction !== this.mobile.lastDirection) {
@@ -92,7 +98,11 @@ export default {
     update() {
 
       // Add velocity
-      this.velocity = Math.min(this.velocity + this.speed, this.maxVelocity);
+      if (this.$breakpoints.mobile) {
+        this.velocity = Math.min(this.velocity + this.mobile.velocity, this.maxVelocity);
+      } else {
+        this.velocity = Math.min(this.velocity + this.speed, this.maxVelocity);
+      }
 
       // Reset scroll animation
       if (this.animation) {

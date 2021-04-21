@@ -22,7 +22,7 @@
           </div>
 
           <!-- SCROLL -->
-          <div class="scroll-arrow">
+          <div class="scroll-arrow" :class="{'scroll-arrow-show' : scrollShow}">
             <!-- <div>Scroll</div> -->
             <i class="material-icons">expand_more</i>
           </div>
@@ -270,7 +270,7 @@
             <!-- TITLE -->
             <div class="contacts-title">
               <div class="transition-language">
-                {{ $store.state.lang === 'eng' ? 'Come Say Hello !' : 'Venez Dire Salut !' }}
+                {{ $store.state.lang === 'eng' ? 'Come Say Hello !' : 'Viens Dire Salut !' }}
               </div>
             </div>
 
@@ -323,14 +323,21 @@ export default {
     SmoothScroller,
   },
 
-  middleware({store, redirect}) {
-      // Invert layout
-      store.commit('setInvert', true);
-      store.commit('setCursorInvert', true);
+  middleware({
+    store,
+    redirect
+  }) {
+    // Invert layout
+    store.commit('setInvert', true);
+    store.commit('setCursorInvert', true);
   },
 
   data: () => ({
+    init: false,
+    environment: null,
+    canvas: null,
     pageTimeline: null,
+    scrollShow: true,
     DOM: {
       statement: null,
     },
@@ -346,21 +353,18 @@ export default {
       eng: `Co-developing my own UE4 indie game as the lead artist and programmer !`,
       fr: `Co-développer mon propre jeu indépendant avec UE4 en tant qu'artiste et programmeur principal !`,
     },
-    experiences: [
-      {
-        year: '2019 - 2021',
-        primary: {
-          eng: 'Website Developer',
-          fr: 'Développeur Web'
-        },
-        secondary: {
-          eng: 'Association des Retraité.es du Cégep de Saint-Hyacinthe',
-          fr: 'Association des Retraité.es du Cégep de Saint-Hyacinthe',
-        },
+    experiences: [{
+      year: '2019 - 2021',
+      primary: {
+        eng: 'Website Developer',
+        fr: 'Développeur Web'
       },
-    ],
-    educations: [
-      {
+      secondary: {
+        eng: 'Association des Retraité.es du Cégep de Saint-Hyacinthe',
+        fr: 'Association des Retraité.es du Cégep de Saint-Hyacinthe',
+      },
+    }, ],
+    educations: [{
         year: '2018 - 2021',
         primary: {
           eng: 'BFA Computation Arts',
@@ -383,8 +387,7 @@ export default {
         },
       },
     ],
-    awards: [
-      {
+    awards: [{
         year: '2018',
         primary: {
           eng: 'Entrance Scholarship FOFA',
@@ -407,8 +410,7 @@ export default {
         },
       },
     ],
-    speech: [
-      {
+    speech: [{
         year: '2020',
         primary: {
           eng: 'Guest Speaker',
@@ -439,32 +441,246 @@ export default {
     this.$store.commit('setCursorText', 'Scroll down');
 
     // Get DOM elements
+    this.canvas = this.$el.querySelector('.gl-canvas');
     this.DOM.statement = this.$el.querySelector('.statement');
+
+    if (!this.init) {
+
+      // Set environment
+      this.environment = new this.$environments.Primary({
+        canvas: this.canvas,
+        manualRender: true,
+        orbitControls: false,
+        postProcessing: false,
+        bloomSettings: {
+          strength: 0.3,
+          radius: 0.7,
+          threshold: 0.9,
+        },
+      });
+
+      // Add scenes to storage
+      // this.environment.storage.add('About_0', this.$assets.get('About').scene.children[0]);
+      // this.environment.storage.add('About_1', this.$assets.get('About').scene.children[1]);
+      // this.environment.storage.add('About_2', this.$assets.get('About').scene.children[2]);
+
+      // Mount specific
+      this.environment.onMount = ({
+        env,
+        three
+      }) => {
+
+        // Set scene
+        env.GL.scene.background = new three.Color(0xF1F2F5);
+
+        // Set camera
+        env.GL.camera.position.set(0, 0, 3);
+        env.GL.camera.fov = Math.min(Math.max(75 + (75 - (75 * env.GL.camera.aspect)), 75), 100);
+
+        // Add scene
+        env.add('About', this.$assets.get('About').scene);
+        // env.add('About_0', this.environment.storage.get('About_0'));
+        // env.add('About_1', this.environment.storage.get('About_1'));
+        // env.add('About_2', this.environment.storage.get('About_2'));
+
+        // Add lights
+        // var directLight = new three.DirectionalLight(0x404040, 5);
+        // directLight.position.set(3, 5, 3);
+        // env.add('Direct_Light', directLight);
+        // var directLight2 = new three.DirectionalLight(0x404040, 1.5);
+        // directLight2.position.set(-1, -3, 3);
+        // env.add('Direct_Light_2', directLight2);
+        var ambientLight = new three.AmbientLight( 0xfffffff, 20 );
+        env.add('Ambient_Light', ambientLight);
+
+      };
+
+      // Unmount specific
+      this.environment.onUnmount = ({
+        env,
+        three
+      }) => {};
+
+      // Resize specific
+      this.environment.onResize = ({
+        env,
+        three
+      }) => {
+
+        // Set camera
+        env.GL.camera.fov = Math.min(Math.max(75 + (75 - (75 * env.GL.camera.aspect)), 75), 100);
+
+      };
+
+      // Render specific
+      this.environment.onRender = ({
+        env,
+        three
+      }) => {};
+
+      // Enter specific
+      this.environment.onEnter = ({
+        env,
+        three,
+        done
+      }) => {
+
+        // env.GL.renderer.domElement.style.opacity = 1;
+        setTimeout(() => {
+          done();
+        }, 600);
+
+      };
+
+      // Leave specific
+      this.environment.onLeave = ({
+        env,
+        three,
+        done
+      }) => {
+
+        // env.GL.renderer.domElement.style.opacity = 0;
+        setTimeout(() => {
+          done();
+        }, 600);
+
+      };
+
+      // Set init
+      this.init = true;
+
+    }
+
+    // Mount
+    this.environment.mount();
 
     // Setup timeline
     this.pageTimeline = anime.timeline({
       autoplay: false,
       easing: 'easeOutQuad',
       duration: 100,
+      update: () => {
+        this.environment.render();
+      },
     });
-    // this.pageTimeline.add({
-    //   targets: '.scroll-arrow',
-    //   opacity: '0',
-    //   duration: 5,
-    // }, 0);
 
+    // Camera
+    this.pageTimeline.add({
+      targets: this.environment.GL.camera.position,
+      y: -10,
+      z: 0,
+    }, 0);
+    this.pageTimeline.add({
+      targets: this.environment.GL.camera.rotation,
+      x: this.degToRad(90),
+      // duration: 70,
+    }, 0);
+
+    // Opacity
+    this.pageTimeline.add({
+      targets: this.canvas,
+      opacity: [1, 0.1],
+      duration: 50,
+    }, 50);
+
+    // Sphere
+    this.pageTimeline.add({
+      targets: this.environment.get('About').children[1].position,
+      y: -8,
+      duration: 100,
+    }, 0);
+
+    // Pillar daddy
+    this.pageTimeline.add({
+      targets: this.environment.get('About').children[0].position,
+      y: [0, 1],
+      duration: 20,
+    }, 0);
+    this.pageTimeline.add({
+      targets: this.environment.get('About').children[0].rotation,
+      x: 0,
+      y: 0,
+      z: 0,
+      duration: 100,
+    }, 0);
+
+    // Pillar 1
+    this.pageTimeline.add({
+      targets: this.environment.get('About').children[0].children[0].position,
+      x: [0.4, 3],
+      duration: 100,
+    }, 0);
+    this.pageTimeline.add({
+      targets: this.environment.get('About').children[0].children[0].rotation,
+      // x: [0, this.degToRad(30)],
+      // y: [0, this.degToRad(30)],
+      z: [0, this.degToRad(90)],
+      duration: 100,
+    }, 0);
+
+    // Pillar 2
+    this.pageTimeline.add({
+      targets: this.environment.get('About').children[0].children[1].position,
+      z: [-0.4, -3],
+      duration: 100,
+    }, 0);
+    this.pageTimeline.add({
+      targets: this.environment.get('About').children[0].children[1].rotation,
+      // x: [0, this.degToRad(30)],
+      y: [0, this.degToRad(90)],
+      z: [0, this.degToRad(90)],
+      duration: 100,
+    }, 0);
+
+    // Pillar 3
+    this.pageTimeline.add({
+      targets: this.environment.get('About').children[0].children[2].position,
+      z: [0.4, 3],
+      duration: 100,
+    }, 0);
+    this.pageTimeline.add({
+      targets: this.environment.get('About').children[0].children[2].rotation,
+      // x: [0, this.degToRad(30)],
+      y: [0, this.degToRad(90)],
+      z: [0, this.degToRad(90)],
+      duration: 100,
+    }, 0);
+
+    // Pillar 4
+    this.pageTimeline.add({
+      targets: this.environment.get('About').children[0].children[3].position,
+      x: [-0.4, -3],
+      duration: 100,
+    }, 0);
+    this.pageTimeline.add({
+      targets: this.environment.get('About').children[0].children[3].rotation,
+      // x: [0, this.degToRad(30)],
+      // y: [0, this.degToRad(90)],
+      z: [0, this.degToRad(90)],
+      duration: 100,
+    }, 0);
+
+  },
+
+  destroyed() {
+    this.environment.unmount();
   },
 
   methods: {
     map(num, in_min, in_max, out_min, out_max) {
       return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
     },
+    degToRad(deg) {
+      return deg * Math.PI / 180;
+    },
     animate(progress) {
 
       // Set cursor text
       if (progress === 0) {
+        this.scrollShow = true;
         this.$store.commit('setCursorText', 'Scroll down');
       } else {
+        this.scrollShow = false;
         this.$store.commit('setCursorText', '');
       }
 
@@ -476,7 +692,7 @@ export default {
         this.$store.commit('setInvert', true);
       }
 
-        // Seek in timeline
+      // Seek in timeline
       this.pageTimeline.seek(this.pageTimeline.duration * (progress / 100));
 
     },
@@ -574,7 +790,8 @@ export default {
 }
 
 .cv-block-title {
-  color: $color_dark;
+  color: $color_white;
+  mix-blend-mode: difference;
   font-family: $font_family_anton;
   text-transform: uppercase;
   font-size: 2rem;
@@ -583,7 +800,8 @@ export default {
 .cv-block-line {
   width: 100%;
   height: 1px;
-  background-color: $color_dark;
+  background-color: $color_white;
+  mix-blend-mode: difference;
   margin: 10px 0 15px 0;
 }
 
@@ -598,7 +816,8 @@ export default {
 .cv-block-item-year {
   flex: 0 0 25%;
   padding-right: 10px;
-  color: $color_dark;
+  color: $color_white;
+  mix-blend-mode: difference;
   font-family: $font_family_lato;
   font-style: italic;
   font-size: 0.8rem;
@@ -610,14 +829,16 @@ export default {
 }
 
 .cv-block-item-primary {
-  color: $color_dark;
+  color: $color_white;
+  mix-blend-mode: difference;
   font-family: $font_family_lato;
   font-weight: 900;
   font-size: 1rem;
 }
 
 .cv-block-item-secondary {
-  color: $color_dark;
+  color: $color_white;
+  mix-blend-mode: difference;
   font-family: $font_family_lato;
   font-weight: 300;
   font-size: 0.9rem;
@@ -645,25 +866,40 @@ export default {
   height: 100%;
 }
 
-.introduction {}
+.introduction {
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 150px;
+
+  @include for-sm {
+    padding-bottom: 200px;
+  }
+
+  @include for-md {
+    padding-bottom: 200px;
+  }
+
+  @include for-lg {
+    padding-bottom: 0;
+    align-items: center;
+  }
+
+}
 
 .introduction-general {
-    position: absolute;
+    position: relative;
     display: flex;
     flex-flow: column;
     align-items: center;
     width: 100%;
     bottom: 20%;
-    padding: 30px 30px;
 
     @include for-sm {
         bottom: 20%;
-        padding: 30px 30px;
     }
 
     @include for-md {
         bottom: 20%;
-        padding: 30px 30px;
     }
 
     @include for-lg {
@@ -723,6 +959,8 @@ export default {
   left: 50%;
   @include transform(translate(-50%, -50%));
   animation: scroll-arrow 2s infinite;
+  opacity: 0;
+  transition: opacity 300ms;
 
   display: flex;
   flex-flow: column;
@@ -732,6 +970,10 @@ export default {
     width: 25px;
     height: 25px;
   }
+}
+
+.scroll-arrow-show {
+  opacity: 1;
 }
 
 @keyframes scroll-arrow {
@@ -757,10 +999,11 @@ export default {
 }
 
 .statement {
-  background-color: $color_dark;
+  background-color: $color_white;
   display: flex;
   justify-content: center;
   align-items: center;
+  mix-blend-mode: difference;
 }
 
 .statement-wrapper {
@@ -791,7 +1034,7 @@ export default {
 }
 
 .statement-practices {
-    color: $color_white;
+    color: $color_dark;
     opacity: 0.5;
     font-family: $font_family_lato;
     font-weight: 400;
@@ -799,7 +1042,7 @@ export default {
 }
 
 .statement-text {
-  color: $color_white;
+  color: $color_dark;
   font-family: $font_family_lato;
   font-weight: 700;
 
@@ -854,7 +1097,8 @@ export default {
 
 .quote-text {
   width: 100%;
-  color: $color_dark;
+  color: $color_white;
+  mix-blend-mode: difference;
   font-family: $font_family_lato;
   font-weight: 900;
   font-style: italic;

@@ -133,7 +133,7 @@ class Storage {
   set items(array) {
 
     this._items = array;
-    
+
   }
 
 }
@@ -144,6 +144,7 @@ class Primary {
 
   constructor({
     canvas = null,
+    manualRender = false,
     orbitControls = true,
     postProcessing = true,
     bloomSettings = {
@@ -175,9 +176,11 @@ class Primary {
       fxaa: null,
     };
     this.RAF = null;
+    this.needsRender = true;
 
     // Setup booleans
     this.canvas = canvas;
+    this.manualRender = manualRender;
     this.orbitControls = orbitControls;
     this.postProcessing = postProcessing;
 
@@ -200,9 +203,9 @@ class Primary {
   mount(container) {
 
     // Setup GL
-    this.GL.scene = DefaultScene();
-    this.GL.camera = DefaultCamera();
-    this.GL.renderer = DefaultRenderer(this.canvas);
+    !this.GL.scene ? this.GL.scene = DefaultScene() : null;
+    !this.GL.camera ? this.GL.camera = DefaultCamera() : null;
+    !this.GL.renderer ? this.GL.renderer = DefaultRenderer(this.canvas) : null;
     // Orbit controls (update called later)
     this.orbitControls ? this.GL.controls = new OrbitControls(this.GL.camera, this.GL.renderer.domElement) : null;
 
@@ -216,22 +219,22 @@ class Primary {
       this.POST.render = new RenderPass(this.GL.scene, this.GL.camera);
 
       // Bloom pass
-      this.POST.bloom = new UnrealBloomPass( new Vector2(rendererSize.x, rendererSize.y), this.bloomSettings.strength, this.bloomSettings.radius, this.bloomSettings.threshold);
+      this.POST.bloom = new UnrealBloomPass(new Vector2(rendererSize.x, rendererSize.y), this.bloomSettings.strength, this.bloomSettings.radius, this.bloomSettings.threshold);
 
       // Bokeh pass
-      this.POST.bokeh = new BokehPass( this.GL.scene, this.GL.camera, {
+      this.POST.bokeh = new BokehPass(this.GL.scene, this.GL.camera, {
         focus: this.bokehSettings.focus,
         aperture: this.bokehSettings.aperture,
         maxblur: this.bokehSettings.maxBlur,
         width: rendererSize.x,
         height: rendererSize.y,
-      } );
+      });
 
       // Shader pass
-      this.POST.fxaa = new ShaderPass( FXAAShader );
+      this.POST.fxaa = new ShaderPass(FXAAShader);
       var pixelRatio = this.GL.renderer.getPixelRatio();
-      this.POST.fxaa.material.uniforms[ 'resolution' ].value.x = 1 / ( window.offsetWidth * pixelRatio );
-			this.POST.fxaa.material.uniforms[ 'resolution' ].value.y = 1 / ( window.offsetHeight * pixelRatio );
+      this.POST.fxaa.material.uniforms['resolution'].value.x = 1 / (window.offsetWidth * pixelRatio);
+      this.POST.fxaa.material.uniforms['resolution'].value.y = 1 / (window.offsetHeight * pixelRatio);
 
       // Composing
       this.POST.composer = new EffectComposer(this.GL.renderer);
@@ -246,7 +249,10 @@ class Primary {
     window.addEventListener('resize', this.resizeUpdate.bind(this));
 
     // Call user specified logic
-    this.onMount ? this.onMount({env: this, three: THREE}) : null;
+    this.onMount ? this.onMount({
+      env: this,
+      three: THREE
+    }) : null;
 
     // Orbit controls update (after manual camera modifications)
     this.orbitControls ? this.GL.controls.update() : null;
@@ -262,7 +268,10 @@ class Primary {
   unmount() {
 
     // Call user specified logic
-    this.onUnmount ? this.onUnmount({env: this, three: THREE}) : null;
+    this.onUnmount ? this.onUnmount({
+      env: this,
+      three: THREE
+    }) : null;
 
     // Stop render
     this.RAF ? cancelAnimationFrame(this.RAF) : null;
@@ -300,13 +309,13 @@ class Primary {
 
     // Resize renderer
     this.GL.renderer.setSize(window.innerWidth, window.innerHeight);
-    
+
     // Resize composer
-    if (this.postProcessing) {
+    if (this.postProcessing) {
       this.POST.composer.setSize(window.innerWidth, window.innerHeight);
       var pixelRatio = this.GL.renderer.getPixelRatio();
-      this.POST.fxaa.material.uniforms[ 'resolution' ].value.x = 1 / ( this.GL.renderer.domElement.offsetWidth * pixelRatio );
-			this.POST.fxaa.material.uniforms[ 'resolution' ].value.y = 1 / ( this.GL.renderer.domElement.offsetHeight * pixelRatio );
+      this.POST.fxaa.material.uniforms['resolution'].value.x = 1 / (this.GL.renderer.domElement.offsetWidth * pixelRatio);
+      this.POST.fxaa.material.uniforms['resolution'].value.y = 1 / (this.GL.renderer.domElement.offsetHeight * pixelRatio);
     }
 
     // Resize camera
@@ -314,20 +323,29 @@ class Primary {
     this.GL.camera.updateProjectionMatrix();
 
     // Call user specified logic
-    this.onResize ? this.onResize({env: this, three: THREE}) : null;
+    this.onResize ? this.onResize({
+      env: this,
+      three: THREE
+    }) : null;
+
+    // Render
+    this.render();
 
   }
 
   render() {
 
     // Call user specified logic
-    this.onRender ? this.onRender({env: this, three: THREE}) : null;
+    this.onRender ? this.onRender({
+      env: this,
+      three: THREE
+    }) : null;
 
     // Render
     this.postProcessing ? this.POST.composer.render() : this.GL.renderer.render(this.GL.scene, this.GL.camera);
 
     // Set render loop
-    this.RAF = requestAnimationFrame(this.render.bind(this));
+    !this.manualRender ? this.RAF = requestAnimationFrame(this.render.bind(this)) : null;
 
   }
 
@@ -343,20 +361,28 @@ class Primary {
   enter(callback) {
 
     // Callback function ?
-    typeof callback !== 'function' ? callback = function() {} : null;
+    typeof callback !== 'function' ? callback = function () {} : null;
 
     // Call user specified logic
-    this.onEnter ? this.onEnter({env: this, three: THREE, done: callback}) : callback;
+    this.onEnter ? this.onEnter({
+      env: this,
+      three: THREE,
+      done: callback
+    }) : callback;
 
   }
 
   leave(callback) {
 
     // Callback function ?
-    typeof callback !== 'function' ? callback = function() {} : null;
+    typeof callback !== 'function' ? callback = function () {} : null;
 
     // Call user specified logic
-    this.onLeave ? this.onLeave({env: this, three: THREE, done: callback}) : callback;
+    this.onLeave ? this.onLeave({
+      env: this,
+      three: THREE,
+      done: callback
+    }) : callback;
 
   }
 
@@ -404,16 +430,43 @@ class Secondary {
 /**
  * Exports
  */
+
+// LANDING SCENE
+// var Landing = new Primary({
+//   canvas: this.canvas,
+//   manualRender: true,
+//   orbitControls: false,
+//   postProcessing: true,
+//   bloomSettings: {
+//     strength: 0.3,
+//     radius: 0.7,
+//     threshold: 0.9,
+//   },
+//   bokehSettings: {
+//     focus: 10,
+//     aperture: 0.1,
+//     maxBlur: 0.01,
+//   },
+// });
+
+// ABOUT SCENE
+// var About = new Primary({
+//   canvas: this.canvas,
+//   manualRender: true,
+//   orbitControls: false,
+//   postProcessing: false,
+//   bloomSettings: {
+//     strength: 0.3,
+//     radius: 0.7,
+//     threshold: 0.9,
+//   },
+// });
+
+
 const Environments = {
   Primary: Primary,
   Secondary: Secondary,
 }
-// const Environments = {
-//   reel: new Primary,
-//   projects: new Primary,
-//   cloner: new Secondary,
-//   test: new Secondary,
-// }
 
 export default ({
   app
