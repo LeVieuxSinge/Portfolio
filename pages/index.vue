@@ -260,7 +260,7 @@ export default {
           orbitControls: false,
           postProcessing: true,
           bloomSettings: {
-            strength: 0.4,
+            strength: 0.3,
             radius: 0.7,
             threshold: 0.9,
           },

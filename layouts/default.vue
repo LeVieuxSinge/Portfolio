@@ -351,7 +351,7 @@ body {
 
 .navigation-options {
   display: flex;
-  align-items: center;
+  align-items: baseline;
 }
 
 .navigation-link {

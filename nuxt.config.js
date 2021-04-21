@@ -25,16 +25,32 @@ export default {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: 'Xavier Champoux\'s personal portfolio.' },
       { hid: 'author', name: 'author', content: 'Xavier Champoux' },
-      { hid: 'keywords', name: 'keywords', content: 'portfolio, art, 3D, three.js' },
+      { hid: 'keywords', name: 'keywords', content: 'portfolio, art, 3D, three.js, vfx, personal, xavier, champoux, xavier champoux' },
     ],
     script: [
-      // { src: '/xmlhttprequest-length-computable.js' },
       { src: '/CSSSupport.js' },
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      // Favicons
+      { rel: 'icon', type: 'image/png', href: '/icons/favicon-32.png', sizes: '32x32' },
+      { rel: 'icon', type: 'image/png', href: '/icons/favicon-128.png', sizes: '128x128' },
+      { rel: 'icon', type: 'image/png', href: '/icons/favicon-152.png', sizes: '152x152' },
+      { rel: 'icon', type: 'image/png', href: '/icons/favicon-167.png', sizes: '167x167' },
+      { rel: 'icon', type: 'image/png', href: '/icons/favicon-180.png', sizes: '180x180' },
+      { rel: 'icon', type: 'image/png', href: '/icons/favicon-192.png', sizes: '192x192' },
+      { rel: 'icon', type: 'image/png', href: '/icons/favicon-196.png', sizes: '196x196' },
+      // Android
+      { rel: 'shortcut icon', type: 'image/png', href: '/icons/favicon-196.png', sizes: '196x196' },
+      // IOS
+      { rel: 'apple-touch-icon', type: 'image/png', href: '/icons/favicon-128.png', sizes: '128x128' },
+      { rel: 'apple-touch-icon', type: 'image/png', href: '/icons/favicon-152.png', sizes: '152x152' },
+      { rel: 'apple-touch-icon', type: 'image/png', href: '/icons/favicon-180.png', sizes: '180x180' },
+
+      // Fonts
       { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Anton&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap' },
+
+      // Icons
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/icon?family=Material+Icons' },
     ]
   },
