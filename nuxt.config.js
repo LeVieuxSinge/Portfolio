@@ -3,9 +3,9 @@ export default {
   target: 'static',
 
   // For Static deployment
-  router: { 
-    base: '/Portfolio/',
-  },
+  // router: { 
+  //   base: '/Portfolio/',
+  // },
 
   // Exlude route from static build
   // generate: {
