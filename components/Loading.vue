@@ -39,8 +39,6 @@ export default {
     this.enter();
     this.$nextTick(() => {
       // Load assets
-      this.$assets.add('GLTF', 'Cloner', '/models/cloner_baked_web.glb');
-      this.$assets.add('GLTF', 'Cyberblade', '/models/cyberblade_baked_web.glb');
       this.$assets.add('GLTF', 'Landing', '/models/Landing_Scene.glb');
       this.$assets.onProgress = (progress) => {
         // Reset progress animation

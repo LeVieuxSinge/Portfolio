@@ -28,6 +28,7 @@ export default {
       { hid: 'keywords', name: 'keywords', content: 'portfolio, art, 3D, three.js' },
     ],
     script: [
+      // { src: '/xmlhttprequest-length-computable.js' },
       { src: '/CSSSupport.js' },
     ],
     link: [

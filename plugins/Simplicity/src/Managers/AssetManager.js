@@ -156,6 +156,12 @@ class AssetManager {
         LoaderGTLF.load(asset.url,
           (gltf) => {
             // Called when the resource is loaded
+            // Length computable false so progress  0
+            if (asset.progress === 0) {
+              asset.progress = 100;
+              // Call event
+              this.onProgress(this.progress);
+            }
             // Store value
             asset.value = gltf;
             // Set as loaded
@@ -165,8 +171,13 @@ class AssetManager {
           },
           (xhr) => {
             // Called while loading is progressing
-            // Set asset progress
-            asset.progress = Math.round(xhr.loaded / xhr.total * 100);
+            if (xhr.lengthComputable) {
+              // Set asset progress
+              asset.progress = Math.round(xhr.loaded / xhr.total * 100);
+            } else {
+              // Set asset progress
+              asset.progress = 0;
+            }
             // Call event
             this.onProgress(this.progress);
             // Output progress
