@@ -1,0 +1,1 @@
+__NUXT_JSONP__("/project/monologue", {data:[{}],fetch:{},mutations:[]});

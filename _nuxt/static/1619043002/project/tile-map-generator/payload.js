@@ -1,0 +1,1 @@
+__NUXT_JSONP__("/project/tile-map-generator", {data:[{}],fetch:{},mutations:[]});

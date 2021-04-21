@@ -1,0 +1,1 @@
+__NUXT_JSONP__("/project/cloner", {data:[{}],fetch:{},mutations:[]});

@@ -1,0 +1,1 @@
+__NUXT_JSONP__("/", (function(a){return {data:[{}],fetch:{},mutations:[["setInvert",a],["setCursorInvert",a]]}}(false)));
