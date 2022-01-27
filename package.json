@@ -15,7 +15,7 @@
     "jshint": "^2.13.0",
     "nuxt": "^2.15.8",
     "popmotion": "9.3.5",
-    "three": "^0.126.1",
+    "three": "^0.137.0",
     "three-gltf-loader": "^1.111.0"
   },
   "devDependencies": {
