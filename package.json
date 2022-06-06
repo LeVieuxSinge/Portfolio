@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@nuxtjs/style-resources": "^1.0.0",
-    "nuxt-animejs": "^1.2.1",
+    "nuxt-animejs": "^1.2.4",
     "push-dir": "^0.4.1",
     "sass": "^1.32.8",
     "sass-loader": "^10.1.1"
