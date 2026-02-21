@@ -1,28 +1,33 @@
 {
-  "name": "Portfolio",
-  "version": "1.0.0",
+  "name": "portfolio",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
     "build": "nuxt build",
-    "start": "nuxt start",
+    "dev": "nuxt dev",
     "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "lint": "eslint .",
+    "typecheck": "nuxt typecheck",
     "deploy": "push-dir --dir=dist --branch=gh-pages --cleanup"
   },
-  "dependencies": {
-    "animejs": "^3.2.1",
-    "core-js": "^3.8.3",
-    "jshint": "^2.13.0",
-    "nuxt": "^2.15.8",
-    "popmotion": "9.3.5",
-    "three": "^0.126.1",
-    "three-gltf-loader": "^1.111.0"
-  },
   "devDependencies": {
-    "@nuxtjs/style-resources": "^1.0.0",
-    "nuxt-animejs": "^1.2.1",
-    "push-dir": "^0.4.1",
-    "sass": "^1.32.8",
-    "sass-loader": "^10.1.1"
+    "@nuxt/eslint": "1.14.0",
+    "@nuxt/fonts": "0.13.0",
+    "@nuxt/icon": "^2.2.1",
+    "@nuxt/image": "2.0.0",
+    "@nuxtjs/i18n": "10.2.3",
+    "@pinia/nuxt": "0.11.3",
+    "@tailwindcss/vite": "4.1.18",
+    "@vueuse/core": "14.2.0",
+    "@vueuse/nuxt": "14.2.0",
+    "animejs": "4.3.5",
+    "eslint": "10.0.0",
+    "nuxt": "4.3.1",
+    "push-dir": "0.4.1",
+    "tailwindcss": "4.1.18",
+    "three": "0.182.0",
+    "typescript": "5.9.3"
   }
 }

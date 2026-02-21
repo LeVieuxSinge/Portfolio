@@ -1,0 +1,195 @@
+@import "tailwindcss";
+
+@theme {
+    --color-background: #020202;
+    --color-highlight: #0D0D0D;
+    --color-text: #F8F8F8;
+    --color-subtext: #969696;
+    --color-accent-1: #8FC47E;
+    --color-accent-2: #D73636;
+    --color-accent-3: #71AABD;
+    --color-accent-4: #C16117;
+
+    --color-border: #424242;
+
+    --font-anton: "Anton", sans-serif;
+    --font-lexend: "Lexend", sans-serif;
+    --font-vt323: "VT323", monospace;
+
+    --drop-shadow-card-feature: 0 4px 4px var(--color-accent-4);
+    --drop-shadow-deck-down: 0 8px 0px var(--color-border);
+    --drop-shadow-deck-up: 0 -8px 0px var(--color-border);
+}
+
+@utility font-display-sm {
+    font-family: var(--font-anton);
+    font-weight: 400;
+    font-size: 2.25rem;
+    line-height: 2.875rem;
+    /* Equals -2% */
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+}
+
+@utility font-display-md {
+    font-family: var(--font-anton);
+    font-weight: 400;
+    font-size: 4rem;
+    line-height: 3.75rem;
+    /* Equals -2% */
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+}
+
+@utility font-display-lg {
+    font-family: var(--font-anton);
+    font-weight: 400;
+    font-size: 8rem;
+    line-height: 7.313rem;
+    /* Equals -2% */
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+}
+
+@utility font-title-sm {
+    font-family: var(--font-lexend);
+    font-weight: 800;
+    font-size: 1rem;
+    line-height: normal;
+    letter-spacing: normal;
+    text-transform: uppercase;
+}
+
+@utility font-title-md {
+    font-family: var(--font-lexend);
+    font-weight: 800;
+    font-size: 1.25rem;
+    line-height: normal;
+    letter-spacing: normal;
+    text-transform: uppercase;
+}
+
+@utility font-title-lg {
+    font-family: var(--font-lexend);
+    font-weight: 800;
+    font-size: 1.5rem;
+    line-height: normal;
+    letter-spacing: normal;
+    text-transform: uppercase;
+}
+
+@utility font-body-sm {
+    font-family: var(--font-lexend);
+    font-weight: 400;
+    font-size: 0.875rem;
+    line-height: normal;
+    letter-spacing: normal;
+}
+
+@utility font-body-md {
+    font-family: var(--font-lexend);
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: normal;
+    letter-spacing: normal;
+}
+
+@utility font-body-lg {
+    font-family: var(--font-lexend);
+    font-weight: 400;
+    font-size: 1.25rem;
+    line-height: normal;
+    letter-spacing: normal;
+}
+
+@utility font-label-sm {
+    font-family: var(--font-vt323);
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: normal;
+    letter-spacing: normal;
+    text-transform: uppercase;
+    /* Prevent anti-aliasing for a sharper look */
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: grayscale;
+    font-smooth: none;
+    /* The image-rendering property can help with preserving crisp edges when scaling */
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    text-rendering: optimizeSpeed;
+}
+
+@utility font-label-md {
+    font-family: var(--font-vt323);
+    font-weight: 400;
+    font-size: 1.25rem;
+    line-height: normal;
+    letter-spacing: normal;
+    text-transform: uppercase;
+    /* Prevent anti-aliasing for a sharper look */
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: grayscale;
+    font-smooth: none;
+    /* The image-rendering property can help with preserving crisp edges when scaling */
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    text-rendering: optimizeSpeed;
+}
+
+@utility font-label-lg {
+    font-family: var(--font-vt323);
+    font-weight: 400;
+    font-size: 1.5rem;
+    line-height: normal;
+    letter-spacing: normal;
+    text-transform: uppercase;
+    /* Prevent anti-aliasing for a sharper look */
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: grayscale;
+    font-smooth: none;
+    /* The image-rendering property can help with preserving crisp edges when scaling */
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    text-rendering: optimizeSpeed;
+}
+
+@utility z-animated-noise {
+    z-index: 9999;
+}
+
+@utility z-custom-cursor {
+    z-index: 9998;
+}
+
+@utility z-loading-splash {
+    z-index: 9997;
+}
+
+@utility z-loading-page {
+    z-index: 9996;
+}
+
+@utility no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@layer base {
+    html {
+        @apply no-scrollbar;
+        scroll-behavior: smooth;
+        background-color: var(--color-background);
+        color: var(--color-text);
+    }
+
+    button {
+        background-color: inherit;
+        color: inherit;
+        border: inherit;
+        cursor: pointer;
+        text-transform: inherit;
+    }
+}
