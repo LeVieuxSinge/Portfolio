@@ -1,15 +1,12 @@
 <script setup lang="ts">
-const loadingMessages = computed(() => useLoadingStore().loadingMessages);
+const { randomMessage } = useLoading();
 let timeoutHandle: number | null = null;
 
 const consoleOutputs = shallowReactive<string[]>([]);
-function getRandomLoadingMessage() {
-    return loadingMessages.value[Math.floor(Math.random() * loadingMessages.value.length)]!;
-}
 function addRandomConsoleOutput() {
-    let output = getRandomLoadingMessage();
+    let output = randomMessage();
     while (consoleOutputs.includes(output)) {
-        output = getRandomLoadingMessage();
+        output = randomMessage();
     }
 
     addConsoleOutput(output);
@@ -60,7 +57,7 @@ onUnmounted(() => {
                 opacity: getOpacity(index),
             }"
         >
-            {{ $t("loading") }} {{ $t(output) }}
+            {{ $t(output) }}
         </ConsoleOutput>
     </div>
 </template>

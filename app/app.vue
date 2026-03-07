@@ -21,8 +21,10 @@ useSeoMeta({
     twitterImage: "/icons/favicon-196.png",
 });
 
+const { isLoading, isPageTransitioning } = useLoading();
+
 function onPageLeave(el: Element, done: () => void) {
-    useLoadingStore().isPageTransitioning = true;
+    isPageTransitioning.value = true;
     setTimeout(() => {
         done();
     }, 500); // Transition duration (should match the CSS transition duration)
@@ -30,7 +32,7 @@ function onPageLeave(el: Element, done: () => void) {
 
 function onPageEnter(el: Element, done: () => void) {
     setTimeout(() => {
-        useLoadingStore().isPageTransitioning = false;
+        isPageTransitioning.value = false;
         setTimeout(() => {
             done();
         }, 500); // Transition duration (should match the CSS transition duration)
@@ -38,14 +40,20 @@ function onPageEnter(el: Element, done: () => void) {
 }
 
 const isMouseAvailable = useMediaQuery("(hover: hover) and (pointer: fine)");
-const isLoading = computed(() => useLoadingStore().isLoading);
-const isPageTransitioning = computed(() => useLoadingStore().isPageTransitioning);
 </script>
 
 <template>
     <NuxtRouteAnnouncer />
     <AnimatedNoise />
     <CustomCursor v-if="isMouseAvailable" />
+    <div
+        id="teleport-popover"
+        class="z-teleport-popover fixed inset-0 pointer-events-none"
+    />
+    <div
+        id="teleport-modal"
+        class="z-teleport-modal fixed inset-0 pointer-events-none"
+    />
 
     <Transition
         enter-active-class="transition-opacity duration-500"
@@ -58,7 +66,7 @@ const isPageTransitioning = computed(() => useLoadingStore().isPageTransitioning
     </Transition>
 
     <LayoutContainer>
-        <HeaderBar />
+        <NavBar />
 
         <NuxtPage
             :transition="{

@@ -2,14 +2,19 @@
 import { createAnimatable, type AnimatableObject } from "animejs";
 
 const props = withDefaults(defineProps<{
-    project: Project;
+    project: ResolvedProject;
     direction?: "left" | "right";
     clickable?: boolean;
+    filteredBadges?: boolean;
 }>(), {
     direction: "right",
     clickable: false,
+    filteredBadges: false,
 });
 
+const { selectedDeck, selectedTag } = useFilters();
+
+const refRoot = useTemplateRef("refRoot");
 let animatableCard: AnimatableObject | null = null;
 function useAnimatableCard() {
     if (!animatableCard) {
@@ -26,6 +31,7 @@ function onMouseEnter(e: MouseEvent) {
     }
 
     animatableCard = createAnimatable(e.target as HTMLElement, {
+        perspective: { unit: "px", duration: 0 },
         rotateX: 200,
         rotateY: 200,
         rotate: 500,
@@ -33,13 +39,17 @@ function onMouseEnter(e: MouseEvent) {
         zIndex: 0,
         ease: "out(3)",
     });
-    initialRotation = useAnimatableCard().rotate!();
+    initialRotation = useAnimatableCard().rotate!() as number;
 
+    useAnimatableCard().perspective!(1000, 0);
     useAnimatableCard().rotate!(0);
     useAnimatableCard().scale!(1.05);
     useAnimatableCard().zIndex!(10);
 
-    window.addEventListener("mousemove", onMouseMove);
+    const root = unref(refRoot);
+    if (root) {
+        root.$el.addEventListener("mousemove", onMouseMove);
+    }
 }
 
 function onMouseLeave() {
@@ -49,16 +59,32 @@ function onMouseLeave() {
     useAnimatableCard().scale!(1);
     useAnimatableCard().zIndex!(0);
 
-    window.removeEventListener("mousemove", onMouseMove);
+    const root = unref(refRoot);
+    if (root) {
+        root.$el.removeEventListener("mousemove", onMouseMove);
+    }
 }
 
 function onMouseMove(e: MouseEvent) {
-    const rect = (e.target as HTMLElement).getBoundingClientRect();
-    const offsetX = e.clientX - rect.left;
-    const offsetY = e.clientY - rect.top;
+    const root = unref(refRoot);
+    if (!root) return;
 
-    const rotateX = ((offsetY / rect.height) - 0.5) * 20;
-    const rotateY = ((offsetX / rect.width) - 0.5) * 20;
+    const rect = root.$el.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+
+    const deltaX = e.clientX - centerX;
+    const deltaY = e.clientY - centerY;
+
+    const normalizedX = deltaX / (rect.width / 2);
+    const normalizedY = deltaY / (rect.height / 2);
+
+    // Clamp to [-1, 1]
+    const nx = Math.max(-1, Math.min(1, normalizedX));
+    const ny = Math.max(-1, Math.min(1, normalizedY));
+
+    const rotateX = ny * 10;
+    const rotateY = -nx * 10;
 
     useAnimatableCard().rotateX!(rotateX);
     useAnimatableCard().rotateY!(rotateY);
@@ -69,6 +95,10 @@ function onMouseMove(e: MouseEvent) {
     <DeckCardBase
         ref="refRoot"
         class="group relative overflow-hidden"
+        :class="{
+            'shadow-lg shadow-transparent hover:shadow-black transition-shadow duration-250': !props.project.featured,
+            'shadow-lg shadow-transparent hover:shadow-accent-4 transition-shadow duration-250': props.project.featured,
+        }"
         :path="props.project.path"
         :featured="props.project.featured"
         :clickable="props.clickable"
@@ -88,38 +118,51 @@ function onMouseMove(e: MouseEvent) {
                     {{ props.project.name }}
                 </h2>
 
-                <CommonBadge
+                <CommonBadgeFeature
                     v-if="props.project.featured"
-                    text="Featured"
-                    icon="material-symbols:star"
-                    color="accent-4"
+                    size="sm"
                 />
             </div>
 
             <!-- Footer -->
             <div class="flex justify-between items-end gap-x-4">
                 <div class="flex flex-wrap gap-2">
-                    <CommonBadge
-                        text="Nuxt"
-                        color="accent-3"
-                    />
-                    <CommonBadge
-                        text="Tailwindcss"
-                        color="accent-3"
-                    />
-                    <CommonBadge
-                        text="Typescript"
-                        color="accent-3"
-                    />
+                    <CommonBadgeYear size="sm">
+                        {{ props.project.year }}
+                    </CommonBadgeYear>
+                    <CommonBadgeDeck
+                        v-for="deck in props.project.decks"
+                        :key="deck.id"
+                        size="sm"
+                        :disabled="props.filteredBadges && !selectedDeck.some(option => option.value === deck.id)"
+                    >
+                        {{ $t(deck.label) }}
+                    </CommonBadgeDeck>
+                    <CommonBadgeTool
+                        v-for="tool in props.project.tools"
+                        :key="tool.id"
+                        size="sm"
+                        :disabled="props.filteredBadges && !selectedTag.some(option => option.value === tool.id)"
+                    >
+                        {{ $t(tool.name) }}
+                    </CommonBadgeTool>
+                    <CommonBadgeRole
+                        v-for="role in props.project.roles"
+                        :key="role.id"
+                        size="sm"
+                        :disabled="props.filteredBadges && !selectedTag.some(option => option.value === role.id)"
+                    >
+                        {{ $t(role.name) }}
+                    </CommonBadgeRole>
                 </div>
 
                 <h5
-                    class="font-label-sm text-subtext whitespace-nowrap opacity-0 transition-opacity duration-300"
+                    class="font-label-sm text-muted whitespace-nowrap opacity-0 transition-opacity duration-300"
                     :class="{
                         'group-hover:opacity-100': props.clickable,
                     }"
                 >
-                    Click me
+                    {{ $t("dict.clickMe") }}
                 </h5>
             </div>
         </div>

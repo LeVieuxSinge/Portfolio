@@ -55,7 +55,7 @@ const props = withDefaults(defineProps<{
             </div>
 
             <h5
-                class="font-label-sm text-subtext whitespace-nowrap opacity-0 transition-opacity duration-300"
+                class="font-label-sm text-muted whitespace-nowrap opacity-0 transition-opacity duration-300"
                 :class="{
                     'group-hover:opacity-100': props.clickable,
                 }"

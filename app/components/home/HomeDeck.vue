@@ -65,12 +65,7 @@ onMounted(() => {
             ref="refCover"
             class="z-4 absolute col-span-2"
         >
-            <HomeDeckCover
-                :title="deck.name"
-                :description="deck.description"
-                :image="deck.image"
-                :link="deck.link"
-            />
+            <HomeDeckCover :deck="props.deck" />
         </div>
         <div
             v-for="(value, index) in 4"

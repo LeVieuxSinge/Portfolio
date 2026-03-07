@@ -1,38 +1,27 @@
 <script setup lang="ts">
-const decks = useProjectsStore().getDecks();
+definePageMeta({
+    name: "home",
+});
+
+const decks = useProjectsData().resolvedDecks;
 </script>
 
 <template>
     <main>
         <HomeHero />
-
         <div class="my-60" />
-
-        <!-- Context -->
-        <HomeSection>
-            <div class="flex flex-col gap-y-1 col-span-5">
-                <h5 class="font-label-md text-accent-3">
-                    Technical Artist?
-                </h5>
-                <h2 class="font-title-lg">
-                    Multiple cards to my hand
-                </h2>
-                <p class="font-body-md text-subtext">
-                    As I always tell people, I am not an expert in any field, but my expertise, knowledge and curiosity makes me an important asset within a team of artists and developers. Through my versatility emerges fluent communication and workflows between all the experts.
-                </p>
-            </div>
-        </HomeSection>
+        <HomeContext />
 
         <div class="my-80" />
 
-        <HomeSection>
+        <!-- <HomeSection>
             <div class="flex flex-col items-center gap-y-3 col-span-full">
-                <h5 class="font-label-sm text-subtext">
+                <h5 class="font-label-sm text-muted">
                     Pick your deck
                 </h5>
                 <figure class="w-full h-px bg-linear-to-r from-background/0 via-text to-background/0" />
             </div>
-        </HomeSection>
+        </HomeSection> -->
 
         <div class="my-20" />
 
@@ -40,7 +29,7 @@ const decks = useProjectsStore().getDecks();
         <HomeSection>
             <HomeDeck
                 v-for="deck in decks"
-                :key="deck.name"
+                :key="deck.id"
                 :deck="deck"
             />
         </HomeSection>
@@ -51,14 +40,14 @@ const decks = useProjectsStore().getDecks();
         <HomeSection>
             <div class="flex flex-col items-end gap-y-3 col-span-full">
                 <button
-                    class="relative w-full rounded-2xl overflow-hidden border border-solid border-subtext aspect-video"
+                    class="relative w-full rounded-2xl overflow-hidden border border-solid border-muted aspect-video"
                     @click="playReel"
                 >
                     <div class="absolute inset-0 font-display-md flex flex-col justify-center items-center gap-y-2 bg-background/50">
                         <div class="font-display-md">
                             Reel 2020
                         </div>
-                        <div class="font-label-md text-subtext">
+                        <div class="font-label-md text-muted">
                             Click to play
                         </div>
                     </div>
@@ -87,11 +76,16 @@ const decks = useProjectsStore().getDecks();
         <!-- Contact -->
         <section class="h-lvh pt-40 pb-20 gap-y-3 flex flex-col justify-between">
             <div class="flex flex-col gap-y-3">
-                <h1 class="font-display-lg text-accent-4">
-                    Scammers:<br>send scam here
-                </h1>
+                <TypedMessage
+                    as="h1"
+                    :value="'Scammers:\nsend scam here'"
+                    class="font-display-lg text-accent-4"
+                />
                 <ConsoleOutput color="accent-1">
-                    This is a joke. like most people, Xavier does not like scammers and you will end up being ignored or reported ¯\_(ツ)_/¯
+                    <TypedMessage
+                        value="This is a joke. like most people, Xavier does not like scammers and you will end up being ignored or reported ¯\_(ツ)_/¯"
+                        speed="20"
+                    />
                 </ConsoleOutput>
             </div>
 
@@ -103,7 +97,7 @@ const decks = useProjectsStore().getDecks();
                     xavierchampoux@hotmail.com
                 </a>
 
-                <div class="flex gap-x-3 font-body-md text-subtext">
+                <div class="flex gap-x-3 font-body-md text-muted">
                     <a
                         href="https://www.instagram.com/xavier-champoux/"
                         target="_blank"
@@ -135,7 +129,7 @@ const decks = useProjectsStore().getDecks();
                 </div>
             </div>
 
-            <div class="flex justify-between items-center font-label-sm text-subtext">
+            <div class="flex justify-between items-center font-label-sm text-muted">
                 <h4>
                     {{ "> design and <> by him, not me" }}
                 </h4>

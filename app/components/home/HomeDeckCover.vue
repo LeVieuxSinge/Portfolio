@@ -1,28 +1,27 @@
+<script setup lang="ts">
+const props = defineProps<{
+    deck: ResolvedDeck;
+}>();
+</script>
+
 <template>
     <DeckBase class="relative flex flex-col justify-end gap-y-4 pt-28 px-5 pb-5">
         <NuxtImg
-            src="/images/portfolio.png"
-            alt="Portfolio screenshot"
+            :src="props.deck.image"
             class="absolute w-44 h-44 top-0 start-1/2 -translate-1/2 object-cover bg-red"
         />
 
         <h2 class="font-title-lg">
-            The webbed frontier's end
+            {{ $t(props.deck.label) }}
         </h2>
-        <p class="font-body-md text-subtext">
-            As much as I respect React, I fell in love with how intuitive it is to work with Vue. This led me to Nuxt and the incredible suite of tools and community powering this framework (looking at you VoidZero and Unjs) which I constantly try explore and experiment with.
+        <p class="font-body-md text-muted">
+            {{ $t(props.deck.description) }}
         </p>
         <div class="flex flex-wrap gap-2">
             <CommonBadge
-                text="Nuxt"
-                color="accent-3"
-            />
-            <CommonBadge
-                text="Tailwindcss"
-                color="accent-3"
-            />
-            <CommonBadge
-                text="Typescript"
+                v-for="tool in props.deck.tools"
+                :key="tool.id"
+                :text="$t(tool.name)"
                 color="accent-3"
             />
         </div>
@@ -31,14 +30,14 @@
                 4 featured
             </h5>
             <figure class="w-px h-8 bg-border" />
-            <h5 class="flex-1 text-subtext text-end">
+            <h5 class="flex-1 text-muted text-end">
                 2 common
             </h5>
         </div>
 
         <NuxtLinkLocale
-            to="/projects"
-            class="flex justify-between items-center font-body-md rounded-xl border border-border px-8 py-4 bg-background hover:bg-highlight transition-colors duration-300"
+            :to="{ path: '/projects', query: { deck: props.deck.id } }"
+            class="flex justify-between items-center font-body-md rounded-xl border border-border px-8 py-4 bg-background hover:bgmuted transition-colors duration-300"
         >
             <h4>
                 Explore deck

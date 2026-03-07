@@ -1,20 +1,60 @@
 <script setup lang="ts">
-const props = defineProps<{
-    tKey: string;
+const props = withDefaults(defineProps<{
+    value: string;
+    as?: keyof HTMLElementTagNameMap;
     speed?: number;
-}>();
+}>(), {
+    as: "span",
+    speed: 100,
+});
+
+const isMounted = ref(false);
+const currentLetters = reactive<string[]>([]);
+
+watch(() => props.value, () => {
+    currentLetters.length = 0;
+    write();
+});
+
+let writeTimeout: number | null = null;
+function write() {
+    if (writeTimeout) {
+        clearInterval(writeTimeout);
+        writeTimeout = null;
+    }
+
+    let index = 0;
+    writeTimeout = window.setInterval(() => {
+        if (index < props.value.length) {
+            currentLetters.push(props.value[index]!);
+            index++;
+        }
+        else {
+            if (writeTimeout) {
+                clearInterval(writeTimeout);
+                writeTimeout = null;
+            }
+        }
+    }, props.speed);
+}
+
+const refRoot = useTemplateRef<HTMLElement>("refRoot");
+const isVisible = useElementVisibility(refRoot);
+watch(isVisible, (visible) => {
+    if (visible && !isMounted.value) {
+        isMounted.value = true;
+        write();
+        console.log(refRoot.value?.innerHTML);
+        console.log(refRoot.value?.innerText);
+    }
+});
 </script>
 
 <template>
-    <div class="relative">
-        <Transition
-            mode="out-in"
-            :enter-active-class="`transition-opacity duration-${props.speed ?? 500}`"
-            enter-from-class="opacity-0"
-            :leave-active-class="`transition-opacity duration-${props.speed ?? 500}`"
-            leave-to-class="opacity-0"
-        >
-            <span :key="$i18n.locale">{{ $t(props.tKey) }}</span>
-        </Transition>
-    </div>
+    <component
+        :is="props.as"
+        ref="refRoot"
+    >
+        {{ currentLetters.join("") }}
+    </component>
 </template>

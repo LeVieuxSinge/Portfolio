@@ -2,7 +2,7 @@
 import type { JSAnimation } from "animejs";
 import { animate } from "animejs";
 
-const loadingMessages = computed(() => useLoadingStore().loadingMessages);
+const { isLoading, randomMessage } = useLoading();
 const minimumDuration = 3000; // Minimum duration of the loading screen in milliseconds
 let startTime = 0;
 let elapsedTime = 0;
@@ -18,13 +18,10 @@ interface ConsoleOutput {
 }
 
 const consoleOutputs = shallowReactive<ConsoleOutput[]>([]);
-function getRandomLoadingMessage() {
-    return loadingMessages.value[Math.floor(Math.random() * loadingMessages.value.length)]!;
-}
 function addRandomConsoleOutput() {
-    let output = getRandomLoadingMessage();
+    let output = randomMessage();
     while (consoleOutputs.some(o => o.message === output)) {
-        output = getRandomLoadingMessage();
+        output = randomMessage();
     }
 
     addConsoleOutput(output, "normal");
@@ -62,7 +59,7 @@ function tick() {
                 interactionTimeoutProgress.value = target.v;
             },
             onComplete() {
-                useLoadingStore().isLoading = false;
+                isLoading.value = false;
             },
         });
 
@@ -82,7 +79,7 @@ function tick() {
 const { pressed } = useMousePressed();
 watch(pressed, (newPressed) => {
     if (newPressed && isLoadingSuccessful.value) {
-        useLoadingStore().isLoading = false;
+        isLoading.value = false;
     }
 });
 
@@ -115,7 +112,6 @@ onUnmounted(() => {
                             opacity: (consoleOutputs.length - index) ** 2 / (consoleOutputs.length ** 2), // Fade out older messages more quickly
                         }"
                     >
-                        {{ $t("loading") }}
                         <template v-if="output.status === 'successful'">
                             <span class="text-accent-1">{{ $t(output.message) }}</span>
                         </template>

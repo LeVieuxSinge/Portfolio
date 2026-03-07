@@ -1,14 +1,55 @@
+<script setup lang="ts" generic="DO extends { label: string; value: string }[], SBO extends { label: string; value: string }[], FBO extends { label: string; value: string }[]">
+const props = defineProps<{
+    deckOptions: DO;
+    sortByOptions: SBO;
+    tagOptions: FBO;
+}>();
+
+const deck = defineModel<DO>("deck");
+const sortBy = defineModel<SBO>("sortBy");
+const tag = defineModel<FBO>("tag");
+</script>
+
 <template>
     <div class="z-1 w-full bg-background border border-border rounded-full px-6 pt-3 pb-4 flex justify-between items-center gap-x-4">
-        <div
-            v-for="i in 3"
-            :key="i"
-            class="flex-1 flex flex-col gap-y-1"
-        >
-            <label class="font-label-sm text-subtext ml-4">
-                Label
+        <!-- Deck -->
+        <div class="flex-1/3 flex flex-col gap-y-1 overflow-hidden">
+            <label class="font-label-sm text-muted ml-4">
+                {{ $t('filter.deck.label') }}
             </label>
-            <div class="rounded-4xl bg-background p-4 border border-border" />
+            <ProjectsFilterSelect
+                v-model:values="deck"
+                :options="props.deckOptions"
+                placeholder="filter.deck.placeholder"
+                color="accent-3"
+            />
+        </div>
+
+        <!-- Sort By -->
+        <div class="flex-1/3 flex flex-col gap-y-1 overflow-hidden">
+            <label class="font-label-sm text-muted ml-4">
+                {{ $t('filter.sortBy.label') }}
+            </label>
+            <ProjectsFilterSelect
+                v-model:values="sortBy"
+                :options="props.sortByOptions"
+                placeholder="filter.sortBy.placeholder"
+                color="accent-4"
+            />
+        </div>
+
+        <!-- Filter By -->
+        <div class="flex-1/3 flex flex-col gap-y-1 overflow-hidden">
+            <label class="font-label-sm text-muted ml-4">
+                {{ $t('filter.tag.label') }}
+            </label>
+            <ProjectsFilterSelect
+                v-model:values="tag"
+                :options="props.tagOptions"
+                placeholder="filter.tag.placeholder"
+                color="accent-1"
+                multiple
+            />
         </div>
     </div>
 </template>

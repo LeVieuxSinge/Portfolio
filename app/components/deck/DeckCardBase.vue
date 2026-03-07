@@ -20,7 +20,6 @@ const Tag = computed(() => props.path ? NuxtLinkLocale : "div");
         class="w-83.25 h-131.25 rounded-xl bg-background border-2"
         :class="{
             'border-accent-4': props.featured,
-            'shadow-md shadow-transparent hover:shadow-accent-4 transition-shadow duration-250': props.featured && props.clickable,
             'border-border': !props.featured,
             'cursor-pointer': props.clickable,
         }"

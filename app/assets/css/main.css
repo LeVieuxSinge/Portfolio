@@ -2,9 +2,17 @@
 
 @theme {
     --color-background: #020202;
-    --color-highlight: #0D0D0D;
-    --color-text: #F8F8F8;
-    --color-subtext: #969696;
+    --color-background-highlight: #0D0D0D;
+    --color-background-elevated: #272727;
+
+    --custom-color-yolo: #ff69b4;
+
+    --color-highlighted: #ffffff;
+    --color-text: #f0f0f0;
+    --color-toned: #e7e7e7;
+    --color-muted: #969696;
+    --color-dimmed: #5c5c5c;
+
     --color-accent-1: #8FC47E;
     --color-accent-2: #D73636;
     --color-accent-3: #71AABD;
@@ -29,6 +37,7 @@
     /* Equals -2% */
     letter-spacing: -0.02em;
     text-transform: uppercase;
+    pointer-events: none; /* Prevent interaction due to line height */
 }
 
 @utility font-display-md {
@@ -39,6 +48,7 @@
     /* Equals -2% */
     letter-spacing: -0.02em;
     text-transform: uppercase;
+    pointer-events: none; /* Prevent interaction due to line height */
 }
 
 @utility font-display-lg {
@@ -49,6 +59,7 @@
     /* Equals -2% */
     letter-spacing: -0.02em;
     text-transform: uppercase;
+    pointer-events: none; /* Prevent interaction due to line height */
 }
 
 @utility font-title-sm {
@@ -169,6 +180,25 @@
     z-index: 9996;
 }
 
+@utility z-teleport-popover {
+    z-index: 9001;
+}
+
+@utility z-teleport-modal {
+    z-index: 9000;
+}
+
+@utility animate-flash {
+    animation: flash 1s linear infinite;
+}
+@keyframes flash {
+    0%, 50% {
+        opacity: 1;
+    }
+    51%, 100% {
+        opacity: 0;
+    }
+}
 @utility no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -186,9 +216,9 @@
     }
 
     button {
-        background-color: inherit;
+        background-color: transparent;
         color: inherit;
-        border: inherit;
+        border: none;
         cursor: pointer;
         text-transform: inherit;
     }
