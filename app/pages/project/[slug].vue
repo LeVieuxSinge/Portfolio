@@ -315,11 +315,11 @@ function randomProject() {
                         v-for="asset in project.assets"
                         :key="asset.src"
                     >
-                        <NuxtImg
+                        <img
                             v-if="asset.type === 'image'"
                             class="anim-project-all w-full max-h-[90dvh] rounded-lg object-contain"
                             :src="asset.src"
-                        />
+                        >
                         <video
                             v-else-if="asset.type === 'video'"
                             class="anim-project-all w-full rounded-lg object-cover"

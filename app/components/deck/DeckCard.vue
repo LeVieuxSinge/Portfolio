@@ -19,14 +19,14 @@ const props = defineProps<DeckCardBaseProps & {
     >
         <!-- Image -->
         <div class="size-full pointer-events-none">
-            <NuxtImg
+            <img
                 v-if="props.image"
                 :src="props.image"
                 class="w-full h-full object-cover opacity-80"
                 :class="{
                     'group-hover:opacity-100 transition-opacity duration-300': props.hoverEffect,
                 }"
-            />
+            >
             <div
                 v-else
                 class="w-full h-full bg-background/50 flex items-center justify-center text-muted font-label-md"

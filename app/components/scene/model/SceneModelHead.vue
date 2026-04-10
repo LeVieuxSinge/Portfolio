@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { createAnimatable, type AnimatableObject } from "animejs";
-import { Mesh, MeshBasicMaterial, MeshPhongMaterial, MeshToonMaterial } from "three";
+import { Mesh, MeshPhongMaterial, MeshToonMaterial } from "three";
 import type { Group } from "three";
 import CustomShaderMaterial from "three-custom-shader-material/vanilla";
 
@@ -99,6 +99,8 @@ watch(state, (value) => {
             child.material = new MeshPhongMaterial({ color: "#483061", emissive: "#483061", emissiveIntensity: 1 });
         }
     });
+
+    process();
 });
 
 let groupRightEye: Group | null = null;
@@ -116,6 +118,7 @@ const animatedProps = {
 
 const areEyesClosed = ref(false);
 let currentExpressionIndex = -1;
+let expressionTimeoutHandle: number | null = null;
 const expressions = [
     {
         name: "default",
@@ -211,7 +214,11 @@ function process() {
     currentExpressionIndex = randomIndex;
     setExpression(currentExpressionIndex);
 
-    setTimeout(() => {
+    if (expressionTimeoutHandle !== null) {
+        clearTimeout(expressionTimeoutHandle);
+    }
+
+    expressionTimeoutHandle = window.setTimeout(() => {
         process();
     }, 3000);
 }
@@ -257,6 +264,10 @@ onMounted(() => {
 
 onUnmounted(() => {
     window.removeEventListener("mousemove", onMouseMove);
+
+    if (expressionTimeoutHandle !== null) {
+        clearTimeout(expressionTimeoutHandle);
+    }
 });
 </script>
 

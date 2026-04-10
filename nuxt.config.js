@@ -6,7 +6,6 @@ const projectRoutes = useProjectsData().resolvedProjects.map(project => project.
 export default defineNuxtConfig({
     modules: [
         "@nuxt/eslint",
-        "@nuxt/image",
         "@nuxt/fonts",
         "@nuxt/icon",
         "@nuxtjs/i18n",

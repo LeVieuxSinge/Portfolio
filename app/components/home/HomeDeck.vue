@@ -6,10 +6,10 @@ const props = defineProps<{
 
 <template>
     <DeckBase class="relative flex flex-col justify-between gap-y-3 pt-20 lg:pt-24 px-5 pb-5">
-        <NuxtImg
+        <img
             :src="props.deck.image"
             class="absolute w-32 h-32 lg:w-40 lg:h-40 top-0 start-1/2 -translate-1/2 object-cover"
-        />
+        >
 
         <div class="flex flex-col gap-y-3">
             <h2 class="font-title-md lg:font-title-lg">
