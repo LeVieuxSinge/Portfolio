@@ -13,6 +13,7 @@ extend({ OrbitControls });
         shadows
         :shadow-map-type="VSMShadowMap"
         :clear-alpha="0"
+        class="pointer-events-none!"
     >
         <TresPerspectiveCamera
             :fov="5"
