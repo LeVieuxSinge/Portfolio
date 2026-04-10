@@ -207,11 +207,10 @@ function onMouseMove(e: MouseEvent) {
 }
 
 function process() {
-    let randomIndex: number;
-    do {
-        randomIndex = Math.floor(Math.random() * expressions.length);
-    } while (randomIndex === currentExpressionIndex);
-    currentExpressionIndex = randomIndex;
+    const availableExpressions = expressions.filter((_, index) => index !== currentExpressionIndex);
+    const randomIndex = Math.floor(Math.random() * availableExpressions.length);
+    const randomExpression = availableExpressions[randomIndex];
+    currentExpressionIndex = expressions.indexOf(randomExpression!);
     setExpression(currentExpressionIndex);
 
     if (expressionTimeoutHandle !== null) {
