@@ -99,25 +99,21 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <div class="fixed z-loading-splash inset-0 flex items-center justify-center bg-background">
-        <LayoutContainer class="flex flex-col justify-between min-h-2/3">
+    <div class="fixed top-0 left-0 w-dvw h-dvh z-loading-splash flex items-center bg-background">
+        <LayoutContainer class="h-full max-h-3/4 flex flex-col justify-between px-10">
             <div class="flex flex-col items-start gap-y-3">
-                <!-- <MyLogo size="sm" /> -->
+                <OSVersion />
                 <div class="flex flex-col gap-y-2">
                     <ConsoleOutput
                         v-for="(output, index) in consoleOutputs"
                         :key="index"
-                        class="transition-opacity duration-100"
+                        :color="output.status === 'successful' ? 'accent-1' : 'text'"
+                        class="font-label-md transition-opacity duration-100"
                         :style="{
                             opacity: (consoleOutputs.length - index) ** 2 / (consoleOutputs.length ** 2), // Fade out older messages more quickly
                         }"
                     >
-                        <template v-if="output.status === 'successful'">
-                            <span class="text-accent-1">{{ $t(output.message) }}</span>
-                        </template>
-                        <template v-else>
-                            {{ $t(output.message) }}
-                        </template>
+                        {{ $t(output.message) }}
                     </ConsoleOutput>
                 </div>
             </div>

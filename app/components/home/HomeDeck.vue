@@ -1,83 +1,58 @@
 <script setup lang="ts">
-import { animate, onScroll, stagger, cubicBezier, random } from "animejs";
-
 const props = defineProps<{
     deck: ResolvedDeck;
 }>();
-
-const refCover = useTemplateRef("refCover");
-const refCards = useTemplateRef("refCards");
-
-onMounted(() => {
-    const container = document.querySelectorAll("body");
-
-    const cover = unref(refCover);
-    const cards = unref(refCards);
-    if (!cover || !cards) return;
-
-    animate(cover, {
-        translateX: ["-100px", "0%"],
-        translateY: ["20%", "0%"],
-        rotate: ["-10deg", "0deg"],
-        ease: cubicBezier(0.1, 0.7, 0.5, 1),
-        autoplay: onScroll({
-            container,
-            enter: "bottom top-=20%",
-            leave: "bottom-=30% bottom",
-            sync: 0.6,
-            debug: true,
-        }),
-    });
-
-    animate(cards, {
-        translateX: {
-            from: (el, i, length) => {
-                return `-${(100 / length) * (i + 1) + 25}%`;
-            },
-            to: "0%",
-        },
-        translateY: ["20%", "0%"],
-        rotate: {
-            from: "0deg",
-            to: (el, i) => {
-                return `${random(-2, 2) * i}deg`;
-            },
-        },
-        ease: cubicBezier(0.1, 0.7, 0.5, 1),
-        delay: stagger(25),
-        autoplay: onScroll({
-            container,
-            enter: "bottom top-=20%",
-            leave: "top+=30% bottom",
-            sync: 0.4,
-            // debug: true,
-        }),
-    });
-});
 </script>
 
 <template>
-    <LayoutGrid
-        as="div"
-        class="relative h-175 col-span-full mt-28"
-    >
-        <div
-            ref="refCover"
-            class="z-4 absolute col-span-2"
-        >
-            <HomeDeckCover :deck="props.deck" />
+    <DeckBase class="relative flex flex-col justify-between gap-y-3 pt-20 lg:pt-24 px-5 pb-5">
+        <NuxtImg
+            :src="props.deck.image"
+            class="absolute w-32 h-32 lg:w-40 lg:h-40 top-0 start-1/2 -translate-1/2 object-cover"
+        />
+
+        <div class="flex flex-col gap-y-3">
+            <h2 class="font-title-md lg:font-title-lg">
+                {{ $t(props.deck.label) }}
+            </h2>
+            <p class="font-body-sm text-muted">
+                {{ $t(props.deck.description) }}
+            </p>
         </div>
-        <div
-            v-for="(value, index) in 4"
-            :key="index"
-            ref="refCards"
-            class="absolute col-span-2"
-            :style="{
-                zIndex: 3 - index,
-                gridColumnStart: 2 + index,
-            }"
-        >
-            <DeckCard />
+
+        <div class="flex flex-col gap-y-3">
+            <div class="flex flex-wrap gap-2">
+                <CommonBadge
+                    v-for="tool in props.deck.tools"
+                    :key="tool.id"
+                    color="accent-3"
+                    size="sm"
+                >
+                    {{ $t(tool.name) }}
+                </CommonBadge>
+            </div>
+            <div class="flex justify-between items-center gap-x-1 font-label-sm border border-border rounded-xl px-3">
+                <h5 class="flex-1 text-accent-4">
+                    {{ $t("components.home.deck.featured", { count: props.deck.projects.filter(p => p.featured).length }) }}
+                </h5>
+                <figure class="w-px h-8 bg-border" />
+                <h5 class="flex-1 text-muted text-end">
+                    {{ $t("components.home.deck.common", { count: props.deck.projects.filter(p => !p.featured).length }) }}
+                </h5>
+            </div>
+
+            <NuxtLinkLocale
+                :to="{ path: '/projects', query: { deck: props.deck.id } }"
+                class="flex justify-between items-center font-body-sm rounded-xl border border-border px-4 py-3 lg:px-6 lg:py-4 bg-background hover:bg-background-highlight transition-colors duration-300"
+            >
+                <h4>
+                    {{ $t("components.home.deck.explore") }}
+                </h4>
+                <Icon
+                    name="material-symbols:arrow-forward"
+                    size="24"
+                />
+            </NuxtLinkLocale>
         </div>
-    </LayoutGrid>
+    </DeckBase>
 </template>

@@ -1,4 +1,7 @@
 import tailwindcss from "@tailwindcss/vite";
+import { useProjectsData } from "./app/composables/useProjects";
+
+const projectRoutes = useProjectsData().resolvedProjects.map(project => project.path);
 
 export default defineNuxtConfig({
     modules: [
@@ -37,18 +40,17 @@ export default defineNuxtConfig({
                 { prefetch: true, rel: "stylesheet", href: "https://fonts.googleapis.com/icon?family=Material+Icons" },
             ],
         },
-
-        // Transitions
-        pageTransition: {
-            name: "page",
-            css: true,
-            mode: "out-in",
-            appear: true,
-        },
     },
     css: ["~/assets/css/main.css"],
 
+    routeRules: {
+        ...Object.fromEntries(projectRoutes.map(path => [path, { prerender: true }])),
+    },
+
     compatibilityDate: "2025-07-15",
+    nitro: {
+        preset: "github-pages",
+    },
 
     vite: {
         plugins: [
@@ -78,10 +80,10 @@ export default defineNuxtConfig({
 
     i18n: {
         locales: [
-            { code: "en", name: "English", file: "en.ts" },
-            { code: "fr", name: "Français", file: "fr.ts" },
+            { code: "en", name: "English", file: "en.json" },
+            { code: "fr", name: "Français", file: "fr.json" },
         ],
-        strategy: "no_prefix",
+        strategy: "prefix_except_default",
         defaultLocale: "en",
         restructureDir: "app/locales/",
         langDir: "",

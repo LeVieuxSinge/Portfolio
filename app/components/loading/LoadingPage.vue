@@ -28,7 +28,7 @@ function tick() {
 }
 
 function getOpacity(index: number): number {
-    return [0.2, 0.5, 1, 0.5, 0.2][index] ?? 0;
+    return [1, 0.75, 0.5, 0.25, 0.1][index] ?? 0;
 }
 
 onMounted(() => {
@@ -48,7 +48,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <div class="fixed z-loading-page inset-0 flex flex-col items-center justify-center gap-y-1 bg-background">
+    <div class="fixed top-0 left-0 w-dvw h-dvh z-loading-page flex flex-col md:items-center lg:justify-center max-lg:pt-[25dvh] gap-y-2 p-10 bg-background">
         <ConsoleOutput
             v-for="(output, index) in consoleOutputs"
             :key="index"

@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { animate, mapRange, onScroll } from "animejs";
+import { animate, createScope, cubicBezier, mapRange, onScroll } from "animejs";
 
 definePageMeta({
     name: "projects",
 });
 
+const { isMobileOrTablet } = useDevice();
 const route = useRoute();
 const router = useRouter();
 const refHeader = useTemplateRef("refHeader");
@@ -72,7 +73,7 @@ watch(selectedTag, (newVal) => {
     });
 });
 
-onMounted(() => {
+useSafeAnimations(() => {
     // Parse query parameters to set initial filter/sort state
     const { deck, sort, filter } = route.query;
     if (typeof deck === "string") {
@@ -90,16 +91,28 @@ onMounted(() => {
     }
 
     // Animate header on scroll
-    const container = document.querySelector("body");
-    const header = unref(refHeader);
-    const title = unref(refTitle);
-    const filters = unref(refFilters);
-    if (header && title && filters && container) {
+    const scope = createScope({
+        mediaQueries: { isSmall: "(max-width: 1024px)" },
+        defaults: {
+            ease: cubicBezier(0.7, 0.1, 0.5, 0.9),
+        },
+    });
+
+    scope.add((scope) => {
+        if (!scope) return;
+        const { matches } = scope;
+
+        const header = unref(refHeader);
+        const title = unref(refTitle);
+        const filters = unref(refFilters);
+        if (!header || !title || !filters) return;
+
+        const { isSmall } = matches;
+
         animate(title, {
-            translateY: ["0px", "140px"],
-            ease: "linear",
+            translateY: ["0px", isSmall ? "20dvh" : "20dvh"],
             autoplay: onScroll({
-                container: container,
+                container: document.body || document.documentElement,
                 target: header,
                 enter: "top+=15% top",
                 leave: "top+=5% bottom",
@@ -107,85 +120,96 @@ onMounted(() => {
             }),
         });
 
-        animate(filters, {
-            translateY: ["0px", "60px"],
-            ease: "linear",
-            autoplay: onScroll({
-                container: container,
-                target: header,
-                enter: "top+=15% top",
-                leave: "top+=5% bottom",
-                sync: 0.6,
-            }),
-        });
+        if (!isSmall) {
+            animate(filters, {
+                translateY: ["0px", isSmall ? "5dvh" : "10dvh"],
+                autoplay: onScroll({
+                    container: document.body || document.documentElement,
+                    target: header,
+                    enter: "top+=15% top",
+                    leave: "top+=5% bottom",
+                    sync: 0.6,
+                }),
+            });
+        }
+    });
+
+    return () => {
+        scope.revert();
     };
 });
 </script>
 
 <template>
-    <LayoutGrid
-        as="div"
-        class="pt-50 pb-50 gap-y-30"
-    >
-        <div
-            ref="refHeader"
-            class="col-start-2 col-span-4 flex flex-col items-center gap-y-10"
-        >
-            <div
-                ref="refTitle"
-                class="flex flex-col items-center gap-y-4"
+    <main class="px-2 lg:px-6">
+        <LayoutContainer>
+            <LayoutGrid
+                as="div"
+                class="pt-50 pb-21 lg:pb-50 gap-y-10 lg:gap-y-30"
             >
-                <ConsoleOutput
-                    size="sm"
-                    color="muted"
+                <div
+                    ref="refHeader"
+                    class="col-span-full lg:col-start-2 lg:col-span-4 flex flex-col md:items-center gap-y-10"
                 >
-                    {{ $t("projects.header.prompt") }}
-                </ConsoleOutput>
-                <p class="font-display-lg">
-                    {{ $t("projects.header.title") }}
-                </p>
-            </div>
+                    <div
+                        ref="refTitle"
+                        class="flex flex-col md:items-center gap-y-4"
+                    >
+                        <ConsoleOutput
+                            size="sm"
+                            color="muted"
+                        >
+                            {{ $t("pages.projects.header.prompt") }}
+                        </ConsoleOutput>
+                        <p class="font-display-md md:font-display-lg">
+                            {{ $t("pages.projects.header.title") }}
+                        </p>
+                    </div>
 
-            <div
-                ref="refFilters"
-                class="z-1 w-full"
-            >
-                <ProjectsFilter
-                    ref="refFilters"
-                    v-model:deck="selectedDeck"
-                    v-model:sort-by="selectedSortBy"
-                    v-model:tag="selectedTag"
-                    :deck-options="deckOptions"
-                    :sort-by-options="sortByOptions"
-                    :tag-options="tagOptions"
-                />
-            </div>
-        </div>
+                    <div
+                        ref="refFilters"
+                        class="z-1 w-full"
+                    >
+                        <ProjectsFilter
+                            ref="refFilters"
+                            v-model:deck="selectedDeck"
+                            v-model:sort-by="selectedSortBy"
+                            v-model:tag="selectedTag"
+                            :deck-options="deckOptions"
+                            :sort-by-options="sortByOptions"
+                            :tag-options="tagOptions"
+                        />
+                    </div>
+                </div>
 
-        <div
-            ref="refCardsContainer"
-            class="col-span-full grid grid-cols-3 gap-6"
-        >
-            <template v-if="filteredProjects.length === 0">
-                <ConsoleOutput
-                    size="sm"
-                    color="accent-2"
-                    class="col-span-full text-center"
+                <div
+                    ref="refCardsContainer"
+                    class="col-span-full grid grid-cols-1 gap-3 lg:grid-cols-3 lg:gap-6"
                 >
-                    No projects found with the selected filters.
-                </ConsoleOutput>
-            </template>
+                    <template v-if="filteredProjects.length === 0">
+                        <ConsoleOutput
+                            size="sm"
+                            color="accent-2"
+                            class="col-span-full justify-center"
+                        >
+                            {{ $t("pages.projects.noResults") }}
+                        </ConsoleOutput>
+                    </template>
 
-            <ProjectCard
-                v-for="project in filteredProjects"
-                :key="project.slug"
-                :project="project"
-                :clickable="true"
-                :filtered-badges="hasActiveFilters"
-                :style="{
-                    transform: `rotate(${mapRange(useState(`${project.slug}-rotation`, () => Math.random()).value, 0, 1, -2, 2)}deg)`,
-                }"
-            />
-        </div>
-    </LayoutGrid>
+                    <ProjectCard
+                        v-for="project in filteredProjects"
+                        :key="project.slug"
+                        :project="project"
+                        clickable
+                        :filtered-badges="hasActiveFilters"
+                        :hover-effect="!isMobileOrTablet"
+                        class="lg:*:opacity-50 lg:hover:*:opacity-100 lg:*:transition-opacity lg:*:duration-500"
+                        :style="{
+                            transform: `rotate(${mapRange(useState(`${project.slug}-rotation`, () => Math.random()).value, 0, 1, -2, 2)}deg)`,
+                        }"
+                    />
+                </div>
+            </LayoutGrid>
+        </LayoutContainer>
+    </main>
 </template>

@@ -21,10 +21,10 @@ export function useFilters() {
     ]);
 
     const selectedDeck = useState<FilterOption[]>("filtersSelectedDeck", () => []);
-    const selectedSortBy = useState<FilterOption[]>("filtersSelectedSortBy", () => []);
+    const selectedSortBy = useState<FilterOption[]>("filtersSelectedSortBy", () => [{ label: "filter.sortBy.featured", value: "featured" }]);
     const selectedTag = useState<FilterOption[]>("filtersSelectedTag", () => []);
 
-    const hasActiveFilters = computed(() => selectedDeck.value.length > 0 || selectedSortBy.value.length > 0 || selectedTag.value.length > 0);
+    const hasActiveFilters = computed(() => selectedDeck.value.length > 0 || selectedTag.value.length > 0);
 
     return {
         deckOptions,

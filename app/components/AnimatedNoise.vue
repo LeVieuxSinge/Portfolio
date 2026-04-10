@@ -1,16 +1,9 @@
 <template>
-    <figure class="z-animated-noise noise" />
+    <figure class="z-animated-noise fixed w-dvw h-dvh pointer-events-none" />
 </template>
 
 <style lang="css" scoped>
 .noise {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  pointer-events: none;
-
   &::before {
     content: "";
     position: fixed;

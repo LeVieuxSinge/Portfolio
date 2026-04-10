@@ -4,10 +4,14 @@ import { createAnimatable, type AnimatableObject } from "animejs";
 const props = withDefaults(defineProps<{
     project: ResolvedProject;
     direction?: "left" | "right";
+    hoverEffect?: boolean;
+    shadows?: boolean;
     clickable?: boolean;
     filteredBadges?: boolean;
 }>(), {
     direction: "right",
+    hoverEffect: false,
+    shadows: true,
     clickable: false,
     filteredBadges: false,
 });
@@ -25,6 +29,8 @@ function useAnimatableCard() {
 let initialRotation = 0;
 
 function onMouseEnter(e: MouseEvent) {
+    if (!props.hoverEffect) return;
+
     if (animatableCard) {
         animatableCard.revert();
         animatableCard = null;
@@ -53,6 +59,8 @@ function onMouseEnter(e: MouseEvent) {
 }
 
 function onMouseLeave() {
+    if (!props.hoverEffect) return;
+
     useAnimatableCard().rotate!(initialRotation);
     useAnimatableCard().rotateX!(0);
     useAnimatableCard().rotateY!(0);
@@ -66,6 +74,8 @@ function onMouseLeave() {
 }
 
 function onMouseMove(e: MouseEvent) {
+    if (!props.hoverEffect) return;
+
     const root = unref(refRoot);
     if (!root) return;
 
@@ -92,79 +102,49 @@ function onMouseMove(e: MouseEvent) {
 </script>
 
 <template>
-    <DeckCardBase
+    <DeckCard
         ref="refRoot"
-        class="group relative overflow-hidden"
         :class="{
-            'shadow-lg shadow-transparent hover:shadow-black transition-shadow duration-250': !props.project.featured,
-            'shadow-lg shadow-transparent hover:shadow-accent-4 transition-shadow duration-250': props.project.featured,
+            'hover:shadow-accent-4': (props.shadows && props.hoverEffect) && props.project.featured,
+            'hover:shadow-black': (props.shadows && props.hoverEffect) && !props.project.featured,
+            'shadow-lg shadow-transparent transition-shadow duration-250': props.shadows,
         }"
         :path="props.project.path"
         :featured="props.project.featured"
         :clickable="props.clickable"
+        :label="props.project.name"
+        :image="props.project.cover"
         @mouseenter="onMouseEnter"
         @mouseleave="onMouseLeave"
     >
-        <NuxtImg
-            :src="props.project.cover"
-            alt="Portfolio screenshot"
-            class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
-        />
-
-        <div class="z-1 absolute inset-0 flex flex-col justify-between gap-y-4 p-4 ">
-            <!-- Header -->
-            <div class="flex justify-between items-start gap-x-4">
-                <h2 class="font-title-lg">
-                    {{ props.project.name }}
-                </h2>
-
-                <CommonBadgeFeature
-                    v-if="props.project.featured"
-                    size="sm"
-                />
-            </div>
-
-            <!-- Footer -->
-            <div class="flex justify-between items-end gap-x-4">
-                <div class="flex flex-wrap gap-2">
-                    <CommonBadgeYear size="sm">
-                        {{ props.project.year }}
-                    </CommonBadgeYear>
-                    <CommonBadgeDeck
-                        v-for="deck in props.project.decks"
-                        :key="deck.id"
-                        size="sm"
-                        :disabled="props.filteredBadges && !selectedDeck.some(option => option.value === deck.id)"
-                    >
-                        {{ $t(deck.label) }}
-                    </CommonBadgeDeck>
-                    <CommonBadgeTool
-                        v-for="tool in props.project.tools"
-                        :key="tool.id"
-                        size="sm"
-                        :disabled="props.filteredBadges && !selectedTag.some(option => option.value === tool.id)"
-                    >
-                        {{ $t(tool.name) }}
-                    </CommonBadgeTool>
-                    <CommonBadgeRole
-                        v-for="role in props.project.roles"
-                        :key="role.id"
-                        size="sm"
-                        :disabled="props.filteredBadges && !selectedTag.some(option => option.value === role.id)"
-                    >
-                        {{ $t(role.name) }}
-                    </CommonBadgeRole>
-                </div>
-
-                <h5
-                    class="font-label-sm text-muted whitespace-nowrap opacity-0 transition-opacity duration-300"
-                    :class="{
-                        'group-hover:opacity-100': props.clickable,
-                    }"
-                >
-                    {{ $t("dict.clickMe") }}
-                </h5>
-            </div>
-        </div>
-    </DeckCardBase>
+        <template #tags>
+            <CommonBadgeYear size="sm">
+                {{ props.project.year }}
+            </CommonBadgeYear>
+            <CommonBadgeDeck
+                v-for="deck in props.project.decks"
+                :key="deck.id"
+                size="sm"
+                :disabled="props.filteredBadges && !selectedDeck.some(option => option.value === deck.id)"
+            >
+                {{ $t(deck.label) }}
+            </CommonBadgeDeck>
+            <CommonBadgeTool
+                v-for="tool in props.project.tools"
+                :key="tool.id"
+                size="sm"
+                :disabled="props.filteredBadges && !selectedTag.some(option => option.value === tool.id)"
+            >
+                {{ $t(tool.name) }}
+            </CommonBadgeTool>
+            <CommonBadgeRole
+                v-for="role in props.project.roles"
+                :key="role.id"
+                size="sm"
+                :disabled="props.filteredBadges && !selectedTag.some(option => option.value === role.id)"
+            >
+                {{ $t(role.name) }}
+            </CommonBadgeRole>
+        </template>
+    </DeckCard>
 </template>

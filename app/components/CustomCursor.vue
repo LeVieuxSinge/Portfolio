@@ -80,7 +80,7 @@ onUnmounted(() => {
 <template>
     <div
         ref="refRoot"
-        class="fixed z-custom-cursor inset-0 pointer-events-none"
+        class="fixed top-0 left-0 w-dvw h-dvh z-custom-cursor pointer-events-none"
     >
         <span
             id="custom-cursor-icon"

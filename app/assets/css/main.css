@@ -9,7 +9,7 @@
 
     --color-highlighted: #ffffff;
     --color-text: #f0f0f0;
-    --color-toned: #e7e7e7;
+    --color-toned: #dfdfdf;
     --color-muted: #969696;
     --color-dimmed: #5c5c5c;
 
@@ -18,7 +18,7 @@
     --color-accent-3: #71AABD;
     --color-accent-4: #C16117;
 
-    --color-border: #424242;
+    --color-border: var(--color-dimmed);
 
     --font-anton: "Anton", sans-serif;
     --font-lexend: "Lexend", sans-serif;
@@ -180,6 +180,14 @@
     z-index: 9996;
 }
 
+@utility z-tooltip {
+    z-index: 9995;
+}
+
+@utility z-screen {
+    z-index: 9002;
+}
+
 @utility z-teleport-popover {
     z-index: 9001;
 }
@@ -213,6 +221,7 @@
         scroll-behavior: smooth;
         background-color: var(--color-background);
         color: var(--color-text);
+        overflow-x: hidden;
     }
 
     button {

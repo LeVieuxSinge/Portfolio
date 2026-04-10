@@ -31,6 +31,6 @@ const colorClasses = computed(() => {
         class="inline-flex items-baseline gap-x-2"
         :class="[fontClasses, colorClasses]"
     >
-        <span>> </span><slot />
+        <span>> </span><span><slot /></span>
     </span>
 </template>

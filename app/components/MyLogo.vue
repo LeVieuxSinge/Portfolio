@@ -2,10 +2,8 @@
 import { animate } from "animejs";
 
 const props = withDefaults(defineProps<{
-    size?: "sm" | "md" | "lg";
     animated?: boolean;
 }>(), {
-    size: "md",
     animated: false,
 });
 
@@ -70,11 +68,6 @@ onMounted(() => {
 <template>
     <svg
         class="fill-text"
-        :class="{
-            'w-10 h-10': props.size === 'sm',
-            'w-12 h-12': props.size === 'md',
-            'w-24 h-24': props.size === 'lg',
-        }"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 100 91.71"
     >

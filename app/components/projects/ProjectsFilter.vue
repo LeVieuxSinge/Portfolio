@@ -11,9 +11,9 @@ const tag = defineModel<FBO>("tag");
 </script>
 
 <template>
-    <div class="z-1 w-full bg-background border border-border rounded-full px-6 pt-3 pb-4 flex justify-between items-center gap-x-4">
+    <div class="z-1 w-full bg-background border border-border rounded-4xl md:rounded-full px-6 pt-3 pb-4 flex max-md:flex-col justify-between items-center gap-4">
         <!-- Deck -->
-        <div class="flex-1/3 flex flex-col gap-y-1 overflow-hidden">
+        <div class="w-full flex flex-col gap-y-1 overflow-hidden">
             <label class="font-label-sm text-muted ml-4">
                 {{ $t('filter.deck.label') }}
             </label>
@@ -26,7 +26,7 @@ const tag = defineModel<FBO>("tag");
         </div>
 
         <!-- Sort By -->
-        <div class="flex-1/3 flex flex-col gap-y-1 overflow-hidden">
+        <div class="w-full flex flex-col gap-y-1 overflow-hidden">
             <label class="font-label-sm text-muted ml-4">
                 {{ $t('filter.sortBy.label') }}
             </label>
@@ -39,7 +39,7 @@ const tag = defineModel<FBO>("tag");
         </div>
 
         <!-- Filter By -->
-        <div class="flex-1/3 flex flex-col gap-y-1 overflow-hidden">
+        <div class="w-full flex flex-col gap-y-1 overflow-hidden">
             <label class="font-label-sm text-muted ml-4">
                 {{ $t('filter.tag.label') }}
             </label>

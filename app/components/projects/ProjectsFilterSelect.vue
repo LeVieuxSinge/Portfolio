@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { defaultWindow } from "@vueuse/core";
+
 const props = defineProps<{
     color: "accent-1" | "accent-3" | "accent-4";
     options: { label: string; value: string }[];
@@ -10,7 +12,7 @@ const refRoot = useTemplateRef("refRoot");
 const refContent = useTemplateRef("refContent");
 
 const { bottom, left, width } = useElementBounding(refRoot);
-const isLocked = useScrollLock(document);
+const isLocked = useScrollLock(defaultWindow);
 
 const values = defineModel<{ label: string; value: string }[]>("values", { default: [] });
 function selectOption(option: { label: string; value: string }) {
