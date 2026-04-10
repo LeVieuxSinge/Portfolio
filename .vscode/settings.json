@@ -1,0 +1,28 @@
+{
+    "editor.formatOnSave": true,
+    "files.associations": {
+        "*.vue": "vue",
+        "*.css": "tailwindcss"
+    },
+    "editor.quickSuggestions": {
+        "strings": "on"
+    },
+    // "tailwindCSS.classAttributes": [
+    //     "class",
+    //     "ui"
+    // ],
+    // "tailwindCSS.experimental.classRegex": [
+    //     [
+    //         "ui:\\s*{([^)]*)\\s*}",
+    //         "(?:'|\"|`)([^']*)(?:'|\"|`)"
+    //     ]
+    // ]
+    "i18n-ally.localesPaths": "app/locales",
+    "i18n-ally.enabledFrameworks": [
+        "vue"
+    ],
+    "i18n-ally.sourceLanguage": "en",
+    "i18n-ally.displayLanguage": "en",
+    "i18n-ally.keystyle": "nested",
+    "i18n-ally.indent": 4
+}

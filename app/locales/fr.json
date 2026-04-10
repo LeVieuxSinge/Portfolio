@@ -1,0 +1,448 @@
+{
+    "components": {
+        "automatedSearchbar": {
+            "hint": "Il est, il aime, il fait...",
+            "messages": {
+                "bad": {
+                    "1": "Pas vraiment, mais nous apprécions l'effort ! 😉",
+                    "2": "Presque, mais pas tout à fait ! 😬",
+                    "3": "Essayez encore ! 😄",
+                    "4": "Continuez à essayer ! 😅",
+                    "5": "S'il vous plaît... 🙄",
+                    "6": "Ce n'est pas ce que nous cherchons. 😳",
+                    "7": "Vous vous moquez de nous ? 😑",
+                    "8": "Vous devriez continuer à faire défiler... 😆"
+                },
+                "good": {
+                    "1": "Bien joué ! 👍",
+                    "2": "Vous le connaissez trop bien ! ❤️",
+                    "3": "Exactement ! 👌",
+                    "4": "Je n'aurais pas pu mieux le dire moi-même ! 😄",
+                    "5": "Vous avez réussi ! 🎯",
+                    "6": "Absolument ! 🌟",
+                    "7": "Exactement ! 🙌",
+                    "8": "Oui ! 🤘"
+                }
+            },
+            "placeholder": "Tapez ici...",
+            "processing": "Traitement en cours...",
+            "waiting": "En attente de saisie...",
+            "words": {
+                "interests": {
+                    "ai": {
+                        "label": "Intelligence Artificielle",
+                        "message": "Relation amour/haine ! 🤖"
+                    },
+                    "basketball": {
+                        "label": "Basketball",
+                        "message": "Swisshhh ! 🏀"
+                    },
+                    "movies": {
+                        "label": "Films"
+                    },
+                    "music": {
+                        "label": "Musique"
+                    },
+                    "proceduralgeneration": {
+                        "label": "Génération procédurale",
+                        "message": "La raison pour laquelle il a commencé à programmer !"
+                    },
+                    "starwars": {
+                        "label": "Star Wars",
+                        "message": "Que la force soit avec vous !"
+                    },
+                    "traveling": {
+                        "label": "Voyager",
+                        "message": "Pas ton homme !"
+                    },
+                    "videogames": {
+                        "label": "Jeux vidéo",
+                        "message": "Évidemment... 😏"
+                    }
+                },
+                "qualities": {
+                    "creative": {
+                        "label": "Créatif"
+                    },
+                    "curious": {
+                        "label": "Curieux"
+                    },
+                    "flexible": {
+                        "label": "Flexible"
+                    },
+                    "intelligent": {
+                        "label": "Intelligent",
+                        "message": "Flatté ! Mais il préfère 'avide d'apprendre'"
+                    },
+                    "passionate": {
+                        "label": "Passionné"
+                    },
+                    "perfectionist": {
+                        "label": "Perfectionniste",
+                        "message": "Épée à double tranchant !"
+                    }
+                },
+                "skills": {
+                    "modeling": {
+                        "label": "Modélisation 3D"
+                    },
+                    "programming": {
+                        "label": "Programmation"
+                    },
+                    "sculpting": {
+                        "label": "Sculpture 3D"
+                    },
+                    "texturing": {
+                        "label": "Texturage 3D"
+                    },
+                    "videoediting": {
+                        "label": "Montage Vidéo"
+                    }
+                },
+                "softwares": {
+                    "blender": {
+                        "label": "Blender",
+                        "message": "Gratuit à vie bébé !"
+                    },
+                    "krita": {
+                        "label": "Krita",
+                        "message": "Il faut bien soutenir l'open source !"
+                    },
+                    "max": {
+                        "label": "3ds Max",
+                        "message": "Autodesk, vieux et mauvaise interface : il n'est pas fan !"
+                    },
+                    "next": {
+                        "label": "Next.js",
+                        "message": "Il est simplement plus habitué à Nuxt. #rebelle"
+                    },
+                    "nuxt": {
+                        "label": "Nuxt",
+                        "message": "Pas besoin de chercher loin !"
+                    },
+                    "photoshop": {
+                        "label": "Photoshop"
+                    },
+                    "react": {
+                        "label": "React",
+                        "message": "JSX = Cool, mais SFC + Composition API = ❤️"
+                    },
+                    "substancepainter": {
+                        "label": "Substance Painter"
+                    },
+                    "unity": {
+                        "label": "Unity",
+                        "message": "Déjà utilisé. Bon engin. Mais son choix est déjà fait."
+                    },
+                    "unrealengine": {
+                        "label": "Unreal Engine",
+                        "message": "Épique ! (Compris ?)"
+                    },
+                    "vue": {
+                        "label": "Vue",
+                        "message": "Vu 👁️👁️ (Il est tellement blagueur)"
+                    },
+                    "zbrush": {
+                        "label": "ZBrush",
+                        "message": "Cool logiciel, mais svp améliorez l'interface utilisateur."
+                    }
+                }
+            }
+        },
+        "deck": {
+            "card": {
+                "clickMe": "Cliquez-moi",
+                "defaultLabel": "Nom",
+                "noImage": "Aucune image"
+            }
+        },
+        "home": {
+            "about": {
+                "anomaly": "c'est une anomalie, cliquez à vos risques et périls !",
+                "body": "Cet OS est le portfolio gratuit et open source de Xavier Champoux, un artiste technique basé à Montréal. Il a été construit autour de l'idée de représenter qui il est, y compris ses différentes expertises et passions, à travers l'identité visuelle et le contenu du site. Le code est disponible sur GitHub, alors n'hésitez pas à le consulter ! 👀",
+                "thanks": "Merci, du",
+                "title": "à propos de l'os"
+            },
+            "cards": {
+                "chat": {
+                    "ai1": "Excellente idée ! Je peux vous aider à créer un thème pour cet OSW à l'aide de cartes. Sachant qu'il aime les jeux de cartes, je lui recommande d'utiliser ce modèle de carte...",
+                    "ai2": "J'ai compris! Voici une vitrine de certains des projets réalisés, remplis dans le modèle de carte et stylisés pour bien paraître. J'espère que ça vous plaira ! 😄",
+                    "ai3": "Bien sûr! J'ai ajouté des effets de survol sympas sur les cartes pour les rendre plus interactives et visuellement attrayantes. Essayez-le! 👉",
+                    "human1": "Créez un thème pour cet OS à l'aide de cartes.",
+                    "human2": "Remplissez les cartes avec mes projets.",
+                    "human3": "Pourriez-vous également ajouter des effets de survol sympas sur les cartes?"
+                },
+                "title": "Logs de dev. #69"
+            },
+            "context": {
+                "description": "Comme il le dit toujours aux gens, il n'est pas un expert dans aucun domaine, mais son expertise, ses connaissances et sa curiosité font de lui un atout important au sein d'une équipe d'artistes et de développeurs. Grâce à sa polyvalence, une communication et des flux de travail fluides émergent entre tous les experts.",
+                "subtitle": "un artiste technique ?",
+                "title": "Plusieurs cartes en mains"
+            },
+            "decks": {
+                "hint": "les decks sont utilisés pour regrouper des projets",
+                "title": "decks disponibles"
+            },
+            "intro": {
+                "ai": "et moi ! son IA intégrée assistante 👋",
+                "links": {
+                    "about": "à propos",
+                    "projects": "projets",
+                    "start": "débuter"
+                },
+                "role": {},
+                "roles": {
+                    "artist3d": "un artiste 3d",
+                    "frontend": "un dev. frontend",
+                    "gamedev": "un dev. de jeux",
+                    "programmer": "un programmeur",
+                    "technical": "un artiste technique",
+                    "uiux": "un designer ui/ux"
+                },
+                "subtitle": "un os sur"
+            },
+            "reel": {
+                "play": "Cliquez pour jouer"
+            },
+            "deck": {
+                "featured": "{count} en vedette",
+                "common": "{count} commun",
+                "explore": "Explorer le deck"
+            }
+        }
+    },
+    "deck": {
+        "frontenddev": {
+            "description": "Autant je respecte React, je suis tombé amoureux de la façon intuitive de travailler avec Vue. Cela m'a conduit à Nuxt et à l'incroyable suite d'outils et à la communauté qui alimentent ce framework (je pense à vous VoidZero et Unjs) que j'essaie constamment d'explorer et d'expérimenter.",
+            "label": "Développement Frontend"
+        },
+        "gamedev": {
+            "description": "Celle-ci est évidente. Gamer depuis mon enfance, c'était la meilleure façon de combiner mes passions pour les jeux, les arts et la programmation. J'ai touché à quelques moteurs de jeu en cours de route, mais Unreal Engine a vraiment attiré mon attention et continue de m'émerveiller.",
+            "label": "Développement de Jeux"
+        },
+        "generalist3d": {
+            "description": "Tout a commencé par des expériences dans Maya et divers autres logiciels 3D jusqu'à ce que je tombe amoureux de Blender, surtout depuis l'arrivée des geometry nodes. Mes principaux intérêts sont la simulation et la sculpture, mais j'aime aussi travailler sur les autres aspects de la 3D.",
+            "label": "Généraliste 3D"
+        },
+        "programmer": {
+            "description": "Derrière presque toutes mes compétences se trouve la programmation. J'ai rencontré plusieurs langages de programmation au fil du temps, mais l'écosystème Typescript est définitivement mon préféré, même pour les projets non liés au web. Je ne vais pas mentir cependant, Rust me fait un peu de l'oeil.",
+            "label": "Programmation"
+        },
+        "uiuxdesigner": {
+            "description": "J'ai toujours été passionné par l'esthétique des sites Web et des applications, ce qui m'a naturellement conduit au design UI/UX. Combiné à mes compétences en développement frontend, c'est le combo parfait pour créer des designs conscients de la programmation qui sont faciles à mettre en œuvre.",
+            "label": "Designer UI/UX"
+        }
+    },
+    "dict": {
+        "about": "À propos",
+        "best": "Meilleur",
+        "deck": "Deck",
+        "decks": "Decks",
+        "error": "Erreur",
+        "featured": "En vedette",
+        "role": "Rôle",
+        "roles": "Rôles",
+        "tool": "Outil",
+        "tools": "Outils",
+        "worst": "Pire",
+        "year": "Année",
+        "links": "Liens"
+    },
+    "filter": {
+        "deck": {
+            "label": "Deck",
+            "placeholder": "Sélectionnez..."
+        },
+        "sortBy": {
+            "featured": "En vedette",
+            "label": "Trier par",
+            "name": "Nom",
+            "placeholder": "Sélectionnez...",
+            "year": "Année"
+        },
+        "tag": {
+            "label": "Tag",
+            "placeholder": "Sélectionnez..."
+        }
+    },
+    "layouts": {
+        "default": {
+            "menu": {
+                "button": {
+                    "close": {
+                        "tooltip": "Fermer"
+                    },
+                    "open": {
+                        "tooltip": "Menu"
+                    }
+                },
+                "routes": {
+                    "about": {
+                        "label": "À propos"
+                    },
+                    "home": {
+                        "label": "Accueil"
+                    },
+                    "projects": {
+                        "count": "cartes",
+                        "label": "Projets"
+                    }
+                }
+            },
+            "scrollToTop": "Faire défiler vers le haut"
+        }
+    },
+    "loading": {
+        "continue": "Appuyez n'importe où pour continuer",
+        "messages": {
+            "1": "Chargement d'un blind monk et des autres champions",
+            "2": "Chargement d'une galaxie avec un seul sabre violet",
+            "3": "Chargement du punk dans cyber",
+            "4": "Chargement de birdie pour carl carmoni!",
+            "5": "Chargement d'une planète plus verte",
+            "6": "Chargement de dubstep.mp3",
+            "7": "Chargement de la playlist de crankdat",
+            "8": "Chargement du français",
+            "9": "Chargement de english.dll",
+            "10": "Chargement du lofi boy and girl",
+            "11": "Chargement de mon Québec, la place que j'ai choisie",
+            "12": "Chargement d'un orange mushroom (et d'un pink bean...)",
+            "13": "Chargement des nombres et des données",
+            "14": "Chargement de mon propre jeu vidéo (éventuellement)",
+            "15": "Chargement du coeur à ses raisons",
+            "16": "Chargement de l'évasion à la salle"
+        },
+        "successful": "Chargement réussi"
+    },
+    "pages": {
+        "about": {
+            "cv": {
+                "awards": {
+                    "arts": {
+                        "title": "\"Projet le plus remarquable\""
+                    },
+                    "fofa": {
+                        "details": "Université Concordia - Montréal",
+                        "title": "Bourse d'Entrée FOFA"
+                    }
+                },
+                "education": {
+                    "arts": {
+                        "title": "DEC Arts Visuels et Médiatiques"
+                    },
+                    "computationArts": {
+                        "details": "Université Concordia - Montréal",
+                        "title": "BAC en Computation Arts"
+                    }
+                },
+                "experiences": {
+                    "pixistudio": {
+                        "title": "artiste 3d interactif"
+                    },
+                    "retiredAssociation": {
+                        "title": "Développeur de sites Web"
+                    }
+                },
+                "publicPresence": {
+                    "chinaCanadaVR": {
+                        "title": "Conférencier Invité"
+                    },
+                    "forumLaval": {
+                        "title": "Représentant Pixistudio"
+                    },
+                    "nousTv": {
+                        "title": "Conférencier Invité"
+                    },
+                    "siggraph": {
+                        "title": "Participant"
+                    }
+                },
+                "teaching": {
+                    "pixistudio": {
+                        "title": "Formation Blender"
+                    }
+                }
+            },
+            "error": "une erreur est survenue. voir les logs pour plus de détails",
+            "footer": {
+                "design": "conception et <> par lui, pas moi"
+            },
+            "gamingData": {
+                "error": "introuvable ou masqué.",
+                "errorDetails": "contacter l'administrateur pour plus de détails",
+                "platform": "plateforme_préférée: \"pc\""
+            },
+            "header": {
+                "ai": "et moi ? Non ?",
+                "subtitle": "À propos de moi"
+            },
+            "motives": {
+                "body": "Fan de longue date de Star Wars et des décors dystopiques futuristes comme Blade Runner et Cyberpunk 2077, j'ai tendance à critiquer à travers mes œuvres l'évolution constante des humains et de leur technologie, la façon dont ils deviennent une extension de notre esprit et de notre corps.{br}{br}Vu l'état actuel de notre société, je crois sincèrement que c'est le meilleur moment pour réfléchir sur nous-mêmes et sur notre utilisation de ces outils (particulièrement toi l'IA). En tant que créateur de rêves, je ne peux qu'imaginer un monde où nous vivons en harmonie et en paix, mais à quel prix ?",
+                "subtitle": "motifs",
+                "title": "la fiction à son apogée"
+            },
+            "mysteryCard": {
+                "hint": "Défiler pour révéler",
+                "label": "qui est-ce ?"
+            },
+            "origins": {
+                "body": "Tout a commencé en 2009 lorsque j'ai voulu devenir un grand humain bleu après avoir pleuré de peur avant même d'entrer au cinéma. À ce moment-là, je savais ce que je voulais faire : créer des rêves.{br}{br}Originaire de Saint-Hyacinthe, j'ai étudié les arts visuels avant de me rapprocher de Montréal afin de poursuivre ma passion pour les VFX.",
+                "subtitle": "origines",
+                "title": "un rêveur est né"
+            },
+            "portrait": {
+                "title": "un gars"
+            },
+            "tragicEnding": {
+                "ai": "au {best} (ou au {worst}) mon ami humain",
+                "human": "Toi aussi"
+            },
+            "turningPoint": {
+                "body": "Pendant mes études universitaires, mon intérêt s'est lentement tourné vers le développement Web et de jeux lorsque j'ai découvert la beauté de la programmation.{br}{br}Déjà amoureux des concepts de simulation, de génération procédurale et d'algorithmes, j'avais désormais la dernière clé du puzzle pour créer l'ensemble d'outils ultime. (POWAAHHH ILLIMITÉ !!)",
+                "subtitle": "point tournant",
+                "title": "d'artiste à développeur"
+            }
+        },
+        "projects": {
+            "header": {
+                "prompt": "J'ai créé un filtre pour vous, j'espère que cela vous aidera !",
+                "title": "Mes projets"
+            },
+            "noResults": "Aucun projet trouvé avec les filtres sélectionnés."
+        }
+    },
+    "role": {
+        "artist3d": "Artiste 3D",
+        "frontenddeveloper": "Dev. Frontend",
+        "gamedeveloper": "Dev. de Jeux",
+        "programmer": "Programmeur",
+        "uiuxdesigner": "Designer UI/UX",
+        "webgldeveloper": "Dev. WebGL"
+    },
+    "tool": {
+        "adobexd": "Adobe XD",
+        "animejs": "Anime.js",
+        "blender": "Blender",
+        "cpp": "C++",
+        "cppunreal": "C++ (Unreal Engine)",
+        "figma": "Figma",
+        "houdini": "Houdini",
+        "javascript": "JavaScript",
+        "javascriptnode": "JavaScript (Node.js)",
+        "nuxt": "Nuxt",
+        "gdevelop": "GDevelop",
+        "unity": "Unity",
+        "csharp": "C#",
+        "vue": "Vue",
+        "sketchfab": "Sketchfab",
+        "p5js": "P5.js",
+        "python": "Python",
+        "pythonblender": "Python (Blender)",
+        "substancepainter": "Substance Painter",
+        "tailwindcss": "Tailwind CSS",
+        "threejs": "Three.js",
+        "typescript": "TypeScript",
+        "typescriptnode": "TypeScript (Node.js)",
+        "unrealengine": "Unreal Engine"
+    }
+}
