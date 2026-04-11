@@ -205,9 +205,9 @@ function scrollToSection(id: string) {
                         </div>
                     </div>
 
-                    <div class="absolute bottom-[15dvh] left-0 inset-x-0 aspect-square pointer-events-none">
+                    <!-- <div class="absolute bottom-[15dvh] left-0 inset-x-0 aspect-square pointer-events-none">
                         <SceneHead />
-                    </div>
+                    </div> -->
 
                     <div class="anim-home-intro-fade pb-20 flex flex-col items-center gap-y-4">
                         <ConsoleOutput
