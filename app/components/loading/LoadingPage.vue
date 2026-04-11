@@ -48,16 +48,18 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <div class="fixed top-0 left-0 w-dvw h-dvh z-loading-page flex flex-col md:items-center lg:justify-center max-lg:pt-[25dvh] gap-y-2 p-10 bg-background">
-        <ConsoleOutput
-            v-for="(output, index) in consoleOutputs"
-            :key="index"
-            class="transition-opacity duration-100"
-            :style="{
-                opacity: getOpacity(index),
-            }"
-        >
-            {{ $t(output) }}
-        </ConsoleOutput>
+    <div class="fixed top-0 left-0 w-dvw h-dvh z-loading-page pt-[25dvh] bg-background">
+        <LayoutContainer class="flex flex-col gap-y-2 justify-center">
+            <ConsoleOutput
+                v-for="(output, index) in consoleOutputs"
+                :key="index"
+                class="transition-opacity duration-100"
+                :style="{
+                    opacity: getOpacity(index),
+                }"
+            >
+                {{ $t(output) }}
+            </ConsoleOutput>
+        </LayoutContainer>
     </div>
 </template>
