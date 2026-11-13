@@ -20,17 +20,13 @@
 
     --color-border: var(--color-dimmed);
 
-    --font-anton: "Anton", sans-serif;
-    --font-lexend: "Lexend", sans-serif;
-    --font-vt323: "VT323", monospace;
-
-    --drop-shadow-card-feature: 0 4px 4px var(--color-accent-4);
-    --drop-shadow-deck-down: 0 8px 0px var(--color-border);
-    --drop-shadow-deck-up: 0 -8px 0px var(--color-border);
+    --font-climate-crisis: "Climate Crisis", sans-serif;
+    --font-manrope: "Manrope", sans-serif;
+    --font-ibm-plex-mono: "IBM Plex Mono", monospace;
 }
 
 @utility font-display-sm {
-    font-family: var(--font-anton);
+    font-family: var(--font-climate-crisis);
     font-weight: 400;
     font-size: 2.25rem;
     line-height: 2.875rem;
@@ -41,7 +37,7 @@
 }
 
 @utility font-display-md {
-    font-family: var(--font-anton);
+    font-family: var(--font-climate-crisis);
     font-weight: 400;
     font-size: 4rem;
     line-height: 3.75rem;
@@ -52,7 +48,7 @@
 }
 
 @utility font-display-lg {
-    font-family: var(--font-anton);
+    font-family: var(--font-climate-crisis);
     font-weight: 400;
     font-size: 8rem;
     line-height: 7.313rem;
@@ -63,7 +59,7 @@
 }
 
 @utility font-title-sm {
-    font-family: var(--font-lexend);
+    font-family: var(--font-manrope);
     font-weight: 800;
     font-size: 1rem;
     line-height: normal;
@@ -72,7 +68,7 @@
 }
 
 @utility font-title-md {
-    font-family: var(--font-lexend);
+    font-family: var(--font-manrope);
     font-weight: 800;
     font-size: 1.25rem;
     line-height: normal;
@@ -81,7 +77,7 @@
 }
 
 @utility font-title-lg {
-    font-family: var(--font-lexend);
+    font-family: var(--font-manrope);
     font-weight: 800;
     font-size: 1.5rem;
     line-height: normal;
@@ -90,7 +86,7 @@
 }
 
 @utility font-body-sm {
-    font-family: var(--font-lexend);
+    font-family: var(--font-manrope);
     font-weight: 400;
     font-size: 0.875rem;
     line-height: normal;
@@ -98,7 +94,7 @@
 }
 
 @utility font-body-md {
-    font-family: var(--font-lexend);
+    font-family: var(--font-manrope);
     font-weight: 400;
     font-size: 1rem;
     line-height: normal;
@@ -106,7 +102,7 @@
 }
 
 @utility font-body-lg {
-    font-family: var(--font-lexend);
+    font-family: var(--font-manrope);
     font-weight: 400;
     font-size: 1.25rem;
     line-height: normal;
@@ -114,7 +110,7 @@
 }
 
 @utility font-label-sm {
-    font-family: var(--font-vt323);
+    font-family: var(--font-ibm-plex-mono);
     font-weight: 400;
     font-size: 1rem;
     line-height: normal;
@@ -131,7 +127,7 @@
 }
 
 @utility font-label-md {
-    font-family: var(--font-vt323);
+    font-family: var(--font-ibm-plex-mono);
     font-weight: 400;
     font-size: 1.25rem;
     line-height: normal;
@@ -148,7 +144,7 @@
 }
 
 @utility font-label-lg {
-    font-family: var(--font-vt323);
+    font-family: var(--font-ibm-plex-mono);
     font-weight: 400;
     font-size: 1.5rem;
     line-height: normal;
@@ -180,33 +176,6 @@
     z-index: 9996;
 }
 
-@utility z-tooltip {
-    z-index: 9995;
-}
-
-@utility z-screen {
-    z-index: 9002;
-}
-
-@utility z-teleport-popover {
-    z-index: 9001;
-}
-
-@utility z-teleport-modal {
-    z-index: 9000;
-}
-
-@utility animate-flash {
-    animation: flash 1s linear infinite;
-}
-@keyframes flash {
-    0%, 50% {
-        opacity: 1;
-    }
-    51%, 100% {
-        opacity: 0;
-    }
-}
 @utility no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -222,13 +191,5 @@
         background-color: var(--color-background);
         color: var(--color-text);
         overflow-x: hidden;
-    }
-
-    button {
-        background-color: transparent;
-        color: inherit;
-        border: none;
-        cursor: pointer;
-        text-transform: inherit;
     }
 }

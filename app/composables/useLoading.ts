@@ -23,11 +23,9 @@ function randomMessage() {
 
 export function useLoading() {
     const isLoading = useState<boolean>("isLoading", () => true);
-    const isPageTransitioning = useState<boolean>("isPageTransitioning", () => false);
 
     return {
         isLoading,
-        isPageTransitioning,
         messages,
         randomMessage,
     };

@@ -71,9 +71,9 @@ export default defineNuxtConfig({
     fonts: {
         provider: "google",
         families: [
-            { name: "Anton", weights: [400] },
-            { name: "Lexend", weights: [400, 800] },
-            { name: "VT323", weights: [400] },
+            { name: "Climate Crisis", weights: [400] },
+            { name: "Manrope", weights: [400, 500, 600, 650, 700, 800] },
+            { name: "IBM Plex Mono", weights: [400, 500] },
         ],
     },
 

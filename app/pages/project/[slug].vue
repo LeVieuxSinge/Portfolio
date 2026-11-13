@@ -1,377 +1,129 @@
 <script setup lang="ts">
-import { animate, createScope, cubicBezier, onScroll, splitText, stagger, utils } from "animejs";
-
-const { isMobileOrTablet } = useDevice();
+definePageMeta({ key: route => route.path });
 const route = useRoute();
-const slug = route.params.slug as string;
+const { t } = useI18n();
 const { resolvedProjects } = useProjectsData();
-const project = resolvedProjects.find(p => p.slug === slug);
-
-if (!project) {
-    throw createError({
-        fatal: true,
-        statusCode: 404,
-        statusMessage: "Project not found",
-    });
-}
-
-const projectIndex = resolvedProjects.findIndex(p => p.slug === slug);
-const prevProject = resolvedProjects[projectIndex - 1] || resolvedProjects[resolvedProjects.length - 1] || null;
-const nextProject = resolvedProjects[projectIndex + 1] || resolvedProjects[0] || null;
-
-const refRoot = useTemplateRef("refRoot");
-
-useSafeAnimations(() => {
-    const root = unref(refRoot);
-    if (!root) return;
-
-    const scope = createScope({
-        root: root,
-        mediaQueries: {
-            isSmall: "(max-width: 1024px)",
-            canHover: "(hover: hover) and (pointer: fine)",
-        },
-        defaults: {
-            ease: cubicBezier(0.7, 0.1, 0.5, 0.9),
-        },
-    });
-
-    scope.add((scope) => {
-        if (!scope) return;
-        const { matches: { isSmall } } = scope;
-
-        splitText("#anim-project-title", {
-            chars: { wrap: "clip" },
-        }).addEffect(({ chars }) => animate(chars, {
-            translateX: [-100, 0],
-            delay: stagger(50),
-            autoplay: onScroll({
-                container: document.body || document.documentElement,
-                enter: "bottom-=20% top",
-            }),
-        }));
-
-        const targets = utils.$(".anim-project-all");
-        for (const target of targets) {
-            animate(target, {
-                translateY: [20, 0],
-                opacity: [0, 1],
-                autoplay: onScroll({
-                    container: document.body || document.documentElement,
-                }),
-            });
-        }
-
-        if (isSmall) {
-            // Animate the prev and next cards to fade in and slide up
-            animate("#anim-project-prev-card", {
-                translateY: [0, "25dvh"],
-                rotate: [0, -8],
-                ease: "outExpo",
-                duration: 1500,
-                autoplay: onScroll({
-                    container: document.body || document.documentElement,
-                    enter: "bottom-=50% top",
-                }),
-            });
-        }
-        else {
-            // Animate the prev card to slide and rotate to the left
-            animate("#anim-project-prev-card", {
-                translateX: [0, -300],
-                translateY: [0, 50],
-                rotate: [0, -8],
-                ease: "outExpo",
-                duration: 1500,
-                autoplay: onScroll({
-                    container: document.body || document.documentElement,
-                    enter: "bottom-=50% top",
-                }),
-            });
-        }
-
-        if (isSmall) {
-            // Animate the next card to fade in and slide up
-            animate("#anim-project-next-card", {
-                translateY: [0, "-25dvh"],
-                rotate: [0, 8],
-                ease: "outExpo",
-                duration: 1500,
-                autoplay: onScroll({
-                    container: document.body || document.documentElement,
-                    enter: "bottom-=50% top",
-                }),
-            });
-        }
-        else {
-            // Animate the next card to slide and rotate to the right
-            animate("#anim-project-next-card", {
-                translateX: [0, 300],
-                translateY: [0, 50],
-                rotate: [0, 8],
-                ease: "outExpo",
-                duration: 1500,
-                autoplay: onScroll({
-                    container: document.body || document.documentElement,
-                    enter: "bottom-=50% top",
-                }),
-            });
-        }
-    });
-
-    return () => {
-        scope.revert();
-    };
-});
-
-const localePath = useLocalePath();
-function randomProject() {
-    const filteredProjects = resolvedProjects.filter(p => p.slug !== project!.slug);
-    const randomIndex = Math.floor(Math.random() * filteredProjects.length);
-    const randomProject = filteredProjects[randomIndex]!;
-    navigateTo(localePath(`/project/${randomProject.slug}`));
-}
+const { description } = useProjectPresentation();
+const project = resolvedProjects.find(item => item.slug === route.params.slug);
+if (!project) throw createError({ statusCode: 404, statusMessage: t("p.projectNotFound"), fatal: true });
+const index = resolvedProjects.indexOf(project);
+const previous = resolvedProjects[(index - 1 + resolvedProjects.length) % resolvedProjects.length]!;
+const next = resolvedProjects[(index + 1) % resolvedProjects.length]!;
+const paragraphs = computed(() => description(project).split(/\n|(?=I was responsible)|(?=J’étais responsable)|(?=J’ai pris en charge)/).filter(Boolean));
+const assets = project.assets.filter(asset => asset.src !== project.cover);
+useHead({ title: project.name });
+useSeoMeta({ description: () => description(project).slice(0, 180), ogTitle: `${project.name} — Xavier Champoux`, ogImage: project.cover });
 </script>
 
 <template>
-    <main
-        ref="refRoot"
-        class="px-2 lg:px-6"
-    >
-        <LayoutContainer>
-            <div class="w-full flex flex-col gap-y-20 pt-20 pb-20">
-                <!-- Header -->
-                <section
-                    v-if="isMobileOrTablet"
-                    class="relative flex flex-col justify-between gap-y-8"
+    <div>
+        <main
+            id="main"
+            tabindex="-1"
+            class="case-study page-gutter page-content pl-[10vw] pr-[10vw] pt-[62px] pb-25 [@media(max-width:700px)]:pl-[8vw] [@media(max-width:700px)]:pr-[8vw] [@media(max-width:700px)]:pt-[34px] [@media(max-width:700px)]:pb-[70px]"
+        >
+            <NuxtLinkLocale
+                to="/projects"
+                class="back-work eyebrow no-underline text-muted text-[9px] inline-block min-h-8 [.case-heading>&]:text-muted [.case-heading>&]:text-[9px] [.case-pagination_&]:text-[9px] [.case-pagination_&]:text-muted [@media(max-width:700px)]:[.case-pagination_&]:text-[7px] [font:10px/1.6_var(--font-mono)] tracking-[.08em] uppercase"
+            >
+                ← {{ t('p.backWork') }}
+            </NuxtLinkLocale>
+            <header class="case-heading mt-[45px] mb-[50px] [&_h1]:text-[clamp(36px,6.3vw,110px)] [&_h1]:leading-[1.3] [&_h1]:mt-4 [&_h1]:[overflow-wrap:anywhere] [&>p:last-child]:text-[12px] [&>p:last-child]:text-muted [&>p:last-child]:mt-[18px] [@media(max-width:700px)]:mt-[25px] [@media(max-width:700px)]:mb-[30px] [@media(max-width:700px)]:[&_h1]:text-[36px] [@media(max-width:700px)]:[&>p:last-child]:text-[10px]">
+                <p class="eyebrow [.case-heading>&]:text-muted [.case-heading>&]:text-[9px] [.case-pagination_&]:text-[9px] [.case-pagination_&]:text-muted [@media(max-width:700px)]:[.case-pagination_&]:text-[7px] [font:10px/1.6_var(--font-mono)] tracking-[.08em] uppercase">
+                    {{ project.about.startsWith('[PIXISTUDIO]') ? 'Pixistudio / ' : '' }}{{ project.year }}
+                </p><h1
+                    class="display [.case-heading_h1&.long-title]:text-[clamp(30px,4.7vw,80px)] font-display font-normal tracking-[.015em] leading-[1.15]"
+                    :class="{ 'long-title': project.name.length > 15 }"
                 >
-                    <div class="anim-project-all h-[30dvh] w-full flex justify-center items-center bgmuted border border-border rounded-2xl overflow-hidden">
-                        <DeckShowcase
-                            class="size-full"
-                            :row-count="isMobileOrTablet ? 3 : 5"
-                            :col-count="isMobileOrTablet ? 3 : 5"
+                    {{ project.name }}
+                </h1><p>{{ project.roles.map(role => t(role.name)).join(' / ') }}</p>
+            </header>
+            <img
+                class="case-cover w-full h-auto max-h-[75svh] [object-fit:contain] rounded-[10px_90px_10px_10px] bg-surface [@media(max-width:700px)]:rounded-[7px_45px_7px_7px]"
+                :src="project.cover"
+                :alt="project.name"
+                width="1440"
+                height="900"
+                fetchpriority="high"
+            >
+            <section class="case-overview grid [grid-template-columns:1fr_2.05fr] gap-[7vw] [padding:80px_0_95px] [&_h2]:text-[9px] [&_h2]:text-muted [&_h2]:mb-[23px] [&_aside_ul]:text-[12px] [&_aside_ul]:leading-[2.1] [&_aside_ul]:mb-8 [@media(max-width:700px)]:[grid-template-columns:1fr] [@media(max-width:700px)]:gap-[22px] [@media(max-width:700px)]:[padding:40px_0_50px] [@media(max-width:700px)]:[&_aside]:grid [@media(max-width:700px)]:[&_aside]:[grid-template-columns:1fr_1fr] [@media(max-width:700px)]:[&_aside]:gap-[0_25px] [@media(max-width:700px)]:[&_aside_h2]:[grid-row:1] [@media(max-width:700px)]:[&_aside_ul]:text-[10px]">
+                <aside>
+                    <h2 class="eyebrow [.case-heading>&]:text-muted [.case-heading>&]:text-[9px] [.case-pagination_&]:text-[9px] [.case-pagination_&]:text-muted [@media(max-width:700px)]:[.case-pagination_&]:text-[7px] [font:10px/1.6_var(--font-mono)] tracking-[.08em] uppercase">
+                        {{ t('p.contribution') }}
+                    </h2><ul>
+                        <li
+                            v-for="role in project.roles"
+                            :key="role.id"
                         >
-                            <template #default="{ index }">
-                                <ProjectCard
-                                    :key="index"
-                                    :project="project"
-                                    class="w-85 shadow-lg! shadow-black!"
-                                />
-                            </template>
-                        </DeckShowcase>
-                    </div>
-
-                    <div class="z-1 flex flex-col gap-y-4">
-                        <div class="anim-project-all flex gap-x-4">
-                            <CommonBadgeFeature v-if="project.featured" />
-                        </div>
-                        <h1
-                            id="anim-project-title"
-                            class="font-display-lg"
+                            {{ t(role.name) }}
+                        </li>
+                    </ul><h2 class="eyebrow [.case-heading>&]:text-muted [.case-heading>&]:text-[9px] [.case-pagination_&]:text-[9px] [.case-pagination_&]:text-muted [@media(max-width:700px)]:[.case-pagination_&]:text-[7px] [font:10px/1.6_var(--font-mono)] tracking-[.08em] uppercase">
+                        {{ t('p.tools') }}
+                    </h2><ul>
+                        <li
+                            v-for="tool in project.tools"
+                            :key="tool.id"
                         >
-                            {{ $t(project.name) }}
-                        </h1>
-                    </div>
-                </section>
-                <section
-                    v-else
-                    class="relative h-[60vh] flex items-center gap-y-4"
-                >
-                    <div class="z-1 flex flex-col gap-y-4">
-                        <div class="anim-project-all flex gap-x-4">
-                            <CommonBadgeFeature v-if="project.featured" />
-                        </div>
-                        <h1
-                            id="anim-project-title"
-                            class="font-display-lg"
-                        >
-                            {{ $t(project.name) }}
-                        </h1>
-                    </div>
-
-                    <div class="anim-project-all absolute h-full w-full max-w-[80%] right-0 top-1/2 -translate-y-1/2 flex justify-center items-center bgmuted border border-border rounded-2xl overflow-hidden">
-                        <DeckShowcase
-                            class="size-full"
-                            :row-count="isMobileOrTablet ? 3 : 5"
-                            :col-count="isMobileOrTablet ? 3 : 5"
-                        >
-                            <template #default="{ index }">
-                                <ProjectCard
-                                    :key="index"
-                                    :project="project"
-                                    class="w-83.25 shadow-lg! shadow-black!"
-                                />
-                            </template>
-                        </DeckShowcase>
-                    </div>
-                </section>
-
-                <!-- Info -->
-                <section class="flex flex-col gap-y-8">
-                    <div class="flex flex-col gap-y-2 items-start">
-                        <h2 class="anim-project-all font-label-md text-muted">
-                            {{ $t("dict.year") }}
-                        </h2>
-                        <div class="flex flex-wrap gap-3">
-                            <CommonBadgeYear
-                                class="anim-project-all"
-                                clickable
-                                :path="{ name: 'projects', query: { filter: project.year } }"
-                            >
-                                {{ project.year }}
-                            </CommonBadgeYear>
-                        </div>
-                    </div>
-
-                    <div class="flex flex-col gap-y-2 items-start">
-                        <h2 class="anim-project-all font-label-md text-muted">
-                            {{ $t("dict.decks") }}
-                        </h2>
-                        <div class="flex flex-wrap gap-3">
-                            <CommonBadgeDeck
-                                v-for="deck in project.decks"
-                                :key="deck.id"
-                                class="anim-project-all"
-                                clickable
-                                :path="{ name: 'projects', query: { deck: deck.id } }"
-                            >
-                                {{ $t(deck.label) }}
-                            </CommonBadgeDeck>
-                        </div>
-                    </div>
-
-                    <div class="flex flex-col gap-y-2 items-start">
-                        <h2 class="anim-project-all font-label-md text-muted">
-                            {{ $t("dict.tools") }}
-                        </h2>
-                        <div class="flex flex-wrap gap-3">
-                            <CommonBadgeTool
-                                v-for="tool in project.tools"
-                                :key="tool.id"
-                                class="anim-project-all"
-                                clickable
-                                :path="{ name: 'projects', query: { filter: tool.id } }"
-                            >
-                                {{ $t(tool.name) }}
-                            </CommonBadgeTool>
-                        </div>
-                    </div>
-
-                    <div class="flex flex-col gap-y-2 items-start">
-                        <h2 class="anim-project-all font-label-md text-muted">
-                            {{ $t("dict.roles") }}
-                        </h2>
-                        <div class="flex flex-wrap gap-3">
-                            <CommonBadgeRole
-                                v-for="role in project.roles"
-                                :key="role.id"
-                                class="anim-project-all"
-                                clickable
-                                :path="{ name: 'projects', query: { filter: role.id } }"
-                            >
-                                {{ $t(role.name) }}
-                            </CommonBadgeRole>
-                        </div>
-                    </div>
-
-                    <div class="flex flex-col gap-y-2 items-start">
-                        <h2 class="anim-project-all font-label-md text-muted">
-                            {{ $t("dict.about") }}
-                        </h2>
-                        <p class="anim-project-all font-body-md">
-                            {{ $t(project.about) }}
-                        </p>
-                    </div>
-
-                    <div
-                        v-if="project.link"
-                        class="flex flex-col gap-y-2 items-start"
+                            {{ t(tool.name) }}
+                        </li>
+                    </ul>
+                </aside><div class="case-description [&>p]:text-[16px] [&>p]:leading-[1.95] [&>p]:text-ink [&>p]:mb-[22px] [@media(max-width:700px)]:[&>p]:text-[13px]">
+                    <h2 class="eyebrow [.case-heading>&]:text-muted [.case-heading>&]:text-[9px] [.case-pagination_&]:text-[9px] [.case-pagination_&]:text-muted [@media(max-width:700px)]:[.case-pagination_&]:text-[7px] [font:10px/1.6_var(--font-mono)] tracking-[.08em] uppercase">
+                        {{ t('p.overview') }}
+                    </h2><p
+                        v-for="(paragraph, i) in paragraphs"
+                        :key="i"
                     >
-                        <h2 class="anim-project-all font-label-md text-muted">
-                            {{ $t("dict.links") }}
-                        </h2>
-                        <div class="flex flex-wrap gap-3">
-                            <a
-                                v-for="link in project.link"
-                                :key="link.url"
-                                :href="link.url"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <CommonBadgeLink
-                                    class="anim-project-all"
-                                    clickable
-                                >
-                                    {{ $t(link.label) }}
-                                </CommonBadgeLink>
-                            </a>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Assets -->
-                <section class="flex flex-col gap-y-8">
-                    <template
-                        v-for="asset in project.assets"
-                        :key="asset.src"
+                        {{ paragraph }}
+                    </p><div
+                        v-if="project.link?.length"
+                        class="case-links flex flex-wrap gap-7 mt-8 [&_a]:flex [&_a]:items-center [&_a]:justify-between [&_a]:gap-[35px] [&_a]:[padding:12px_0] [&_a]:[border-bottom:1px_solid_var(--line)] [&_a]:text-[12px] [&_a]:no-underline [&_a:hover]:[border-color:var(--profile-color)] [&_svg]:w-[15px] [&_svg]:h-[15px]"
                     >
-                        <img
-                            v-if="asset.type === 'image'"
-                            class="anim-project-all w-full max-h-[90dvh] rounded-lg object-contain"
-                            :src="asset.src"
-                        >
-                        <video
-                            v-else-if="asset.type === 'video'"
-                            class="anim-project-all w-full rounded-lg object-cover"
-                            :src="asset.src"
-                            muted
-                            autoplay
-                            loop
-                        />
-                    </template>
-                </section>
-            </div>
-        </LayoutContainer>
-
-        <!-- Next/Prev -->
-        <section class="h-dvh flex justify-center items-center py-2 lg:py-6">
-            <div class="relative flex justify-center items-center">
-                <div
-                    id="anim-project-prev-card"
-                    class="absolute flex flex-col gap-y-2"
-                >
-                    <span class="max-lg:order-1 font-label-md text-toned mr-2">Last card</span>
-                    <ProjectCard
-                        v-if="prevProject"
-                        :project="prevProject"
-                        clickable
-                        hover-effect
-                        :shadows="false"
-                        class="w-83.25 *:opacity-50 hover:*:opacity-100 *:transition-opacity *:duration-500"
-                    />
+                        <a
+                            v-for="link in project.link"
+                            :key="link.url"
+                            :href="link.url"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >{{ link.label }} <SiteIcon name="arrow" /></a>
+                    </div>
                 </div>
-                <DeckBase
-                    class="w-83.25 font-label-md text-muted/50 hover:text-muted transition-colors duration-250 flex justify-center text-center max-lg:items-center lg:pt-40 px-20 font"
-                    clickable
-                    @click="randomProject"
+            </section>
+            <section
+                v-if="assets.length"
+                class="case-gallery grid gap-[35px] [&_figure]:m-0 [&_figure]:bg-surface [&_figure]:rounded-[8px] [&_figure]:overflow-hidden [&_img]:w-full [&_img]:h-auto [&_img]:max-h-[90svh] [&_img]:[object-fit:contain] [&_video]:w-full [&_video]:h-auto [&_video]:max-h-[90svh] [&_video]:[object-fit:contain] [@media(max-width:700px)]:gap-[18px]"
+                :aria-label="t('p.gallery')"
+            >
+                <figure
+                    v-for="(asset, i) in assets"
+                    :key="asset.src"
                 >
-                    Click here for a random card
-                </DeckBase>
-                <div
-                    id="anim-project-next-card"
-                    class="absolute flex flex-col items-end gap-y-2"
-                >
-                    <span class="font-label-md text-toned mr-2">Next card</span>
-                    <ProjectCard
-                        v-if="nextProject"
-                        :project="nextProject"
-                        clickable
-                        hover-effect
-                        :shadows="false"
-                        class="w-83.25 *:opacity-50 hover:*:opacity-100 *:transition-opacity *:duration-500"
-                    />
-                </div>
-            </div>
-        </section>
-    </main>
+                    <video
+                        v-if="asset.type === 'video'"
+                        :src="asset.src"
+                        controls
+                        playsinline
+                        preload="none"
+                        :aria-label="`${project.name} — ${t('p.projectVideo')} ${i + 1}`"
+                    /><img
+                        v-else
+                        :src="asset.src"
+                        :alt="`${project.name} — ${t('p.projectImage')} ${i + 1}`"
+                        loading="lazy"
+                    >
+                </figure>
+            </section>
+            <nav
+                class="case-pagination mt-[90px] pt-[35px] [border-top:1px_solid_var(--line)] grid [grid-template-columns:1fr_1fr] gap-[35px] [&_a]:no-underline [&_a]:flex [&_a]:flex-col [&_a]:gap-[18px] [&_a:last-child]:text-right [&_a:last-child]:[align-items:flex-end] [&_strong]:text-[26px] [&_strong]:font-medium [&_strong]:tracking-[-.04em] [&_a:hover_strong]:text-profile [@media(max-width:700px)]:mt-[50px] [@media(max-width:700px)]:gap-[25px] [@media(max-width:700px)]:[&_strong]:text-[19px]"
+                :aria-label="t('p.navigation')"
+            >
+                <NuxtLinkLocale :to="previous.path">
+                    <span class="eyebrow [.case-heading>&]:text-muted [.case-heading>&]:text-[9px] [.case-pagination_&]:text-[9px] [.case-pagination_&]:text-muted [@media(max-width:700px)]:[.case-pagination_&]:text-[7px] [font:10px/1.6_var(--font-mono)] tracking-[.08em] uppercase">← {{ t('p.previousProject') }}</span><strong>{{ previous.name }}</strong>
+                </NuxtLinkLocale><NuxtLinkLocale :to="next.path">
+                    <span class="eyebrow [.case-heading>&]:text-muted [.case-heading>&]:text-[9px] [.case-pagination_&]:text-[9px] [.case-pagination_&]:text-muted [@media(max-width:700px)]:[.case-pagination_&]:text-[7px] [font:10px/1.6_var(--font-mono)] tracking-[.08em] uppercase">{{ t('p.nextProject') }} ↗</span><strong>{{ next.name }}</strong>
+                </NuxtLinkLocale>
+            </nav>
+        </main>
+        <SiteFooter />
+    </div>
 </template>
