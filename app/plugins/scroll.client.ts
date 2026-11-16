@@ -1,9 +1,11 @@
 import Lenis from "lenis";
 import "lenis/dist/lenis.css";
+import { scrollDownTarget } from "#shared/utils/navigation";
 
 export default defineNuxtPlugin((app) => {
     const y = useState<number>("document-scroll-y", () => 0);
     const progress = useState<number>("document-scroll-progress", () => 0);
+    const introEnd = useState<number>("document-scroll-intro-end", () => 0);
     const { isOpen } = useMenu();
     const { isLoading } = useLoading();
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -13,6 +15,7 @@ export default defineNuxtPlugin((app) => {
     function updateProgress() {
         y.value = Math.max(0, window.scrollY);
         const limit = document.documentElement.scrollHeight - window.innerHeight;
+        introEnd.value = scrollDownTarget(window.innerHeight, document.documentElement.scrollHeight);
         progress.value = limit > 0 ? Math.max(0, Math.min(100, y.value / limit * 100)) : 0;
     }
     function cancelRequestedMove() {
@@ -26,6 +29,7 @@ export default defineNuxtPlugin((app) => {
             requested = !immediate;
             lenis.scrollTo(element || target, {
                 immediate,
+                force: immediate,
                 offset,
                 duration: 0.65,
                 easing: t => 1 - (1 - t) ** 3,

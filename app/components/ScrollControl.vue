@@ -1,11 +1,11 @@
 <script setup lang="ts">
 const { t } = useI18n();
-const { y, progress, moveTo } = useDocumentScroll();
+const { y, progress, introEnd, moveTo } = useDocumentScroll();
 const { isOpen } = useMenu();
 const { isLoading } = useLoading();
 const label = computed(() => t(y.value > 8 ? "components.scroll.up" : "components.scroll.down"));
 function activate() {
-    moveTo(y.value > 8 ? 0 : Math.min(window.innerHeight * 0.8, document.documentElement.scrollHeight - window.innerHeight));
+    moveTo(y.value > 8 ? 0 : introEnd.value);
 }
 </script>
 

@@ -1,7 +1,9 @@
 import { animate, onScroll, splitText, stagger } from "animejs";
+import { isLocaleNavigation } from "#shared/utils/navigation";
 
 export default defineNuxtPlugin((app) => {
     const { isLoading, isRevealing } = useLoading();
+    const { isOpen, isPageRevealing } = useMenu();
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
     const animations: ReturnType<typeof animate>[] = [];
     const observers: ReturnType<typeof onScroll>[] = [];
@@ -11,6 +13,7 @@ export default defineNuxtPlugin((app) => {
     let frame = 0;
     let version = 0;
     let shellEntered = false;
+    let staticLocaleSwap = false;
 
     function clear() {
         version++;
@@ -21,7 +24,7 @@ export default defineNuxtPlugin((app) => {
     }
     function revealPage() {
         clear();
-        if (reduced.matches || (isLoading.value && !isRevealing.value)) return;
+        if (staticLocaleSwap || reduced.matches || (isLoading.value && !isRevealing.value) || (isOpen.value && !isPageRevealing.value)) return;
         const main = document.querySelector<HTMLElement>("main#main");
         if (!main) return;
         if (!shellEntered) {
@@ -87,7 +90,11 @@ export default defineNuxtPlugin((app) => {
             }
         }).catch(() => {});
     });
-    const stopBefore = app.$router.beforeEach(() => clear());
+    const stopBefore = app.$router.beforeEach((to, from) => {
+        staticLocaleSwap = !!from.matched.length && isLocaleNavigation(to.path, from.path);
+        if (staticLocaleSwap || isOpen.value) to.meta.viewTransition = false;
+        clear();
+    });
     const stopAfter = app.$router.afterEach((to, from, failure) => {
         if (!failure && to.path === from.path) void schedule();
     });
@@ -95,6 +102,9 @@ export default defineNuxtPlugin((app) => {
         void schedule();
     });
     const stopLoading = watch(isRevealing, (value) => {
+        if (value) void schedule();
+    });
+    const stopMenu = watch(isPageRevealing, (value) => {
         if (value) void schedule();
     });
     const onPreference = () => {
@@ -115,6 +125,7 @@ export default defineNuxtPlugin((app) => {
         stopAfter();
         stopPage();
         stopLoading();
+        stopMenu();
         reduced.removeEventListener("change", onPreference);
     }
     if (import.meta.hot) import.meta.hot.dispose(dispose);

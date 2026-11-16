@@ -20,7 +20,7 @@ const motivations = ["procedural", "automation", "simulation", "optimization", "
                 <h2 class="eyebrow mb-[14px]">
                     {{ t('pages.about.whatIdo') }}
                 </h2>
-                <ul class="space-y-1 text-[11px] leading-relaxed md:text-[13px]">
+                <ul class="space-y-1 text-sm leading-relaxed">
                     <li
                         v-for="key in activities"
                         :key="key"
@@ -33,7 +33,7 @@ const motivations = ["procedural", "automation", "simulation", "optimization", "
                 <h2 class="eyebrow mb-[14px]">
                     {{ t('pages.about.whatMotivates') }}
                 </h2>
-                <ul class="space-y-1 text-[11px] leading-relaxed md:text-[13px]">
+                <ul class="space-y-1 text-sm leading-relaxed">
                     <li
                         v-for="key in motivations"
                         :key="key"
@@ -44,17 +44,17 @@ const motivations = ["procedural", "automation", "simulation", "optimization", "
             </div>
         </aside>
         <section
-            class="min-w-0 space-y-20 md:space-y-[115px]"
+            class="min-w-0 space-y-[100px] md:space-y-[160px]"
             :aria-label="t('pages.about.chapter')"
         >
             <article
                 v-for="index in 3"
                 :key="index"
             >
-                <p class="eyebrow mb-6">
+                <p class="eyebrow mb-8">
                     0{{ index }} / {{ t('pages.about.chapter') }}
                 </p>
-                <h2 class="display-type mb-5 text-[29px] [overflow-wrap:anywhere] max-[360px]:text-[25px] md:text-[clamp(34px,3.25vw,52px)]">
+                <h2 class="display-type mb-8 text-[29px] [overflow-wrap:anywhere] max-[360px]:text-[25px] md:mb-10 md:text-[clamp(34px,3.25vw,52px)]">
                     {{ t(`pages.about.statements.${index}.title`) }}
                 </h2>
                 <p class="max-w-[65ch] text-[15px] leading-[1.75] md:text-[17px]">

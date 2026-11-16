@@ -21,15 +21,15 @@ const { t } = useI18n();
                 :key="capability.profile"
                 class="min-w-0"
             >
-                <h3 class="mb-[18px] text-xl font-semibold [overflow-wrap:anywhere] md:text-2xl">
+                <h3 class="mb-[18px] text-[26px] font-bold [overflow-wrap:anywhere]">
                     <span
-                        class="mr-3 inline-block size-[7px] align-middle"
+                        class="mr-3 inline-block size-3 align-middle"
                         :style="{ backgroundColor: `var(--color-${capability.profile})` }"
                         aria-hidden="true"
                     />
                     {{ t(`role.${capability.profile}`) }}
                 </h3>
-                <p class="max-w-[55ch] text-[15px] leading-[1.75] md:text-base">
+                <p class="max-w-[55ch] text-base leading-[1.75]">
                     {{ t(`pages.about.capabilities.${capability.profile}`) }}
                 </p>
                 <h4 class="eyebrow mt-6 mb-3">

@@ -4,7 +4,7 @@ import type { Project } from "#shared/types/portfolio";
 const props = defineProps<{ projects: readonly Project[]; variant: "work" | "archive"; query?: Record<string, string>; label: string }>();
 const { t } = useI18n();
 const localePath = useLocalePath();
-const { project, image, position, enter, move, focus, leave, clear } = useProjectPreview();
+const { project, image, position, enter, move, focus, leave, clear } = useProjectPreview(() => props.projects);
 watch(() => props.projects, clear);
 </script>
 
@@ -25,8 +25,9 @@ watch(() => props.projects, clear);
                     :to="{ path: localePath(`/project/${item.slug}`), query }"
                     class="project-row border-t border-line px-[3px] py-6 hover:bg-surface focus-visible:bg-surface md:px-3"
                     :class="variant === 'work' ? 'project-row--work' : 'project-row--archive'"
+                    :data-project-slug="item.slug"
                     @pointerenter="enter(item, $event)"
-                    @pointermove="move"
+                    @pointermove="move(item, $event)"
                     @pointerleave="leave"
                     @focus="focus(item, $event)"
                     @blur="clear"
@@ -60,7 +61,7 @@ watch(() => props.projects, clear);
                 aria-hidden="true"
                 class="pointer-events-none fixed top-0 left-0 z-30 w-[440px] max-w-[calc(100vw-112px)] origin-top will-change-transform"
                 data-project-preview
-                :style="{ transform: `translate3d(${position.x}px,${position.y}px,0) rotate(${position.rotation}deg)` }"
+                :style="{ width: `${position.width}px`, transform: `translate3d(${position.x}px,${position.y}px,0) rotate(${position.rotation}deg)` }"
             >
                 <img
                     :src="image"

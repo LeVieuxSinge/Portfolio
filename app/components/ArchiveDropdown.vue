@@ -1,24 +1,13 @@
 <script setup lang="ts">
 import { DropdownMenuContent, DropdownMenuItemIndicator, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuRoot, DropdownMenuTrigger } from "reka-ui";
-import { animate } from "animejs";
 
 const props = defineProps<{ modelValue: string; label: string; accessibleLabel: string; options: readonly { value: string; label: string }[] }>();
 const emit = defineEmits<{ "update:modelValue": [value: string] }>();
 const open = shallowRef(false);
-const content = useTemplateRef<HTMLElement>("content");
 const selected = computed(() => props.options.find(option => option.value === props.modelValue)?.label);
-const reduced = usePreferredReducedMotion();
-let entrance: ReturnType<typeof animate> | undefined;
 function select(value: unknown) {
     if (typeof value === "string" && props.options.some(option => option.value === value)) emit("update:modelValue", value);
 }
-watch(open, async (value) => {
-    entrance?.revert();
-    if (!value || reduced.value === "reduce") return;
-    await nextTick();
-    if (content.value) entrance = animate(content.value, { opacity: [0, 1], y: [-6, 0], duration: 240, ease: "out(3)" });
-});
-onBeforeUnmount(() => entrance?.revert());
 </script>
 
 <template>
@@ -27,7 +16,7 @@ onBeforeUnmount(() => entrance?.revert());
         :modal="false"
     >
         <DropdownMenuTrigger
-            class="flex min-h-12 w-full items-center gap-[18px] rounded-full border border-ink px-[18px] text-left font-mono text-[11px] md:text-xs"
+            class="flex min-h-12 w-full items-center gap-[18px] rounded-full border border-line px-[18px] text-left font-mono text-[11px] md:text-xs"
             :aria-label="`${accessibleLabel}: ${selected}`"
         >
             <span class="shrink-0 text-muted">{{ label }}</span>
@@ -41,14 +30,14 @@ onBeforeUnmount(() => entrance?.revert());
         </DropdownMenuTrigger>
         <DropdownMenuPortal>
             <DropdownMenuContent
-                class="no-scrollbar z-50 max-h-(--reka-dropdown-menu-content-available-height) w-(--reka-dropdown-menu-trigger-width) overflow-y-auto rounded-3xl border border-ink bg-paper p-1.5 text-ink"
+                class="archive-dropdown no-scrollbar z-50 max-h-(--reka-dropdown-menu-content-available-height) w-(--reka-dropdown-menu-trigger-width) overflow-y-auto rounded-3xl border border-line bg-paper p-1.5 text-ink"
                 align="start"
                 :side-offset="8"
                 :collision-padding="20"
                 loop
                 data-lenis-prevent
             >
-                <div ref="content">
+                <div>
                     <DropdownMenuRadioGroup
                         :model-value="modelValue"
                         @update:model-value="select"
@@ -69,3 +58,11 @@ onBeforeUnmount(() => entrance?.revert());
         </DropdownMenuPortal>
     </DropdownMenuRoot>
 </template>
+
+<style>
+.archive-dropdown { transform-origin: var(--reka-dropdown-menu-content-transform-origin); }
+.archive-dropdown[data-state="open"] { animation: dropdown-reveal 260ms cubic-bezier(.22,1,.36,1) both; }
+.archive-dropdown[data-state="closed"] { animation: dropdown-hide 140ms ease-in both; }
+@keyframes dropdown-reveal { from { opacity: 0; clip-path: inset(0 0 100% 0 round 24px); transform: translateY(-6px); } to { opacity: 1; clip-path: inset(0 0 0 0 round 24px); transform: translateY(0); } }
+@keyframes dropdown-hide { to { opacity: 0; clip-path: inset(0 0 100% 0 round 24px); transform: translateY(-4px); } }
+</style>

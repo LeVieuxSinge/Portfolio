@@ -90,6 +90,7 @@
 
 main#main { view-transition-name: page; }
 .site-header { view-transition-name: site-header; }
+.site-header::before { content: ""; position: absolute; inset: 0 0 -48px; z-index: -1; pointer-events: none; background: linear-gradient(to bottom, #111211 0%, rgb(17 18 17 / 0.96) 38%, rgb(17 18 17 / 0.72) 68%, transparent 100%); }
 [data-view-transition] [data-project-preview] { opacity: 0; }
 ::view-transition-group(page) { animation-duration: 650ms; }
 ::view-transition-old(page), ::view-transition-new(page) { mix-blend-mode: normal; }
@@ -99,8 +100,8 @@ main#main { view-transition-name: page; }
 ::view-transition-group(root) { animation: none; }
 ::view-transition-old(root) { animation: none; opacity: 0; }
 ::view-transition-new(root) { animation: none; }
-.header-page-enter-active, .header-page-leave-active { transition: opacity 260ms ease, translate 260ms ease; }
-.header-page-enter-from, .header-page-leave-to { opacity: 0; translate: 0 6px; }
+.header-page-enter-active, .header-page-leave-active { transition: opacity 260ms ease; }
+.header-page-enter-from, .header-page-leave-to { opacity: 0; }
 @keyframes page-out { to { opacity: 0; transform: translateY(-24px); } }
 @keyframes page-in { from { opacity: 0; clip-path: inset(12% 0 0 0); transform: translateY(32px); } to { opacity: 1; clip-path: inset(0 0 0 0); transform: translateY(0); } }
 

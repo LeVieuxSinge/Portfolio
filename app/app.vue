@@ -18,6 +18,7 @@ onMounted(() => complete("shell"));
 <template>
     <TooltipProvider :delay-duration="250">
         <NuxtRouteAnnouncer />
+        <SiteHeader :blocked="entryPending" />
         <div
             :inert="isOpen || entryPending || undefined"
             :aria-busy="entryPending || undefined"
@@ -26,7 +27,6 @@ onMounted(() => complete("shell"));
                 href="#main"
                 class="fixed top-2 left-2 z-[90] -translate-y-24 bg-ink px-4 py-3 text-paper focus:translate-y-0"
             >{{ t('layouts.skipToContent') }}</a>
-            <SiteHeader />
             <div class="min-h-svh pt-(--header-height)">
                 <NuxtPage />
             </div>

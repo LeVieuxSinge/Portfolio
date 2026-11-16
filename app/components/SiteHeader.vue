@@ -1,149 +1,190 @@
 <script setup lang="ts">
-import { DialogClose, DialogContent, DialogDescription, DialogPortal, DialogRoot, DialogTitle, DialogTrigger } from "reka-ui";
-import { animate, stagger } from "animejs";
+import { DialogContent, DialogDescription, DialogPortal, DialogRoot, DialogTitle, DialogTrigger } from "reka-ui";
+import { projects } from "#shared/data/projects";
 
+const props = defineProps<{ blocked?: boolean }>();
 const { t } = useI18n();
 const localePath = useLocalePath();
 const route = useRoute();
-const { isOpen } = useMenu();
+const router = useRouter();
+const app = useNuxtApp();
+const { isOpen, isPageRevealing } = useMenu();
 const header = useTemplateRef<HTMLElement>("header");
-const { progress } = useDocumentScroll();
+const panel = useTemplateRef<HTMLElement>("panel");
+const menuHeaderHost = useTemplateRef<HTMLElement>("menuHeaderHost");
+const returningHeader = shallowRef(false);
+const phase = shallowRef<"closed" | "opening" | "open" | "closing">("closed");
+const teleported = computed(() => !!menuHeaderHost.value && isOpen.value && !returningHeader.value);
+const iconOpen = computed(() => isOpen.value && phase.value !== "closing");
+const motion = useMenuMotion(panel);
+const { y, introEnd } = useDocumentScroll();
 const currentPage = computed(() => {
     const key = route.path.replace(/^\/fr(?=\/|$)/, "").split("/")[1];
+    if (key === "project") {
+        const project = projects.find(item => item.slug === route.params.slug);
+        return project ? `${t("pages.project.project")} / ${project.title}` : "";
+    }
     return key === "work" || key === "archive" || key === "about" ? t(`pages.${key}.title`) : "";
 });
-const showPage = computed(() => !!currentPage.value && progress.value >= 25 && !isOpen.value);
+const showPage = computed(() => !!currentPage.value && introEnd.value > 0 && y.value >= introEnd.value - 2 && !isOpen.value);
 useResizeObserver(header, ([entry]) => {
     if (entry) document.documentElement.style.setProperty("--header-height", `${entry.target.getBoundingClientRect().height}px`);
 });
 onBeforeUnmount(() => document.documentElement.style.removeProperty("--header-height"));
-const reduced = usePreferredReducedMotion();
-let navigating = false;
-let closingForNavigation = false;
 const items = ["home", "work", "archive", "about"] as const;
 const paths = { home: "/", work: "/work", archive: "/archive", about: "/about" };
-let menuAnimations: ReturnType<typeof animate>[] = [];
-function stopAnimations() {
-    menuAnimations.forEach(animation => animation.revert());
-    menuAnimations = [];
-}
-function enterMenu(element: Element, done: () => void) {
-    stopAnimations();
-    if (reduced.value === "reduce") return done();
-    menuAnimations.push(animate(element, {
-        clipPath: ["inset(0 0 100% 0)", "inset(0 0 0% 0)"],
-        duration: 550, ease: "inOut(4)", onComplete: done,
-    }));
-    menuAnimations.push(animate(element.querySelectorAll("[data-menu-row]"), {
-        y: [48, 0], opacity: [0, 1], delay: stagger(65, { start: 160 }), duration: 600, ease: "out(4)",
-    }));
-    menuAnimations.push(animate(element.querySelectorAll(".menu-toggle-lines > span"), {
-        translateX: (_, index) => [index ? 3 : -3, 0], translateY: (_, index) => [index ? 3 : -3, 0],
-        rotate: (_, index) => [0, index ? -45 : 45], duration: 400, ease: "out(3)",
-    }));
-}
-function leaveMenu(element: Element, done: () => void) {
-    stopAnimations();
-    if (reduced.value === "reduce" || closingForNavigation) {
-        closingForNavigation = false;
-        return done();
-    }
-    menuAnimations.push(animate(element, {
-        clipPath: ["inset(0 0 0% 0)", "inset(0 0 100% 0)"], duration: 400, ease: "inOut(4)", onComplete: done,
-    }));
-    menuAnimations.push(animate(element.querySelectorAll(".menu-toggle-lines > span"), {
-        rotate: (_, index) => [index ? -45 : 45, 0],
-        translateX: (_, index) => [0, index ? 3 : -3],
-        translateY: (_, index) => [0, index ? 3 : -3], duration: 300, ease: "out(3)",
-    }));
-}
-onBeforeUnmount(stopAnimations);
-function focusClose(event: Event) {
+let navigating = false;
+let cancelPendingNavigation = () => {};
+onBeforeUnmount(() => {
+    cancelPendingNavigation();
+    isOpen.value = false;
+    isPageRevealing.value = false;
+});
+
+async function opened(event: Event) {
     event.preventDefault();
-    if (event.target instanceof HTMLElement) event.target.querySelector<HTMLButtonElement>("[data-menu-toggle]")?.focus();
+    await nextTick();
+    // Reka hid this node before Teleport moved it into the dialog's focus region.
+    if (header.value?.closest("[role=\"dialog\"]")) {
+        header.value.removeAttribute("aria-hidden");
+        header.value.removeAttribute("data-aria-hidden");
+    }
+    header.value?.querySelector<HTMLButtonElement>("[data-menu-toggle]")?.focus();
+    await motion.enter();
+    if (phase.value === "opening") phase.value = "open";
+}
+async function removeMenu() {
+    returningHeader.value = true;
+    await nextTick();
+    isOpen.value = false;
+    isPageRevealing.value = false;
+    await nextTick();
+    returningHeader.value = false;
+    phase.value = "closed";
+    motion.restore();
+    if (navigating) document.querySelector<HTMLElement>("main#main")?.focus({ preventScroll: true });
+    navigating = false;
+}
+async function close() {
+    if (phase.value === "closing" || !isOpen.value) return;
+    phase.value = "closing";
+    await motion.exit(true);
+    await removeMenu();
+}
+function requestState(open: boolean) {
+    if (!open) void close();
+    else if (!isOpen.value) {
+        phase.value = "opening";
+        isOpen.value = true;
+    }
 }
 function restoreFocus(event: Event) {
     if (navigating) event.preventDefault();
-    navigating = false;
 }
-function followLink(target: string) {
-    navigating = target !== route.path;
-    closingForNavigation = navigating;
-    isOpen.value = false;
-}
-watch(() => route.fullPath, () => {
-    if (isOpen.value) {
-        navigating = true;
-        closingForNavigation = true;
-        isOpen.value = false;
+async function followLink(target: string) {
+    if (phase.value === "closing") return;
+    if (target === route.path) return close();
+    navigating = true;
+    phase.value = "closing";
+    await motion.exit(false);
+    let stopReady: () => void = () => {};
+    let stopError: () => void = () => {};
+    const ready = new Promise<void>((resolve) => {
+        const finish = () => {
+            stopReady();
+            stopError();
+            resolve();
+        };
+        cancelPendingNavigation = finish;
+        stopReady = app.hook("page:finish", finish);
+        stopError = app.hook("app:error", finish);
+    });
+    try {
+        const failure = await router.push(target);
+        if (!failure) await ready;
+        stopReady();
+        await nextTick();
+        isPageRevealing.value = !failure;
+        await motion.revealPage();
     }
-});
+    finally {
+        cancelPendingNavigation();
+        cancelPendingNavigation = () => {};
+        await removeMenu();
+    }
+}
+function identityClick(event: MouseEvent) {
+    if (!isOpen.value || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    void followLink(localePath("/"));
+}
 </script>
 
 <template>
-    <DialogRoot v-model:open="isOpen">
-        <header
-            ref="header"
-            class="site-header page-gutter fixed inset-x-0 top-0 z-40 flex min-h-(--header-min-height) items-center justify-between gap-3 bg-transparent py-3 md:gap-6"
-            :class="{ invisible: isOpen }"
+    <DialogRoot
+        :open="isOpen"
+        @update:open="requestState"
+    >
+        <Teleport
+            :to="menuHeaderHost || 'body'"
+            :disabled="!teleported"
         >
-            <SiteIdentity />
-            <Transition name="header-page">
-                <span
-                    v-if="showPage"
-                    class="pointer-events-none absolute left-1/2 max-w-[40%] -translate-x-1/2 truncate text-center font-sans text-xs font-semibold tracking-[0.06em] uppercase md:text-sm"
-                    aria-hidden="true"
-                >{{ currentPage }}</span>
-            </Transition>
-            <nav
-                :aria-label="t('layouts.headerControls')"
-                class="flex shrink-0 items-center gap-1 md:gap-5"
+            <header
+                ref="header"
+                :inert="props.blocked || undefined"
+                class="site-header page-gutter fixed inset-x-0 top-0 z-[55] isolate flex min-h-(--header-min-height) items-center justify-between gap-3 py-3 md:gap-6"
             >
-                <LocaleSwitch />
-                <DialogTrigger as-child>
-                    <MenuToggle
-                        :open="false"
-                        :label="t('layouts.menu')"
-                        :accessible-label="t('layouts.openMenu')"
-                    />
-                </DialogTrigger>
-            </nav>
-        </header>
-        <DialogPortal>
-            <Transition
-                :css="false"
-                @enter="enterMenu"
-                @leave="leaveMenu"
-            >
-                <DialogContent
-                    v-if="isOpen"
-                    force-mount
-                    class="no-scrollbar fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-paper text-ink"
-                    data-lenis-prevent
-                    @open-auto-focus="focusClose"
-                    @close-auto-focus="restoreFocus"
+                <SiteIdentity @click.capture="identityClick" />
+                <Transition name="header-page">
+                    <span
+                        v-if="showPage"
+                        class="pointer-events-none absolute left-1/2 max-w-[40%] -translate-x-1/2 truncate text-center font-sans text-xs font-normal tracking-[0.06em] uppercase md:text-sm"
+                        aria-hidden="true"
+                    >{{ currentPage }}</span>
+                </Transition>
+                <nav
+                    :aria-label="t('layouts.headerControls')"
+                    class="flex shrink-0 items-center gap-1 md:gap-5"
                 >
+                    <LocaleSwitch @before-switch="motion.settle" />
+                    <DialogTrigger as-child>
+                        <MenuToggle
+                            :open="iconOpen"
+                            :label="t(iconOpen ? 'layouts.close' : 'layouts.menu')"
+                            :accessible-label="t(iconOpen ? 'layouts.closeMenu' : 'layouts.openMenu')"
+                        />
+                    </DialogTrigger>
+                </nav>
+            </header>
+        </Teleport>
+        <DialogPortal>
+            <DialogContent
+                v-if="isOpen"
+                force-mount
+                class="no-scrollbar fixed inset-0 z-50 isolate overflow-y-auto overscroll-contain text-ink"
+                data-lenis-prevent
+                @open-auto-focus="opened"
+                @close-auto-focus="restoreFocus"
+            >
+                <div
+                    ref="panel"
+                    class="min-h-svh"
+                >
+                    <div
+                        class="pointer-events-none fixed inset-0 -z-10 bg-paper"
+                        style="opacity: 0"
+                        data-menu-background
+                    />
+                    <div ref="menuHeaderHost" />
                     <DialogTitle class="sr-only">
                         {{ t('layouts.mainNavigation') }}
                     </DialogTitle>
                     <DialogDescription class="sr-only">
                         {{ t('layouts.menuDescription') }}
                     </DialogDescription>
-                    <div class="page-gutter flex min-h-(--header-height) items-center justify-between gap-3 py-3 md:gap-6">
-                        <SiteIdentity @click="followLink(localePath('/'))" />
-                        <div class="flex shrink-0 items-center gap-1 md:gap-5">
-                            <LocaleSwitch />
-                            <DialogClose as-child>
-                                <MenuToggle
-                                    :open="true"
-                                    :label="t('layouts.close')"
-                                    :accessible-label="t('layouts.closeMenu')"
-                                />
-                            </DialogClose>
-                        </div>
-                    </div>
                     <nav
-                        class="page-gutter pt-[30px] pb-10 md:pt-[60px]"
+                        class="page-gutter flex min-h-[calc(100svh-var(--header-height))] flex-col pt-0 pb-5 md:pb-8"
+                        :style="{ marginTop: 'var(--header-height)' }"
                         :aria-label="t('layouts.mainNavigation')"
                     >
                         <MenuLink
@@ -156,8 +197,8 @@ watch(() => route.fullPath, () => {
                             @navigate="followLink(localePath(paths[item]))"
                         />
                     </nav>
-                </DialogContent>
-            </Transition>
+                </div>
+            </DialogContent>
         </DialogPortal>
     </DialogRoot>
 </template>
