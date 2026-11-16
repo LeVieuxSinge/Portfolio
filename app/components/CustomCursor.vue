@@ -71,6 +71,7 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
+    animatableIcon?.revert();
     window.removeEventListener("mousemove", onMousemove);
     window.removeEventListener("mousedown", onMousedown);
     window.removeEventListener("mouseup", onMouseup);
@@ -84,7 +85,8 @@ onUnmounted(() => {
     >
         <span
             id="custom-cursor-icon"
-            class="absolute w-12 h-12 border border-text -translate-x-1/2 -translate-y-1/2 rounded-full"
+            aria-hidden="true"
+            class="absolute w-12 h-12 border border-ink -translate-x-1/2 -translate-y-1/2 rounded-full"
         />
     </div>
 </template>

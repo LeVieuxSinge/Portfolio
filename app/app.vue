@@ -1,57 +1,40 @@
 <script setup lang="ts">
-const { locale } = useI18n();
-const { theme } = usePreferences();
-const { isLoading } = useLoading();
+import { TooltipProvider } from "reka-ui";
 
-useHead(() => ({
-    title: "Xavier Champoux - Portfolio",
-    htmlAttrs: {
-        "lang": locale.value,
-        "data-theme": theme.value,
-    },
-    bodyAttrs: {
-        class: isLoading.value ? "overflow-hidden" : "",
-    },
-}));
-
-useSeoMeta({
-    title: "Xavier Champoux - Portfolio",
-    description: "Xavier Champoux's personal portfolio.",
-    robots: "index, follow",
-    ogTitle: "Xavier Champoux - Portfolio",
-    ogDescription: "Xavier Champoux's personal portfolio.",
-    ogType: "website",
-    ogUrl: "https://xavierchampoux.com",
-    ogImage: "/icons/favicon-196.png",
-    twitterCard: "summary_large_image",
-    twitterTitle: "Xavier Champoux - Portfolio",
-    twitterDescription: "Xavier Champoux's personal portfolio.",
-    twitterImage: "/icons/favicon-196.png",
-});
-
-const isMouseAvailable = useMediaQuery("(hover: hover) and (pointer: fine)");
+const { t } = useI18n();
+const { isLoading, complete } = useLoading();
+const { isOpen } = useMenu();
+const isFinePointer = useMediaQuery("(hover: hover) and (pointer: fine)");
+const reduced = usePreferredReducedMotion();
+const mounted = useMounted();
+const entryPending = computed(() => mounted.value && isLoading.value);
+useHead({ noscript: [{ innerHTML: "<style>[data-entry-loader]{display:none!important}</style>" }] });
+complete("locale");
+const stopReadiness = useNuxtApp().hook("page:finish", () => complete("route"));
+onBeforeUnmount(stopReadiness);
+onMounted(() => complete("shell"));
 </script>
 
 <template>
-    <NuxtRouteAnnouncer />
-
-    <TooltipProvider>
-        <AnimatedNoise />
-        <CustomCursor v-if="isMouseAvailable" />
-
-        <Teleport to="body">
-            <Transition
-                enter-active-class="transition-opacity duration-500"
-                leave-active-class="transition-opacity duration-500"
-                leave-to-class="opacity-0"
-                enter-from-class="opacity-0"
-            >
-                <ViewLoading v-if="isLoading" />
-            </Transition>
-
-            <NuxtLayout>
+    <TooltipProvider :delay-duration="250">
+        <NuxtRouteAnnouncer />
+        <div
+            :inert="isOpen || entryPending || undefined"
+            :aria-busy="entryPending || undefined"
+        >
+            <a
+                href="#main"
+                class="fixed top-2 left-2 z-[90] -translate-y-24 bg-ink px-4 py-3 text-paper focus:translate-y-0"
+            >{{ t('layouts.skipToContent') }}</a>
+            <SiteHeader />
+            <div class="min-h-svh pt-(--header-height)">
                 <NuxtPage />
-            </NuxtLayout>
-        </Teleport>
+            </div>
+        </div>
+        <ClientOnly>
+            <AnimatedNoise />
+            <CustomCursor v-if="isFinePointer && reduced !== 'reduce'" />
+        </ClientOnly>
+        <LoadingView v-if="isLoading" />
     </TooltipProvider>
 </template>

@@ -1,36 +1,70 @@
 <script setup lang="ts">
-definePageMeta({ name: "about" });
+import { contactLinks } from "#shared/data/about";
+
 const { t } = useI18n();
-const stacks = [
-    { key: "frontend", tools: ["Nuxt", "Vue", "Tailwind CSS", "TypeScript", "Three.js", "Node.js"] },
-    { key: "design", tools: ["Figma", "Adobe XD", "Miro", "Adobe Photoshop", "Adobe Illustrator"] },
-    { key: "artist", tools: ["Blender", "Unreal Engine", "Substance Painter", "Houdini"] },
-    { key: "programmer", tools: ["TypeScript", "C++", "Python", "PowerShell"] },
-];
-const cv = computed(() => [
-    { key: "experiences", entries: [
-        { date: "2021 — 2026", title: t("pages.about.cv.experiences.pixistudio.title"), details: "Pixistudio · Montréal" },
-        { date: "2019 — 2021", title: t("pages.about.cv.experiences.retiredAssociation.title"), details: "Association des Retraité.es du Cégep de Saint-Hyacinthe" },
-    ] },
-    { key: "education", entries: [
-        { date: "2018 — 2021", title: t("pages.about.cv.education.computationArts.title"), details: t("pages.about.cv.education.computationArts.details") },
-        { date: "2016 — 2018", title: t("pages.about.cv.education.arts.title"), details: "Cégep de Saint-Hyacinthe" },
-    ] },
-    { key: "awards", entries: [
-        { date: "2018", title: t("pages.about.cv.awards.fofa.title"), details: t("pages.about.cv.awards.fofa.details") },
-        { date: "2018", title: t("pages.about.cv.awards.arts.title"), details: "Cégep de Saint-Hyacinthe" },
-    ] },
-    { key: "presence", entries: [
-        { date: "2025", title: t("pages.about.cv.publicPresence.forumLaval.title"), details: "Forum in! de Laval Innov" },
-        { date: "2025", title: t("pages.about.cv.teaching.pixistudio.title"), details: "Pixistudio · Montréal" },
-        { date: "2022", title: t("pages.about.cv.publicPresence.siggraph.title"), details: "SIGGRAPH · Vancouver" },
-        { date: "2020", title: t("pages.about.cv.publicPresence.chinaCanadaVR.title"), details: "China Canada VR Technology Summit" },
-        { date: "2018", title: t("pages.about.cv.publicPresence.nousTv.title"), details: "NousTV Saint-Hyacinthe" },
-    ] },
-]);
-useHead({ title: () => t("p.about") });
+usePageSeo(() => t("pages.about.title"), () => t("pages.about.note"));
 </script>
 
 <template>
-    <div />
+    <main
+        id="main"
+        tabindex="-1"
+        class="page-gutter"
+    >
+        <PageMasthead
+            :title="t('pages.about.title')"
+            :note="t('pages.about.note')"
+        />
+        <AboutOpening />
+        <AboutCapabilities />
+        <AboutCv />
+        <section
+            class="section-space"
+            aria-labelledby="robotics-heading"
+        >
+            <h2
+                id="robotics-heading"
+                class="section-label"
+            >
+                {{ t('pages.about.lookingAhead') }}
+            </h2>
+            <p class="max-w-[65ch] text-[15px] leading-[1.75] md:text-[19px]">
+                {{ t('pages.about.robotics') }}
+            </p>
+        </section>
+        <section
+            class="section-space pb-20 md:pb-[120px]"
+            aria-labelledby="contact-heading"
+        >
+            <h2
+                id="contact-heading"
+                class="mb-6 text-[29px] font-semibold tracking-[-0.025em] md:text-[38px]"
+            >
+                {{ t('pages.about.contact') }}
+            </h2>
+            <ActionLink
+                to="mailto:xavierchampoux@hotmail.com"
+                external
+                class="text-sm! md:text-[25px]!"
+            >
+                xavierchampoux@hotmail.com
+            </ActionLink>
+            <ul class="mt-8 flex flex-wrap gap-x-7 gap-y-3">
+                <li
+                    v-for="link in contactLinks"
+                    :key="link.label"
+                >
+                    <ActionLink
+                        :to="link.url"
+                        external
+                        small
+                    >
+                        {{ link.label }}
+                    </ActionLink>
+                </li>
+            </ul>
+        </section>
+        <SiteFooter />
+        <ScrollControl />
+    </main>
 </template>

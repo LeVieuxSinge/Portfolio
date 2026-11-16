@@ -1,2 +1,3 @@
 User-Agent: *
 Disallow:
+Sitemap: https://xavierchampoux.com/sitemap.xml

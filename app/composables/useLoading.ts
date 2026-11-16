@@ -1,32 +1,18 @@
-const messages = [
-    "loading.messages.1",
-    "loading.messages.2",
-    "loading.messages.3",
-    "loading.messages.4",
-    "loading.messages.5",
-    "loading.messages.6",
-    "loading.messages.7",
-    "loading.messages.8",
-    "loading.messages.9",
-    "loading.messages.10",
-    "loading.messages.11",
-    "loading.messages.12",
-    "loading.messages.13",
-    "loading.messages.14",
-    "loading.messages.15",
-    "loading.messages.16",
-];
-
-function randomMessage() {
-    return messages[Math.floor(Math.random() * messages.length)]!;
-}
+type ReadinessTask = "locale" | "route" | "shell";
+const essentialTasks: ReadinessTask[] = ["locale", "route", "shell"];
 
 export function useLoading() {
-    const isLoading = useState<boolean>("isLoading", () => true);
-
-    return {
-        isLoading,
-        messages,
-        randomMessage,
-    };
+    const completed = useState<ReadinessTask[]>("entry-readiness", () => []);
+    const progress = useState<number>("entry-progress", () => 0);
+    const isLoading = useState<boolean>("entry-visible", () => true);
+    const isRevealing = useState<boolean>("entry-revealing", () => false);
+    const ready = computed(() => essentialTasks.every(task => completed.value.includes(task)));
+    function complete(task: ReadinessTask) {
+        if (!completed.value.includes(task)) completed.value = [...completed.value, task];
+    }
+    function finish() {
+        isLoading.value = false;
+        isRevealing.value = false;
+    }
+    return { progress, isLoading, isRevealing, ready, complete, finish };
 }

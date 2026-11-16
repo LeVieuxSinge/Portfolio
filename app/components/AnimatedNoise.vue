@@ -1,5 +1,8 @@
 <template>
-    <figure class="z-animated-noise fixed w-dvw h-dvh pointer-events-none" />
+    <div
+        aria-hidden="true"
+        class="noise z-animated-noise fixed inset-0 pointer-events-none"
+    />
 </template>
 
 <style lang="css" scoped>
@@ -29,6 +32,10 @@
     animation: noise 1s steps(2) infinite;
   }
 
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .noise::before, .noise::after { animation: none; }
 }
 
 @-webkit-keyframes noise {

@@ -209,6 +209,18 @@
                 "common": "{count} commun",
                 "explore": "Explorer le deck"
             }
+        },
+        "media": {
+            "play": "Lire",
+            "pause": "Mettre la vidéo en pause",
+            "playVideo": "Lire la vidéo",
+            "hint": "Lire / mettre en pause",
+            "unavailable": "Ce média n’a pas pu être chargé.",
+            "retry": "Réessayer"
+        },
+        "scroll": {
+            "down": "Défiler vers le bas",
+            "up": "Retour en haut"
         }
     },
     "deck": {
@@ -290,6 +302,24 @@
                 }
             },
             "scrollToTop": "Faire défiler vers le haut"
+        },
+        "descriptor": "Concevoir. Connecter. Automatiser. Créer",
+        "homeLabel": "Xavier Champoux — Accueil",
+        "switchLanguage": "Passer en anglais",
+        "headerControls": "Langue et menu",
+        "mainNavigation": "Navigation principale",
+        "menuDescription": "Explorer l’accueil, les projets, les archives et la page à propos.",
+        "openMenu": "Ouvrir le menu",
+        "closeMenu": "Fermer le menu",
+        "menu": "Menu",
+        "close": "Fermer",
+        "madeWith": "Fait avec curiosité.",
+        "skipToContent": "Aller au contenu",
+        "navigation": {
+            "home": "Accueil",
+            "work": "Projets",
+            "archive": "Archive",
+            "about": "À propos"
         }
     },
     "loading": {
@@ -312,7 +342,9 @@
             "15": "Chargement du coeur à ses raisons",
             "16": "Chargement de l'évasion à la salle"
         },
-        "successful": "Chargement réussi"
+        "successful": "Chargement réussi",
+        "preparing": "Préparation de la page",
+        "readiness": "Préparation de la page"
     },
     "pages": {
         "about": {
@@ -337,7 +369,7 @@
                 },
                 "experiences": {
                     "pixistudio": {
-                        "title": "artiste 3d interactif"
+                        "title": "Artiste 3D interactif"
                     },
                     "retiredAssociation": {
                         "title": "Développeur de sites Web"
@@ -401,7 +433,60 @@
                 "body": "Pendant mes études universitaires, mon intérêt s'est lentement tourné vers le développement Web et de jeux lorsque j'ai découvert la beauté de la programmation.{br}{br}Déjà amoureux des concepts de simulation, de génération procédurale et d'algorithmes, j'avais désormais la dernière clé du puzzle pour créer l'ensemble d'outils ultime. (POWAAHHH ILLIMITÉ !!)",
                 "subtitle": "point tournant",
                 "title": "d'artiste à développeur"
-            }
+            },
+            "title": "À propos",
+            "note": "Un peu de ma façon de penser, de créer et d’imaginer la suite.",
+            "chapter": "Un peu de moi",
+            "statements": {
+                "1": {
+                    "title": "Entre art et technologie.",
+                    "body": "C’est là que j’aime être : passer de l’un à l’autre, apprendre leurs langages et construire des ponts."
+                },
+                "2": {
+                    "title": "Un problème? Appelez-moi.",
+                    "body": "J’aime résoudre des problèmes. Et si je peux automatiser quelque chose au passage, tant mieux. Me répéter n’est pas mon passe-temps préféré."
+                },
+                "3": {
+                    "title": "Toujours curieux. Souvent en création.",
+                    "body": "En dehors du travail, je crée des jeux indépendants et suis ma curiosité : données, finance, apprentissage et technologie. La liste de projets a tendance à s’allonger."
+                }
+            },
+            "whatIdo": "Ce que je fais",
+            "whatMotivates": "Ce qui me motive",
+            "activities": {
+                "web": "Développement web",
+                "graphics": "3D et graphisme en temps réel",
+                "design": "Design UI/UX",
+                "games": "Conception et développement de jeux",
+                "tools": "Outils et pipelines"
+            },
+            "motivations": {
+                "procedural": "Procédural",
+                "automation": "Automatisation",
+                "simulation": "Simulation",
+                "optimization": "Optimisation",
+                "aesthetics": "Esthétique",
+                "organization": "Organisation"
+            },
+            "profilesTitle": "Quatre profils. Un esprit curieux.",
+            "capabilities": {
+                "frontend": "Interfaces adaptatives, outils web et expériences 3D interactives. Structure, mouvement et performance, ensemble.",
+                "uiux": "Parcours clairs, systèmes réfléchis et détails utiles. L’esthétique et l’organisation vont de pair.",
+                "art": "Graphisme en temps réel, procédural, simulation et optimisation. Pour faire parler l’art et la technologie.",
+                "programming": "Jeux, outils et pipelines. Résoudre des problèmes et automatiser le travail répétitif."
+            },
+            "stack": "Outils et technologies",
+            "cvTitle": "CV / Quelques repères",
+            "cvSections": {
+                "experiences": "Expérience",
+                "education": "Formation",
+                "awards": "Distinctions",
+                "teaching": "Enseignement",
+                "publicPresence": "Présence publique"
+            },
+            "lookingAhead": "Pour la suite",
+            "robotics": "La robotique industrielle et l’automatisation sont une voie que j’aimerais explorer : rapprocher le code, les systèmes et le monde physique.",
+            "contact": "Créons quelque chose."
         },
         "projects": {
             "header": {
@@ -409,6 +494,337 @@
                 "title": "Mes projets"
             },
             "noResults": "Aucun projet trouvé avec les filtres sélectionnés."
+        },
+        "home": {
+            "title": "Portfolio",
+            "introduction": "Je réunis design, code et expériences en temps réel. Un peu de curiosité mène loin.",
+            "explore": "Poursuivre la visite"
+        },
+        "work": {
+            "title": "Projets",
+            "note": "Des projets choisis à la croisée du design, du code et des expériences en temps réel.",
+            "listLabel": "Projets choisis",
+            "invitation": "Envie de connaître la personne derrière les projets?",
+            "aboutCv": "À propos et CV"
+        },
+        "archive": {
+            "title": "Archive",
+            "note": "Des expériences, des explorations et d’autres créations en chemin.",
+            "listLabel": "Projets archivés",
+            "filterLabel": "Filtrer par profil",
+            "sortLabel": "Trier les projets",
+            "all": "Tous les profils",
+            "sort": "Trier",
+            "newest": "Plus récents",
+            "oldest": "Plus anciens",
+            "byTitle": "Titre",
+            "empty": "Aucun projet ne correspond à ce profil.",
+            "results": "{count} projets"
+        },
+        "project": {
+            "selected": "Projet choisi",
+            "archived": "Projet d’archive",
+            "project": "Projet",
+            "client": "Client",
+            "role": "Rôle",
+            "tags": "Tags",
+            "year": "Année",
+            "context": "Le projet",
+            "contribution": "Ma contribution",
+            "more": "D’autres idées à explorer.",
+            "back": "Retour aux projets",
+            "previous": "Projet précédent",
+            "next": "Projet suivant",
+            "neighbors": "Projets d’archive voisins",
+            "items": {
+                "amb": {
+                    "summary": "Un configurateur de calepinage pour les revêtements de sol commerciaux.",
+                    "context": "Une expérience web interactive développée avec l’équipe de Pixistudio pour American Biltrite. Elle permet de composer des motifs de sol, de personnaliser les agencements et de se connecter pour les enregistrer.",
+                    "contribution": "J’ai contribué au design UI/UX et au développement frontend : création de l’interface Vue, adaptation aux appareils mobiles et intégration de la localisation.",
+                    "credits": "Réalisé avec l’équipe de Pixistudio.",
+                    "links": {
+                        "0": "Voir (français)",
+                        "1": "Voir (anglais)"
+                    },
+                    "media": {
+                        "0": "Interface du configurateur de revêtements de sol American Biltrite — vidéo 1",
+                        "1": "Interface du configurateur de revêtements de sol American Biltrite — vue 2",
+                        "2": "Interface du configurateur de revêtements de sol American Biltrite — vue 3",
+                        "3": "Interface du configurateur de revêtements de sol American Biltrite — vue 4",
+                        "4": "Interface du configurateur de revêtements de sol American Biltrite — vue 5",
+                        "5": "Interface du configurateur de revêtements de sol American Biltrite — vue 6",
+                        "6": "Interface du configurateur de revêtements de sol American Biltrite — vue 7"
+                    }
+                },
+                "amie": {
+                    "summary": "Une œuvre interactive qui transforme les couleurs des vêtements en environnements abstraits.",
+                    "context": "Amie génère un environnement 3D en temps réel à partir de l’apparence d’une personne. Un outil vidéo en C++ repère les couleurs de ses vêtements et leur importance relative pour lui offrir un résultat différent dans Unreal Engine.",
+                    "contribution": "J’ai développé cette œuvre interactive en reliant les environnements 3D dans Unreal Engine à un outil d’analyse des couleurs en C++. Le projet a été présenté à l’exposition de fin d’études de mon cégep.",
+                    "credits": "",
+                    "links": {},
+                    "media": {
+                        "0": "Environnement 3D abstrait généré par Amie — vidéo 1",
+                        "1": "Environnement 3D abstrait généré par Amie — vue 2",
+                        "2": "Environnement 3D abstrait généré par Amie — vue 3",
+                        "3": "Environnement 3D abstrait généré par Amie — vue 4",
+                        "4": "Environnement 3D abstrait généré par Amie — vue 5",
+                        "5": "Environnement 3D abstrait généré par Amie — vue 6",
+                        "6": "Environnement 3D abstrait généré par Amie — vue 7",
+                        "7": "Environnement 3D abstrait généré par Amie — vue 8",
+                        "8": "Environnement 3D abstrait généré par Amie — vue 9",
+                        "9": "Environnement 3D abstrait généré par Amie — vue 10",
+                        "10": "Environnement 3D abstrait généré par Amie — vue 11",
+                        "11": "Environnement 3D abstrait généré par Amie — vue 12"
+                    }
+                },
+                "bromont": {
+                    "summary": "Une carte 3D en temps réel pour explorer les pistes de Bromont.",
+                    "context": "Une carte interactive de la montagne développée avec l’équipe de Pixistudio pour Bromont. Les visiteurs peuvent manipuler la station en 3D et consulter les renseignements sur les pistes et les différents secteurs.",
+                    "contribution": "J’ai travaillé sur l’intégration 3D, le développement frontend et le design de l’interface : assemblage de la carte interactive dans Sketchfab et création d’une interface Vue adaptée aux ordinateurs et aux appareils mobiles.",
+                    "credits": "Réalisé avec l’équipe de Pixistudio.",
+                    "links": {
+                        "0": "Voir l’expérience"
+                    },
+                    "media": {
+                        "0": "Carte interactive de la montagne de Bromont — vidéo 1",
+                        "1": "Carte interactive de la montagne de Bromont — vue 2",
+                        "2": "Carte interactive de la montagne de Bromont — vue 3",
+                        "3": "Carte interactive de la montagne de Bromont — vue 4",
+                        "4": "Carte interactive de la montagne de Bromont — vue 5",
+                        "5": "Carte interactive de la montagne de Bromont — vue 6"
+                    }
+                },
+                "cloner": {
+                    "summary": "Une étude personnelle de vaisseau spatial et de modélisation de surfaces rigides.",
+                    "context": "Cloner est un concept personnel de vaisseau spatial créé pendant la pandémie. Une occasion d’explorer de nouvelles directions visuelles et d’affiner ma pratique 3D, des formes détaillées à la composition finale.",
+                    "contribution": "J’ai conçu, modélisé et rendu le vaisseau dans Blender, en utilisant la modélisation de surfaces rigides et par subdivision et en expérimentant avec la composition et l’éclairage.",
+                    "credits": "",
+                    "links": {},
+                    "media": {
+                        "0": "Modèle et rendu du vaisseau spatial Cloner — vidéo 1",
+                        "1": "Modèle et rendu du vaisseau spatial Cloner — vue 2",
+                        "2": "Modèle et rendu du vaisseau spatial Cloner — vue 3",
+                        "3": "Modèle et rendu du vaisseau spatial Cloner — vue 4",
+                        "4": "Modèle et rendu du vaisseau spatial Cloner — vue 5",
+                        "5": "Modèle et rendu du vaisseau spatial Cloner — vue 6"
+                    }
+                },
+                "cyberblade": {
+                    "summary": "Trois niveaux d’épées stylisées conçues comme ressources de jeu en temps réel.",
+                    "context": "Cyberblade explore la façon dont la complexité visuelle peut exprimer une hiérarchie de puissance. Le concept d’épée évolue sur trois niveaux, chacun étant développé comme ressource pour Unreal Engine.",
+                    "contribution": "J’ai conçu, modélisé et rendu les épées dans Blender, réalisé leur retopologie, puis créé les textures dans Substance Painter en vue de leur utilisation dans Unreal Engine.",
+                    "credits": "",
+                    "links": {},
+                    "media": {
+                        "0": "Concept d’épée Cyberblade et rendu de la ressource de jeu — vidéo 1",
+                        "1": "Concept d’épée Cyberblade et rendu de la ressource de jeu — vue 2",
+                        "2": "Concept d’épée Cyberblade et rendu de la ressource de jeu — vue 3",
+                        "3": "Concept d’épée Cyberblade et rendu de la ressource de jeu — vue 4",
+                        "4": "Concept d’épée Cyberblade et rendu de la ressource de jeu — vue 5",
+                        "5": "Concept d’épée Cyberblade et rendu de la ressource de jeu — vue 6",
+                        "6": "Concept d’épée Cyberblade et rendu de la ressource de jeu — vue 7",
+                        "7": "Concept d’épée Cyberblade et rendu de la ressource de jeu — vue 8",
+                        "8": "Concept d’épée Cyberblade et rendu de la ressource de jeu — vue 9"
+                    }
+                },
+                "ecd": {
+                    "summary": "Un configurateur 3D pour personnaliser des voitures classiques restaurées.",
+                    "context": "Un configurateur 3D développé avec l’équipe de Pixistudio pour ECD. Les utilisateurs personnalisent des voitures classiques avec différentes couleurs et matières. Les configurations par URL et le résumé de devis permettent de conserver ces choix.",
+                    "contribution": "J’ai travaillé sur le design UI/UX et le développement frontend, dont l’interface Vue et la prise en charge mobile. L’équipe d’ECD a créé les modèles 3D.",
+                    "credits": "Réalisé avec l’équipe de Pixistudio. Modèles 3D créés par l’équipe d’ECD.",
+                    "links": {
+                        "0": "Voir l’expérience"
+                    },
+                    "media": {
+                        "0": "Interface du configurateur de voitures classiques ECD — vidéo 1",
+                        "1": "Interface du configurateur de voitures classiques ECD — vue 2",
+                        "2": "Interface du configurateur de voitures classiques ECD — vue 3",
+                        "3": "Interface du configurateur de voitures classiques ECD — vue 4",
+                        "4": "Interface du configurateur de voitures classiques ECD — vue 5",
+                        "5": "Interface du configurateur de voitures classiques ECD — vue 6",
+                        "6": "Interface du configurateur de voitures classiques ECD — vue 7"
+                    }
+                },
+                "feltkutur": {
+                    "summary": "Un configurateur 3D pour composer des espaces en feutre.",
+                    "context": "Un configurateur 3D développé avec l’équipe de Pixistudio pour Feltkutur. Il permet de composer un espace avec des produits en feutre et des éléments complémentaires : multisélection, panneau de propriétés adaptatif, éditeur de tuiles et génération de PDF.",
+                    "contribution": "J’ai travaillé sur le design UI/UX et le développement frontend : interface Nuxt, intégration Three.js, prise en charge mobile et localisation.",
+                    "credits": "Réalisé avec l’équipe de Pixistudio.",
+                    "links": {
+                        "0": "Voir l’expérience"
+                    },
+                    "media": {
+                        "0": "Interface du configurateur de produits en feutre Feltkutur — vidéo 1",
+                        "1": "Interface du configurateur de produits en feutre Feltkutur — vue 2",
+                        "2": "Interface du configurateur de produits en feutre Feltkutur — vue 3",
+                        "3": "Interface du configurateur de produits en feutre Feltkutur — vue 4",
+                        "4": "Interface du configurateur de produits en feutre Feltkutur — vue 5",
+                        "5": "Interface du configurateur de produits en feutre Feltkutur — vue 6",
+                        "6": "Interface du configurateur de produits en feutre Feltkutur — vue 7",
+                        "7": "Interface du configurateur de produits en feutre Feltkutur — vue 8",
+                        "8": "Interface du configurateur de produits en feutre Feltkutur — vue 9",
+                        "9": "Interface du configurateur de produits en feutre Feltkutur — vue 10"
+                    }
+                },
+                "grownshrink": {
+                    "summary": "Un prototype de jeu de réflexion fondé sur l’agrandissement et le rétrécissement.",
+                    "context": "GrowNShrink est un petit prototype de jeu dans Unity. Changer de taille devient une façon de résoudre des énigmes et un terrain d’expérimentation pour différentes idées de jeu.",
+                    "contribution": "J’ai développé le prototype en apprenant Unity et C#, tout en expérimentant avec la mécanique de changement de taille et ses possibilités pour les énigmes.",
+                    "credits": "",
+                    "links": {},
+                    "media": {
+                        "0": "Prototype du jeu de réflexion GrowNShrink — vidéo 1",
+                        "1": "Prototype du jeu de réflexion GrowNShrink — vue 2",
+                        "2": "Prototype du jeu de réflexion GrowNShrink — vue 3",
+                        "3": "Prototype du jeu de réflexion GrowNShrink — vue 4"
+                    }
+                },
+                "identity": {
+                    "summary": "Une recherche et de courtes animations sur la force des effets visuels.",
+                    "context": "Identity interroge ce qui rend un effet visuel numérique convaincant au cinéma narratif. La recherche se concentre sur trois idées : la subtilité, l’immersion et la dissonance cognitive, illustrées par trois courtes animations.",
+                    "contribution": "J’ai mené la recherche et créé les animations qui l’accompagnent dans Blender et Houdini, chacune explorant l’un des trois thèmes.",
+                    "credits": "",
+                    "links": {},
+                    "media": {
+                        "0": "Animation et rendu de la recherche Identity sur les effets visuels — vidéo 1",
+                        "1": "Animation et rendu de la recherche Identity sur les effets visuels — vidéo 2",
+                        "2": "Animation et rendu de la recherche Identity sur les effets visuels — vidéo 3",
+                        "3": "Animation et rendu de la recherche Identity sur les effets visuels — vidéo 4",
+                        "4": "Animation et rendu de la recherche Identity sur les effets visuels — vue 5",
+                        "5": "Animation et rendu de la recherche Identity sur les effets visuels — vue 6",
+                        "6": "Animation et rendu de la recherche Identity sur les effets visuels — vue 7",
+                        "7": "Animation et rendu de la recherche Identity sur les effets visuels — vue 8",
+                        "8": "Animation et rendu de la recherche Identity sur les effets visuels — vue 9"
+                    }
+                },
+                "living-typo": {
+                    "summary": "Une expérience générative sur l’évolution possible d’un langage visuel.",
+                    "context": "Living Typo explore les liens entre langage et art génératif. Des comportements et des règles simples créent un processus organique de développement du langage, donnant un aperçu d’un langage artificiel en évolution.",
+                    "contribution": "J’ai programmé cette expérience générative. Le dépôt présente plus en détail la réflexion et le processus qui accompagnent le projet.",
+                    "credits": "",
+                    "links": {
+                        "0": "Démo",
+                        "1": "GitHub"
+                    },
+                    "media": {
+                        "0": "Expérience de typographie générative Living Typo — vidéo 1",
+                        "1": "Expérience de typographie générative Living Typo — vue 2",
+                        "2": "Expérience de typographie générative Living Typo — vue 3",
+                        "3": "Expérience de typographie générative Living Typo — vue 4",
+                        "4": "Expérience de typographie générative Living Typo — vue 5"
+                    }
+                },
+                "monologue": {
+                    "summary": "Une animation Blender inspirée du monologue Tears in the Rain.",
+                    "context": "Monologue est une interprétation animée du monologue Tears in the Rain de Rutger Hauer dans Blade Runner. Le concept original de la tête provient de la collection de Roman Semenenko.",
+                    "contribution": "J’ai réalisé la sculpture, la retopologie, les textures, l’animation et le rendu final dans Blender à partir du concept de tête cité.",
+                    "credits": "Concept original de la tête : Roman Semenenko. Monologue interprété par Rutger Hauer dans Blade Runner.",
+                    "links": {},
+                    "media": {
+                        "0": "Étude et rendu de la tête animée de Monologue — vidéo 1",
+                        "1": "Étude et rendu de la tête animée de Monologue — vidéo 2",
+                        "2": "Étude et rendu de la tête animée de Monologue — vue 3",
+                        "3": "Étude et rendu de la tête animée de Monologue — vue 4",
+                        "4": "Étude et rendu de la tête animée de Monologue — vue 5"
+                    }
+                },
+                "ryker": {
+                    "summary": "Une nouvelle approche pour configurer un Can-Am Ryker.",
+                    "context": "Une preuve de concept développée chez Pixistudio pour explorer une approche plus dynamique de la configuration 3D. L’expérience combine prix dynamiques, séquence d’entrée et de chargement animée, et logique de configuration détaillée.",
+                    "contribution": "J’ai travaillé sur le design UI/UX et le développement frontend : création de l’interface Vue, intégration du modèle 3D et prise en charge des appareils mobiles.",
+                    "credits": "Réalisé avec l’équipe de Pixistudio.",
+                    "links": {},
+                    "media": {
+                        "0": "Interface du configurateur interactif de véhicule Ryker — vidéo 1",
+                        "1": "Interface du configurateur interactif de véhicule Ryker — vue 2",
+                        "2": "Interface du configurateur interactif de véhicule Ryker — vue 3",
+                        "3": "Interface du configurateur interactif de véhicule Ryker — vue 4",
+                        "4": "Interface du configurateur interactif de véhicule Ryker — vue 5",
+                        "5": "Interface du configurateur interactif de véhicule Ryker — vue 6",
+                        "6": "Interface du configurateur interactif de véhicule Ryker — vue 7",
+                        "7": "Interface du configurateur interactif de véhicule Ryker — vue 8",
+                        "8": "Interface du configurateur interactif de véhicule Ryker — vue 9"
+                    }
+                },
+                "schluter": {
+                    "summary": "Une salle d’exposition interactive qui dévoile les couches cachées.",
+                    "context": "Une expérience interactive développée avec l’équipe de Pixistudio pour les salles d’exposition de Schluter. Une scène de salle de bain en temps réel compare les produits de l’entreprise aux méthodes traditionnelles grâce au rendu, à la visualisation par transparence et aux captures haute résolution.",
+                    "contribution": "J’ai intégré les modèles 3D et les shaders et créé la logique et le design UI/UX de l’expérience dans Unreal Engine 4. Le travail réunit création de niveaux, programmation Blueprint et graphisme en temps réel.",
+                    "credits": "Réalisé avec l’équipe de Pixistudio.",
+                    "links": {},
+                    "media": {
+                        "0": "Visualisation de la salle de bain interactive Schluter en temps réel — vidéo 1",
+                        "1": "Visualisation de la salle de bain interactive Schluter en temps réel — vue 2",
+                        "2": "Visualisation de la salle de bain interactive Schluter en temps réel — vue 3",
+                        "3": "Visualisation de la salle de bain interactive Schluter en temps réel — vue 4",
+                        "4": "Visualisation de la salle de bain interactive Schluter en temps réel — vue 5",
+                        "5": "Visualisation de la salle de bain interactive Schluter en temps réel — vue 6",
+                        "6": "Visualisation de la salle de bain interactive Schluter en temps réel — vue 7",
+                        "7": "Visualisation de la salle de bain interactive Schluter en temps réel — vue 8",
+                        "8": "Visualisation de la salle de bain interactive Schluter en temps réel — vue 9",
+                        "9": "Visualisation de la salle de bain interactive Schluter en temps réel — vue 10"
+                    }
+                },
+                "simona": {
+                    "summary": "Des configurateurs interactifs de produits et de matériaux.",
+                    "context": "Une série de configurateurs web 3D développés avec l’équipe de Pixistudio pour Simona. Les expériences présentent les produits grâce au choix interactif de couleurs et de matériaux, notamment pour des étuis et des sièges d’avion.",
+                    "contribution": "J’ai travaillé sur le design UI/UX et le développement frontend : création de l’interface Nuxt, intégration du rendu 3D avec Sketchfab et prise en charge des appareils mobiles.",
+                    "credits": "Réalisé avec l’équipe de Pixistudio.",
+                    "links": {
+                        "0": "Voir (étui)",
+                        "1": "Voir (siège)"
+                    },
+                    "media": {
+                        "0": "Interface du configurateur de produits et de matériaux Simona — vidéo 1",
+                        "1": "Interface du configurateur de produits et de matériaux Simona — vue 2",
+                        "2": "Interface du configurateur de produits et de matériaux Simona — vue 3",
+                        "3": "Interface du configurateur de produits et de matériaux Simona — vue 4",
+                        "4": "Interface du configurateur de produits et de matériaux Simona — vue 5",
+                        "5": "Interface du configurateur de produits et de matériaux Simona — vue 6",
+                        "6": "Interface du configurateur de produits et de matériaux Simona — vue 7",
+                        "7": "Interface du configurateur de produits et de matériaux Simona — vue 8"
+                    }
+                },
+                "tile-map-generator": {
+                    "summary": "Un générateur procédural de cartes de jeu composées de tuiles.",
+                    "context": "Tile Map Generator crée des agencements procéduraux pour les jeux composés de tuiles. L’algorithme relie un point de départ et un point d’arrivée tout en limitant le nombre de tuiles à une plage définie, pour des donjons et d’autres environnements.",
+                    "contribution": "J’ai écrit le générateur en JavaScript, en gardant l’algorithme compact et simple à adapter en C++ ou en C#.",
+                    "credits": "",
+                    "links": {
+                        "0": "Démo"
+                    },
+                    "media": {
+                        "0": "Carte procédurale produite par Tile Map Generator — vidéo 1",
+                        "1": "Carte procédurale produite par Tile Map Generator — vidéo 2",
+                        "2": "Carte procédurale produite par Tile Map Generator — vue 3",
+                        "3": "Carte procédurale produite par Tile Map Generator — vue 4",
+                        "4": "Carte procédurale produite par Tile Map Generator — vue 5",
+                        "5": "Carte procédurale produite par Tile Map Generator — vue 6"
+                    }
+                },
+                "unstable": {
+                    "summary": "Un prototype de jeu de combat rapide à un contre un.",
+                    "context": "Unstable est un projet de jeu scolaire comprenant des niveaux procéduraux, du son, des commandes multijoueurs et une grande mobilité, inspirée de jeux comme Super Smash Bros.",
+                    "contribution": "J’ai développé ce prototype de jeu de combat en explorant la création procédurale de niveaux et la jouabilité multijoueur.",
+                    "credits": "",
+                    "links": {},
+                    "media": {
+                        "0": "Prototype du jeu de combat multijoueur Unstable — vidéo 1",
+                        "1": "Prototype du jeu de combat multijoueur Unstable — vue 2",
+                        "2": "Prototype du jeu de combat multijoueur Unstable — vue 3",
+                        "3": "Prototype du jeu de combat multijoueur Unstable — vue 4",
+                        "4": "Prototype du jeu de combat multijoueur Unstable — vue 5"
+                    }
+                }
+            }
+        },
+        "error": {
+            "title": "Page introuvable",
+            "description": "Cette page a peut-être été déplacée, ou ce projet n’existe pas.",
+            "home": "Retour à l’accueil",
+            "failed": "Un problème est survenu",
+            "retry": "Réessayer",
+            "failedDescription": "La page n’a pas pu être chargée. Veuillez réessayer."
         }
     },
     "role": {
@@ -417,7 +833,11 @@
         "gamedeveloper": "Dev. de Jeux",
         "programmer": "Programmeur",
         "uiuxdesigner": "Designer UI/UX",
-        "webgldeveloper": "Dev. WebGL"
+        "webgldeveloper": "Dev. WebGL",
+        "frontend": "Développement frontend",
+        "uiux": "Design UI/UX",
+        "art": "Art technique",
+        "programming": "Programmation"
     },
     "tool": {
         "adobexd": "Adobe XD",
@@ -443,6 +863,8 @@
         "threejs": "Three.js",
         "typescript": "TypeScript",
         "typescriptnode": "TypeScript (Node.js)",
-        "unrealengine": "Unreal Engine"
+        "unrealengine": "Unreal Engine",
+        "levelcreation": "Création de niveaux",
+        "blueprint": "Blueprint"
     }
 }

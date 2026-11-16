@@ -209,6 +209,18 @@
                 "common": "{count} common",
                 "explore": "Explore deck"
             }
+        },
+        "media": {
+            "play": "Play",
+            "pause": "Pause video",
+            "playVideo": "Play video",
+            "hint": "Play / pause video",
+            "unavailable": "This media could not be loaded.",
+            "retry": "Retry"
+        },
+        "scroll": {
+            "down": "Scroll down",
+            "up": "Scroll to top"
         }
     },
     "deck": {
@@ -290,6 +302,24 @@
                 }
             },
             "scrollToTop": "Scroll to top"
+        },
+        "descriptor": "Design. Connect. Automate. Create",
+        "homeLabel": "Xavier Champoux — Home",
+        "switchLanguage": "Switch to French",
+        "headerControls": "Language and menu",
+        "mainNavigation": "Main navigation",
+        "menuDescription": "Explore Home, Work, Archive, and About.",
+        "openMenu": "Open menu",
+        "closeMenu": "Close menu",
+        "menu": "Menu",
+        "close": "Close",
+        "madeWith": "Made with curiosity.",
+        "skipToContent": "Skip to content",
+        "navigation": {
+            "home": "Home",
+            "work": "Work",
+            "archive": "Archive",
+            "about": "About"
         }
     },
     "loading": {
@@ -312,7 +342,9 @@
             "15": "Loading le coeur à ses raisons",
             "16": "Loading the escape to the room"
         },
-        "successful": "Loading successful"
+        "successful": "Loading successful",
+        "preparing": "Preparing the page",
+        "readiness": "Page readiness"
     },
     "pages": {
         "about": {
@@ -337,7 +369,7 @@
                 },
                 "experiences": {
                     "pixistudio": {
-                        "title": "interactive 3d artist"
+                        "title": "Interactive 3D Artist"
                     },
                     "retiredAssociation": {
                         "title": "Website Developer"
@@ -359,7 +391,7 @@
                 },
                 "teaching": {
                     "pixistudio": {
-                        "title": "Blender Formation"
+                        "title": "Blender training"
                     }
                 }
             },
@@ -401,7 +433,60 @@
                 "body": "During university, my interest slowly turned towards web and game development when I came across the beauty of programming.{br}{br}Already in love with the concepts of simulation, procedural generation and algorithms, I now had the last key to the puzzle for creating the ultimate tool set. (UNLIMITED POWAAHHH!!)",
                 "subtitle": "turning point",
                 "title": "from artist to dev"
-            }
+            },
+            "title": "About",
+            "note": "A little about how I think, what I make and what’s next.",
+            "chapter": "A little about me",
+            "statements": {
+                "1": {
+                    "title": "Somewhere between art & technology.",
+                    "body": "That’s where I like to be: moving between the two, learning their languages and building bridges."
+                },
+                "2": {
+                    "title": "Got problems? Call me.",
+                    "body": "I love solving problems. And if I can automate something along the way, even better. Repeating myself is not my favorite hobby."
+                },
+                "3": {
+                    "title": "Always learning. Usually tinkering.",
+                    "body": "Outside of work, I build indie games on my own and follow my curiosity through data, finance, learning and technology. The project list tends to grow faster than it shrinks."
+                }
+            },
+            "whatIdo": "What I do",
+            "whatMotivates": "What motivates me",
+            "activities": {
+                "web": "Web Development",
+                "graphics": "3D & Real-time Graphics",
+                "design": "UI/UX Design",
+                "games": "Game Design & Development",
+                "tools": "Tools & Pipelines"
+            },
+            "motivations": {
+                "procedural": "Procedural",
+                "automation": "Automation",
+                "simulation": "Simulation",
+                "optimization": "Optimization",
+                "aesthetics": "Aesthetics",
+                "organization": "Organization"
+            },
+            "profilesTitle": "Four profiles. One curious mind.",
+            "capabilities": {
+                "frontend": "Responsive interfaces, web tools and interactive 3D experiences. Structure, motion and performance, working together.",
+                "uiux": "Clear flows, thoughtful systems and useful details. Aesthetics and organization belong in the same conversation.",
+                "art": "Real-time graphics, procedural work, simulation and optimization. Making art and technology speak the same language.",
+                "programming": "Games, tools and pipelines. Solving problems and automating repetitive work whenever possible."
+            },
+            "stack": "Development stack",
+            "cvTitle": "CV / A few milestones",
+            "cvSections": {
+                "experiences": "Experience",
+                "education": "Education",
+                "awards": "Awards",
+                "teaching": "Teaching",
+                "publicPresence": "Public presence"
+            },
+            "lookingAhead": "Looking ahead",
+            "robotics": "Industrial robotics and automation are a direction I’d love to explore: another way to bring code, systems and the physical world together.",
+            "contact": "Let’s make something."
         },
         "projects": {
             "header": {
@@ -409,6 +494,337 @@
                 "title": "My projects"
             },
             "noResults": "No projects found with the selected filters."
+        },
+        "home": {
+            "title": "Portfolio",
+            "introduction": "I bring design, code and real-time experiences together. A little curiosity goes a long way.",
+            "explore": "Continue exploring"
+        },
+        "work": {
+            "title": "Work",
+            "note": "Selected projects at the intersection of design, code and real-time experiences.",
+            "listLabel": "Selected projects",
+            "invitation": "Curious about the person behind the projects?",
+            "aboutCv": "About & CV"
+        },
+        "archive": {
+            "title": "Archive",
+            "note": "Experiments, explorations and other things I’ve made along the way.",
+            "listLabel": "Archived projects",
+            "filterLabel": "Filter by profile",
+            "sortLabel": "Sort projects",
+            "all": "All profiles",
+            "sort": "Sort",
+            "newest": "Newest first",
+            "oldest": "Oldest first",
+            "byTitle": "Title",
+            "empty": "No projects match this profile.",
+            "results": "{count} projects"
+        },
+        "project": {
+            "selected": "Selected work",
+            "archived": "Archive project",
+            "project": "Project",
+            "client": "Client",
+            "role": "Role",
+            "tags": "Tags",
+            "year": "Year",
+            "context": "The project",
+            "contribution": "My contribution",
+            "more": "More ideas to explore.",
+            "back": "Back to Work",
+            "previous": "Previous project",
+            "next": "Next project",
+            "neighbors": "Adjacent archive projects",
+            "items": {
+                "amb": {
+                    "summary": "A tile-layout configurator for commercial flooring.",
+                    "context": "An interactive web experience co-developed at Pixistudio for American Biltrite. Users can arrange flooring tiles, customize their designs, and sign in to save their configurations.",
+                    "contribution": "I worked on the UI/UX design and frontend development: building the Vue interface, supporting mobile devices, and implementing localization.",
+                    "credits": "Created with the Pixistudio team.",
+                    "links": {
+                        "0": "Live (French)",
+                        "1": "Live (English)"
+                    },
+                    "media": {
+                        "0": "American Biltrite flooring configurator interface — video 1",
+                        "1": "American Biltrite flooring configurator interface — view 2",
+                        "2": "American Biltrite flooring configurator interface — view 3",
+                        "3": "American Biltrite flooring configurator interface — view 4",
+                        "4": "American Biltrite flooring configurator interface — view 5",
+                        "5": "American Biltrite flooring configurator interface — view 6",
+                        "6": "American Biltrite flooring configurator interface — view 7"
+                    }
+                },
+                "amie": {
+                    "summary": "An interactive artwork that turns outfit colors into abstract environments.",
+                    "context": "Amie generates a real-time 3D environment from a visitor’s visual appearance. A custom C++ video tool identifies the colors of their outfit and their relative prominence, giving each person a different result in Unreal Engine.",
+                    "contribution": "I developed the interactive artwork, combining 3D environments in Unreal Engine with the custom C++ color-analysis tool. The project was presented at my Cégep’s final exhibition.",
+                    "credits": "",
+                    "links": {},
+                    "media": {
+                        "0": "Abstract 3D environment generated by Amie — video 1",
+                        "1": "Abstract 3D environment generated by Amie — view 2",
+                        "2": "Abstract 3D environment generated by Amie — view 3",
+                        "3": "Abstract 3D environment generated by Amie — view 4",
+                        "4": "Abstract 3D environment generated by Amie — view 5",
+                        "5": "Abstract 3D environment generated by Amie — view 6",
+                        "6": "Abstract 3D environment generated by Amie — view 7",
+                        "7": "Abstract 3D environment generated by Amie — view 8",
+                        "8": "Abstract 3D environment generated by Amie — view 9",
+                        "9": "Abstract 3D environment generated by Amie — view 10",
+                        "10": "Abstract 3D environment generated by Amie — view 11",
+                        "11": "Abstract 3D environment generated by Amie — view 12"
+                    }
+                },
+                "bromont": {
+                    "summary": "A real-time 3D map for exploring Bromont’s ski slopes.",
+                    "context": "An interactive mountain map co-developed with the Pixistudio team for Bromont. Visitors can manipulate the 3D resort map and find information about its slopes and different areas.",
+                    "contribution": "I worked on 3D integration, frontend development, and interface design: assembling the interactive map in Sketchfab and creating a responsive Vue interface for desktop and mobile.",
+                    "credits": "Created with the Pixistudio team.",
+                    "links": {
+                        "0": "Live experience"
+                    },
+                    "media": {
+                        "0": "Bromont interactive mountain map — video 1",
+                        "1": "Bromont interactive mountain map — view 2",
+                        "2": "Bromont interactive mountain map — view 3",
+                        "3": "Bromont interactive mountain map — view 4",
+                        "4": "Bromont interactive mountain map — view 5",
+                        "5": "Bromont interactive mountain map — view 6"
+                    }
+                },
+                "cloner": {
+                    "summary": "A personal spaceship study in hard-surface modeling.",
+                    "context": "Cloner is a personal spaceship design created during the pandemic. It was a way to explore new visual directions and refine my 3D practice, from detailed forms to the final composition.",
+                    "contribution": "I designed, modeled, and rendered the spaceship in Blender, using hard-surface and subdivision modeling and experimenting with composition and lighting.",
+                    "credits": "",
+                    "links": {},
+                    "media": {
+                        "0": "Cloner spaceship model and render — video 1",
+                        "1": "Cloner spaceship model and render — view 2",
+                        "2": "Cloner spaceship model and render — view 3",
+                        "3": "Cloner spaceship model and render — view 4",
+                        "4": "Cloner spaceship model and render — view 5",
+                        "5": "Cloner spaceship model and render — view 6"
+                    }
+                },
+                "cyberblade": {
+                    "summary": "Three tiers of stylized swords, built as real-time game assets.",
+                    "context": "Cyberblade explores how visual complexity can communicate a hierarchy of power. The sword design evolves through three tiers, with each version developed as an asset for Unreal Engine.",
+                    "contribution": "I designed, modeled, retopologized, and rendered the swords in Blender, then created their textures in Substance Painter for use in Unreal Engine.",
+                    "credits": "",
+                    "links": {},
+                    "media": {
+                        "0": "Cyberblade sword design and game-asset render — video 1",
+                        "1": "Cyberblade sword design and game-asset render — view 2",
+                        "2": "Cyberblade sword design and game-asset render — view 3",
+                        "3": "Cyberblade sword design and game-asset render — view 4",
+                        "4": "Cyberblade sword design and game-asset render — view 5",
+                        "5": "Cyberblade sword design and game-asset render — view 6",
+                        "6": "Cyberblade sword design and game-asset render — view 7",
+                        "7": "Cyberblade sword design and game-asset render — view 8",
+                        "8": "Cyberblade sword design and game-asset render — view 9"
+                    }
+                },
+                "ecd": {
+                    "summary": "A 3D configurator for customizing restored classic cars.",
+                    "context": "A 3D configurator co-developed with the Pixistudio team for ECD. Users customize classic cars with different colors and materials. URL-based configurations and a quote summary help carry those choices forward.",
+                    "contribution": "I worked on UI/UX design and frontend development, including the Vue interface and mobile support. ECD’s team created the 3D models.",
+                    "credits": "Created with the Pixistudio team. 3D models by ECD’s team.",
+                    "links": {
+                        "0": "Live experience"
+                    },
+                    "media": {
+                        "0": "ECD classic-car configurator interface — video 1",
+                        "1": "ECD classic-car configurator interface — view 2",
+                        "2": "ECD classic-car configurator interface — view 3",
+                        "3": "ECD classic-car configurator interface — view 4",
+                        "4": "ECD classic-car configurator interface — view 5",
+                        "5": "ECD classic-car configurator interface — view 6",
+                        "6": "ECD classic-car configurator interface — view 7"
+                    }
+                },
+                "feltkutur": {
+                    "summary": "A 3D configurator for shaping spaces with felt.",
+                    "context": "A 3D configurator co-developed with the Pixistudio team for Feltkutur. Arrange felt products and complementary elements in a custom space, with multiselection, an adaptive properties panel, a tile editor, and PDF generation.",
+                    "contribution": "I worked on UI/UX design and frontend development: the Nuxt interface, Three.js integration, mobile support, and localization.",
+                    "credits": "Created with the Pixistudio team.",
+                    "links": {
+                        "0": "Live experience"
+                    },
+                    "media": {
+                        "0": "Feltkutur felt-product configurator interface — video 1",
+                        "1": "Feltkutur felt-product configurator interface — view 2",
+                        "2": "Feltkutur felt-product configurator interface — view 3",
+                        "3": "Feltkutur felt-product configurator interface — view 4",
+                        "4": "Feltkutur felt-product configurator interface — view 5",
+                        "5": "Feltkutur felt-product configurator interface — view 6",
+                        "6": "Feltkutur felt-product configurator interface — view 7",
+                        "7": "Feltkutur felt-product configurator interface — view 8",
+                        "8": "Feltkutur felt-product configurator interface — view 9",
+                        "9": "Feltkutur felt-product configurator interface — view 10"
+                    }
+                },
+                "grownshrink": {
+                    "summary": "A puzzle-game prototype built around growing and shrinking.",
+                    "context": "GrowNShrink is a small Unity game prototype. Changing size becomes a way to solve puzzles, providing a playground for testing gameplay ideas.",
+                    "contribution": "I developed the prototype while learning Unity and C#, experimenting with the growing and shrinking mechanic and its puzzle possibilities.",
+                    "credits": "",
+                    "links": {},
+                    "media": {
+                        "0": "GrowNShrink puzzle-game prototype — video 1",
+                        "1": "GrowNShrink puzzle-game prototype — view 2",
+                        "2": "GrowNShrink puzzle-game prototype — view 3",
+                        "3": "GrowNShrink puzzle-game prototype — view 4"
+                    }
+                },
+                "identity": {
+                    "summary": "Research and short animations about compelling visual effects.",
+                    "context": "Identity asks what makes a digital visual effect compelling in narrative cinema. The research focuses on three ideas: subtlety, immersion, and cognitive dissonance, illustrated through three short animations.",
+                    "contribution": "I developed the research and created the accompanying animations in Blender and Houdini, using each to explore one of the three themes.",
+                    "credits": "",
+                    "links": {},
+                    "media": {
+                        "0": "Identity visual-effects research animation and render — video 1",
+                        "1": "Identity visual-effects research animation and render — video 2",
+                        "2": "Identity visual-effects research animation and render — video 3",
+                        "3": "Identity visual-effects research animation and render — video 4",
+                        "4": "Identity visual-effects research animation and render — view 5",
+                        "5": "Identity visual-effects research animation and render — view 6",
+                        "6": "Identity visual-effects research animation and render — view 7",
+                        "7": "Identity visual-effects research animation and render — view 8",
+                        "8": "Identity visual-effects research animation and render — view 9"
+                    }
+                },
+                "living-typo": {
+                    "summary": "A generative experiment in how a visual language might evolve.",
+                    "context": "Living Typo explores the relationship between language and generative art. Simple behaviors and rules create an organic language-development process, offering a glimpse of an evolving artificial language.",
+                    "contribution": "I programmed the generative experiment. The repository documents more of the thinking and process behind the project.",
+                    "credits": "",
+                    "links": {
+                        "0": "Demo",
+                        "1": "GitHub"
+                    },
+                    "media": {
+                        "0": "Living Typo generative typography experiment — video 1",
+                        "1": "Living Typo generative typography experiment — view 2",
+                        "2": "Living Typo generative typography experiment — view 3",
+                        "3": "Living Typo generative typography experiment — view 4",
+                        "4": "Living Typo generative typography experiment — view 5"
+                    }
+                },
+                "monologue": {
+                    "summary": "A Blender animation inspired by the Tears in the Rain monologue.",
+                    "context": "Monologue is an animated interpretation of Rutger Hauer’s Tears in the Rain monologue from Blade Runner. The original head design comes from Roman Semenenko’s collection.",
+                    "contribution": "I created the sculpt, retopology, textures, animation, and final render in Blender, working from the credited head design.",
+                    "credits": "Original head design: Roman Semenenko. Monologue performed by Rutger Hauer in Blade Runner.",
+                    "links": {},
+                    "media": {
+                        "0": "Monologue animated head study and render — video 1",
+                        "1": "Monologue animated head study and render — video 2",
+                        "2": "Monologue animated head study and render — view 3",
+                        "3": "Monologue animated head study and render — view 4",
+                        "4": "Monologue animated head study and render — view 5"
+                    }
+                },
+                "ryker": {
+                    "summary": "A fresh approach to configuring a Can-Am Ryker.",
+                    "context": "A proof of concept co-developed at Pixistudio to explore a more dynamic approach to 3D configuration. The experience combines dynamic pricing, an animated entry and loading sequence, and detailed configuration logic.",
+                    "contribution": "I worked on UI/UX design and frontend development: building the Vue interface, integrating the 3D model, and supporting mobile devices.",
+                    "credits": "Created with the Pixistudio team.",
+                    "links": {},
+                    "media": {
+                        "0": "Ryker interactive vehicle configurator interface — video 1",
+                        "1": "Ryker interactive vehicle configurator interface — view 2",
+                        "2": "Ryker interactive vehicle configurator interface — view 3",
+                        "3": "Ryker interactive vehicle configurator interface — view 4",
+                        "4": "Ryker interactive vehicle configurator interface — view 5",
+                        "5": "Ryker interactive vehicle configurator interface — view 6",
+                        "6": "Ryker interactive vehicle configurator interface — view 7",
+                        "7": "Ryker interactive vehicle configurator interface — view 8",
+                        "8": "Ryker interactive vehicle configurator interface — view 9"
+                    }
+                },
+                "schluter": {
+                    "summary": "An interactive showroom that makes hidden layers visible.",
+                    "context": "An interactive experience co-developed with the Pixistudio team for Schluter’s showrooms. A real-time bathroom scene compares the company’s products with traditional methods, using high-quality rendering, x-ray visualization, and high-resolution captures.",
+                    "contribution": "I integrated the 3D models and shaders and created the experience logic and UI/UX in Unreal Engine 4. The work combines level creation, Blueprint programming, and real-time graphics.",
+                    "credits": "Created with the Pixistudio team.",
+                    "links": {},
+                    "media": {
+                        "0": "Schluter real-time bathroom showroom visualization — video 1",
+                        "1": "Schluter real-time bathroom showroom visualization — view 2",
+                        "2": "Schluter real-time bathroom showroom visualization — view 3",
+                        "3": "Schluter real-time bathroom showroom visualization — view 4",
+                        "4": "Schluter real-time bathroom showroom visualization — view 5",
+                        "5": "Schluter real-time bathroom showroom visualization — view 6",
+                        "6": "Schluter real-time bathroom showroom visualization — view 7",
+                        "7": "Schluter real-time bathroom showroom visualization — view 8",
+                        "8": "Schluter real-time bathroom showroom visualization — view 9",
+                        "9": "Schluter real-time bathroom showroom visualization — view 10"
+                    }
+                },
+                "simona": {
+                    "summary": "Interactive material and product configurators.",
+                    "context": "A series of 3D web configurators co-developed with the Pixistudio team for Simona. The experiences showcase products through interactive choices of colors and materials, including holster and aircraft-seat configurations.",
+                    "contribution": "I worked on UI/UX design and frontend development, building the Nuxt interface, integrating 3D rendering with Sketchfab, and supporting mobile devices.",
+                    "credits": "Created with the Pixistudio team.",
+                    "links": {
+                        "0": "Live (holster)",
+                        "1": "Live (seat)"
+                    },
+                    "media": {
+                        "0": "Simona product and material configurator interface — video 1",
+                        "1": "Simona product and material configurator interface — view 2",
+                        "2": "Simona product and material configurator interface — view 3",
+                        "3": "Simona product and material configurator interface — view 4",
+                        "4": "Simona product and material configurator interface — view 5",
+                        "5": "Simona product and material configurator interface — view 6",
+                        "6": "Simona product and material configurator interface — view 7",
+                        "7": "Simona product and material configurator interface — view 8"
+                    }
+                },
+                "tile-map-generator": {
+                    "summary": "A procedural generator for tile-based game maps.",
+                    "context": "Tile Map Generator creates procedural layouts for tile-based games. The algorithm connects a start and an end position while keeping the number of tiles within a specified range, for dungeon layouts and other environments.",
+                    "contribution": "I wrote the generator in JavaScript, keeping the algorithm compact and straightforward to adapt to C++ or C#.",
+                    "credits": "",
+                    "links": {
+                        "0": "Demo"
+                    },
+                    "media": {
+                        "0": "Tile Map Generator procedural map output — video 1",
+                        "1": "Tile Map Generator procedural map output — video 2",
+                        "2": "Tile Map Generator procedural map output — view 3",
+                        "3": "Tile Map Generator procedural map output — view 4",
+                        "4": "Tile Map Generator procedural map output — view 5",
+                        "5": "Tile Map Generator procedural map output — view 6"
+                    }
+                },
+                "unstable": {
+                    "summary": "A fast-moving, one-on-one fighting-game prototype.",
+                    "context": "Unstable is a school game project with procedural levels, sound, multiplayer inputs, and high-mobility gameplay inspired by games such as Super Smash Bros.",
+                    "contribution": "I developed the fighting-game prototype, exploring procedural level creation and responsive multiplayer gameplay.",
+                    "credits": "",
+                    "links": {},
+                    "media": {
+                        "0": "Unstable multiplayer fighting-game prototype — video 1",
+                        "1": "Unstable multiplayer fighting-game prototype — view 2",
+                        "2": "Unstable multiplayer fighting-game prototype — view 3",
+                        "3": "Unstable multiplayer fighting-game prototype — view 4",
+                        "4": "Unstable multiplayer fighting-game prototype — view 5"
+                    }
+                }
+            }
+        },
+        "error": {
+            "title": "Page not found",
+            "description": "This page may have moved, or the project does not exist.",
+            "home": "Back to Home",
+            "failed": "Something went wrong",
+            "retry": "Try again",
+            "failedDescription": "The page could not be loaded. Please try again."
         }
     },
     "role": {
@@ -417,7 +833,11 @@
         "gamedeveloper": "Game Developer",
         "programmer": "Programmer",
         "uiuxdesigner": "UI/UX Designer",
-        "webgldeveloper": "WebGL Developer"
+        "webgldeveloper": "WebGL Developer",
+        "frontend": "Frontend Development",
+        "uiux": "UI/UX Design",
+        "art": "Technical Art",
+        "programming": "Programming"
     },
     "tool": {
         "adobexd": "Adobe XD",
@@ -443,6 +863,8 @@
         "threejs": "Three.js",
         "typescript": "TypeScript",
         "typescriptnode": "TypeScript (Node.js)",
-        "unrealengine": "Unreal Engine"
+        "unrealengine": "Unreal Engine",
+        "levelcreation": "Level Creation",
+        "blueprint": "Blueprint"
     }
 }
