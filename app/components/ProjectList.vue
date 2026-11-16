@@ -59,14 +59,15 @@ watch(() => props.projects, clear);
             <div
                 v-if="project"
                 aria-hidden="true"
-                class="pointer-events-none fixed top-0 left-0 z-30 w-[440px] max-w-[calc(100vw-112px)] origin-top will-change-transform"
+                class="pointer-events-none fixed top-0 left-0 z-30 origin-bottom will-change-transform"
                 data-project-preview
                 :style="{ width: `${position.width}px`, transform: `translate3d(${position.x}px,${position.y}px,0) rotate(${position.rotation}deg)` }"
             >
                 <img
                     :src="image"
                     alt=""
-                    class="max-h-[300px] w-full object-contain"
+                    class="w-full object-contain"
+                    :style="{ maxHeight: `${position.maxHeight}px` }"
                     decoding="async"
                     @error="clear"
                 >

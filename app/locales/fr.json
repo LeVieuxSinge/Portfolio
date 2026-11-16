@@ -536,6 +536,7 @@
             "previous": "Projet précédent",
             "next": "Projet suivant",
             "neighbors": "Projets d’archive voisins",
+            "selectedNavigation": "D’autres projets choisis",
             "items": {
                 "amb": {
                     "summary": "Un configurateur de calepinage pour les revêtements de sol commerciaux.",

@@ -1,11 +1,12 @@
 import type { Project } from "#shared/types/portfolio";
+import { previewFrame } from "#shared/utils/preview";
 
 export function useProjectPreview(projects: () => readonly Project[]) {
     const pointer = useMediaQuery("(hover: hover) and (pointer: fine)");
     const desktop = useMediaQuery("(min-width: 701px)");
     const reduced = usePreferredReducedMotion();
     const project = shallowRef<Project | null>(null);
-    const position = shallowRef({ x: 0, y: 0, rotation: 0, width: 440 });
+    const position = shallowRef({ x: 0, y: 0, rotation: 0, width: 440, maxHeight: 300 });
     const keyboard = shallowRef(false);
     let focusedRow: HTMLElement | null = null;
     let cursor: { x: number; y: number } | null = null;
@@ -17,23 +18,27 @@ export function useProjectPreview(projects: () => readonly Project[]) {
         const follow = 1 - 0.88 ** step;
         const current = position.value;
         const dx = target.x - current.x;
-        const desiredAngle = Math.max(-12, Math.min(12, -dx * 0.11));
+        const desiredAngle = Math.max(-12, Math.min(12, dx * 0.11));
         angularVelocity = (angularVelocity + (desiredAngle - current.rotation) * 0.065 * step) * 0.8 ** step;
-        position.value = { ...current, x: current.x + dx * follow, y: current.y + (target.y - current.y) * follow, rotation: current.rotation + angularVelocity * step };
+        position.value = { ...current, x: current.x + dx * follow, y: current.y + (target.y - current.y) * follow, rotation: Math.max(-12, Math.min(12, current.rotation + angularVelocity * step)) };
         if (Math.abs(dx) < 0.1 && Math.abs(target.y - current.y) < 0.1 && Math.abs(current.rotation) < 0.1 && Math.abs(angularVelocity) < 0.05) pause();
     }, { immediate: false });
     function place(x: number, y: number, stationary = false) {
-        const width = Math.min(440, window.innerWidth - x - 52);
-        if (width < 120) return clear();
-        const height = Math.min(300, width * 0.75);
-        target = { x: x + 28, y: Math.max(116, Math.min(y + 16, window.innerHeight - height - 24)) };
+        const media = project.value?.media.find(item => item.src === image.value || (item.type === "video" && item.poster === image.value)) || project.value?.media[0];
+        const frame = previewFrame(x, y, window.innerWidth, window.innerHeight, media?.width || 16, media?.height || 9);
+        const { width, maxHeight } = frame;
+        target = { x: frame.x, y: frame.y };
         if (stationary) {
             pause();
             angularVelocity = 0;
-            position.value = { ...target, rotation: 0, width };
+            position.value = { ...target, rotation: 0, width, maxHeight };
         }
         else {
-            position.value = { ...position.value, width };
+            position.value = {
+                ...position.value, width, maxHeight,
+                x: Math.max(64, Math.min(position.value.x, window.innerWidth - width - 64)),
+                y: Math.max(64, Math.min(position.value.y, window.innerHeight - frame.height - 64)),
+            };
             resume();
         }
     }

@@ -90,9 +90,9 @@
 
 main#main { view-transition-name: page; }
 .site-header { view-transition-name: site-header; }
-.site-header::before { content: ""; position: absolute; inset: 0 0 -48px; z-index: -1; pointer-events: none; background: linear-gradient(to bottom, #111211 0%, rgb(17 18 17 / 0.96) 38%, rgb(17 18 17 / 0.72) 68%, transparent 100%); }
+.site-header::before { content: ""; position: absolute; inset: 0 0 -12px; z-index: -1; pointer-events: none; background: linear-gradient(to bottom, var(--color-paper), transparent); }
 [data-view-transition] [data-project-preview] { opacity: 0; }
-::view-transition-group(page) { animation-duration: 650ms; }
+::view-transition-group(page) { animation: none; }
 ::view-transition-old(page), ::view-transition-new(page) { mix-blend-mode: normal; }
 ::view-transition-old(page) { animation: page-out 450ms cubic-bezier(.4,0,.2,1) both; }
 ::view-transition-new(page) { animation: page-in 650ms cubic-bezier(.22,1,.36,1) both; }
@@ -103,10 +103,20 @@ main#main { view-transition-name: page; }
 .header-page-enter-active, .header-page-leave-active { transition: opacity 260ms ease; }
 .header-page-enter-from, .header-page-leave-to { opacity: 0; }
 @keyframes page-out { to { opacity: 0; transform: translateY(-24px); } }
-@keyframes page-in { from { opacity: 0; clip-path: inset(12% 0 0 0); transform: translateY(32px); } to { opacity: 1; clip-path: inset(0 0 0 0); transform: translateY(0); } }
+@keyframes page-in { from { opacity: 0; clip-path: inset(24px 0 0 0); transform: translateY(32px); } to { opacity: 1; clip-path: inset(0 0 0 0); transform: translateY(0); } }
+
+@property --entry-count { syntax: "<integer>"; initial-value: 0; inherits: false; }
+@counter-style entry-digits { system: numeric; symbols: "0" "1" "2" "3" "4" "5" "6" "7" "8" "9"; pad: 3 "0"; }
+.entry-counter { counter-reset: entry var(--entry-count); }
+.entry-counter::after { content: counter(entry, entry-digits); }
+.entry-counter:not([data-owned]) { animation: entry-progress-start 2s linear both; }
+.loading-background { animation: overlay-background-in 360ms ease-out both; }
+@keyframes entry-progress-start { from { --entry-count: 0; } to { --entry-count: 99; } }
+@keyframes overlay-background-in { from { opacity: 0; } to { opacity: 1; } }
 
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
     .action-link--secondary::after { transform: scaleX(1); }
     ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+    .entry-counter:not([data-owned]) { animation-duration: 2s !important; }
 }

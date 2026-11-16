@@ -45,6 +45,12 @@ export function archiveNeighbors(projects: readonly Project[], slug: string, sta
     return { previous: sequence[(index - 1 + sequence.length) % sequence.length], next: sequence[(index + 1) % sequence.length] };
 }
 
+export function nextSelectedProject(projects: readonly Project[], slug: string) {
+    const sequence = projects.filter(project => project.featuredOrder !== undefined).sort((a, b) => a.featuredOrder! - b.featuredOrder!);
+    const index = sequence.findIndex(project => project.slug === slug);
+    return index >= 0 && sequence.length > 1 ? sequence[(index + 1) % sequence.length] : undefined;
+}
+
 export function projectPath(slug: string, locale: "en" | "fr" = "en") {
     return `${locale === "fr" ? "/fr" : ""}/project/${slug}`;
 }

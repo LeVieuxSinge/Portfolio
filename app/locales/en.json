@@ -536,6 +536,7 @@
             "previous": "Previous project",
             "next": "Next project",
             "neighbors": "Adjacent archive projects",
+            "selectedNavigation": "More selected projects",
             "items": {
                 "amb": {
                     "summary": "A tile-layout configurator for commercial flooring.",

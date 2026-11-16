@@ -4,6 +4,7 @@ import { TooltipProvider } from "reka-ui";
 const { t } = useI18n();
 const { isLoading, complete } = useLoading();
 const { isOpen } = useMenu();
+const pageCovered = useState<boolean>("page-covered", () => false);
 const isFinePointer = useMediaQuery("(hover: hover) and (pointer: fine)");
 const reduced = usePreferredReducedMotion();
 const mounted = useMounted();
@@ -18,9 +19,9 @@ onMounted(() => complete("shell"));
 <template>
     <TooltipProvider :delay-duration="250">
         <NuxtRouteAnnouncer />
-        <SiteHeader :blocked="entryPending" />
+        <SiteHeader :blocked="entryPending || pageCovered" />
         <div
-            :inert="isOpen || entryPending || undefined"
+            :inert="isOpen || entryPending || pageCovered || undefined"
             :aria-busy="entryPending || undefined"
         >
             <a
@@ -31,6 +32,13 @@ onMounted(() => complete("shell"));
                 <NuxtPage />
             </div>
         </div>
+        <div
+            v-if="pageCovered"
+            class="fixed inset-0 z-[45] bg-paper"
+            style="opacity: 0"
+            aria-hidden="true"
+            data-page-cover
+        />
         <ClientOnly>
             <AnimatedNoise />
             <CustomCursor v-if="isFinePointer && reduced !== 'reduce'" />

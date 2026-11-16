@@ -161,14 +161,14 @@ function identityClick(event: MouseEvent) {
             <DialogContent
                 v-if="isOpen"
                 force-mount
-                class="no-scrollbar fixed inset-0 z-50 isolate overflow-y-auto overscroll-contain text-ink"
+                class="fixed inset-0 z-50 isolate h-dvh overflow-hidden overscroll-contain text-ink"
                 data-lenis-prevent
                 @open-auto-focus="opened"
                 @close-auto-focus="restoreFocus"
             >
                 <div
                     ref="panel"
-                    class="min-h-svh"
+                    class="flex h-full min-h-0 flex-col pt-(--header-height)"
                 >
                     <div
                         class="pointer-events-none fixed inset-0 -z-10 bg-paper"
@@ -183,8 +183,7 @@ function identityClick(event: MouseEvent) {
                         {{ t('layouts.menuDescription') }}
                     </DialogDescription>
                     <nav
-                        class="page-gutter flex min-h-[calc(100svh-var(--header-height))] flex-col pt-0 pb-5 md:pb-8"
-                        :style="{ marginTop: 'var(--header-height)' }"
+                        class="page-gutter flex min-h-0 flex-1 flex-col overflow-hidden pb-5 md:pb-8"
                         :aria-label="t('layouts.mainNavigation')"
                     >
                         <MenuLink

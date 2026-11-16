@@ -21,7 +21,7 @@ function activate(event: MouseEvent) {
     >
         <a
             :href="href"
-            class="group grid min-h-[110px] flex-1 grid-cols-[23px_minmax(0,1fr)_42px] items-center gap-[13px] border-b border-line py-5 transition-colors duration-300 hover:bg-surface md:min-h-[120px] md:grid-cols-[44px_minmax(0,1fr)_80px] md:gap-7 md:px-2"
+            class="group grid min-h-0 flex-1 grid-cols-[23px_minmax(0,1fr)_42px] items-center gap-[13px] border-b border-line transition-colors duration-300 hover:bg-surface md:grid-cols-[44px_minmax(0,1fr)_80px] md:gap-7 md:px-2"
             data-menu-row
             :aria-current="current ? 'page' : undefined"
             @click="activate"
@@ -30,7 +30,7 @@ function activate(event: MouseEvent) {
                 class="font-mono text-[9px] text-muted md:text-[11px]"
                 data-menu-element
             >0{{ index }}</span>
-            <span class="display-type min-w-0 text-[9.2vw] md:text-[clamp(60px,6.3vw,108px)]">
+            <span class="display-type min-w-0 text-[min(9.2vw,9dvh)] md:text-[min(clamp(60px,6.3vw,108px),9dvh)]">
                 <span
                     ref="label"
                     data-menu-label
@@ -41,7 +41,7 @@ function activate(event: MouseEvent) {
                 name="material-symbols:arrow-outward-rounded"
                 aria-hidden="true"
                 data-menu-element
-                class="size-[40px] justify-self-end transition-transform duration-400 group-hover:translate-x-1 group-hover:-translate-y-1 group-focus-visible:translate-x-1 group-focus-visible:-translate-y-1 md:size-[72px]"
+                class="size-[min(40px,10dvh)] justify-self-end transition-transform duration-400 group-hover:translate-x-1 group-hover:-translate-y-1 group-focus-visible:translate-x-1 group-focus-visible:-translate-y-1 md:size-[min(72px,10dvh)]"
             />
         </a>
     </NuxtLink>

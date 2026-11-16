@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { isLocaleNavigation, localizedPageKey, scrollDownTarget } from "../shared/utils/navigation.ts";
+import { isLocaleNavigation, isProjectNavigation, localizedPageKey, scrollDownTarget } from "../shared/utils/navigation.ts";
 
 test("locale swaps identify only equivalent localized pages", () => {
     assert.equal(localizedPageKey("/fr/"), "/");
@@ -12,6 +12,14 @@ test("locale swaps identify only equivalent localized pages", () => {
     assert.equal(isLocaleNavigation("/fr/work", "/archive"), false);
     assert.equal(isLocaleNavigation("/project/ecd", "/project/amb"), false);
     assert.equal(isLocaleNavigation("/fr/work", "/fr/work"), false);
+});
+
+test("only a change between different projects needs a covered scroll reset", () => {
+    assert.equal(isProjectNavigation("/project/ecd", "/project/amb"), true);
+    assert.equal(isProjectNavigation("/fr/project/ecd", "/fr/project/amb"), true);
+    assert.equal(isProjectNavigation("/fr/project/ecd", "/project/ecd"), false);
+    assert.equal(isProjectNavigation("/archive", "/project/ecd"), false);
+    assert.equal(isProjectNavigation("/project/ecd", "/work"), false);
 });
 
 test("the scroll-down destination also defines the header label threshold", () => {

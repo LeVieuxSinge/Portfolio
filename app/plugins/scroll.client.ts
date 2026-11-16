@@ -8,6 +8,7 @@ export default defineNuxtPlugin((app) => {
     const introEnd = useState<number>("document-scroll-intro-end", () => 0);
     const { isOpen } = useMenu();
     const { isLoading } = useLoading();
+    const pageCovered = useState<boolean>("page-covered", () => false);
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
     let lenis: Lenis | undefined;
     let requested = false;
@@ -43,7 +44,7 @@ export default defineNuxtPlugin((app) => {
         updateProgress();
     }
     function suspend() {
-        if (isOpen.value || isLoading.value || document.hidden) {
+        if (isOpen.value || isLoading.value || pageCovered.value || document.hidden) {
             cancelRequestedMove();
             lenis?.stop();
         }
@@ -96,7 +97,7 @@ export default defineNuxtPlugin((app) => {
         element.focus({ preventScroll: true });
     }
 
-    const stopWatch = watch([isOpen, isLoading], suspend);
+    const stopWatch = watch([isOpen, isLoading, pageCovered], suspend);
     const stopBefore = app.$router.beforeEach(() => {
         cancelRequestedMove();
     });

@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync, existsSync } from "node:fs";
 import { test } from "node:test";
 import { projects, selectedProjects, contentRoutes } from "../shared/data/projects.ts";
-import { archiveNeighbors, browseArchive, deriveProfiles, normalizeArchiveQuery, projectPath } from "../shared/utils/catalog.ts";
+import { archiveNeighbors, browseArchive, deriveProfiles, nextSelectedProject, normalizeArchiveQuery, projectPath } from "../shared/utils/catalog.ts";
 import { capabilityStacks, cvGroups } from "../shared/data/about.ts";
 
 const readJson = path => JSON.parse(readFileSync(new URL(path, import.meta.url), "utf8"));
@@ -11,6 +11,14 @@ const baseline = readJson("../docs/design_v4/source/catalog.json");
 const baselineLabels = readJson("../docs/design_v4/source/labels.json");
 const lookup = (object, key) => key.split(".").reduce((value, part) => value?.[part], object);
 const flatten = (object, prefix = "") => Object.entries(object).flatMap(([key, value]) => value && typeof value === "object" ? flatten(value, `${prefix}${key}.`) : [`${prefix}${key}`]);
+
+test("selected project navigation follows Work order and cycles back to the first", () => {
+    assert.equal(nextSelectedProject(projects, "feltkutur").slug, "ryker");
+    assert.equal(nextSelectedProject(projects, "ryker").slug, "schluter");
+    assert.equal(nextSelectedProject(projects, "schluter").slug, "simona");
+    assert.equal(nextSelectedProject(projects, "simona").slug, "feltkutur");
+    assert.equal(nextSelectedProject(projects, "ecd"), undefined);
+});
 
 test("the active catalog preserves slugs and all ordered source media", () => {
     assert.equal(projects.length, 16);

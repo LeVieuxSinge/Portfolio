@@ -1,9 +1,10 @@
 import { animate, onScroll, splitText, stagger } from "animejs";
-import { isLocaleNavigation } from "#shared/utils/navigation";
+import { isLocaleNavigation, isProjectNavigation } from "#shared/utils/navigation";
 
 export default defineNuxtPlugin((app) => {
     const { isLoading, isRevealing } = useLoading();
     const { isOpen, isPageRevealing } = useMenu();
+    const pageCovered = useState<boolean>("page-covered", () => false);
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
     const animations: ReturnType<typeof animate>[] = [];
     const observers: ReturnType<typeof onScroll>[] = [];
@@ -14,6 +15,33 @@ export default defineNuxtPlugin((app) => {
     let version = 0;
     let shellEntered = false;
     let staticLocaleSwap = false;
+    let coverAnimation: ReturnType<typeof animate> | undefined;
+    let resolveCover: (() => void) | undefined;
+    let coverVersion = 0;
+    let coverTarget = "";
+
+    async function fadeCover(opacity: number, duration: number) {
+        coverAnimation?.cancel();
+        resolveCover?.();
+        await nextTick();
+        const element = document.querySelector<HTMLElement>("[data-page-cover]");
+        if (!element) return;
+        await new Promise<void>((resolve) => {
+            resolveCover = resolve;
+            coverAnimation = animate(element, { opacity, duration, ease: "inOut(3)", onComplete: () => {
+                resolveCover = undefined;
+                resolve();
+            } });
+        });
+    }
+    async function revealCover() {
+        const token = ++coverVersion;
+        await fadeCover(0, reduced.matches ? 1 : 400);
+        if (token !== coverVersion) return;
+        pageCovered.value = false;
+        await nextTick();
+        document.querySelector<HTMLElement>("main#main")?.focus({ preventScroll: true });
+    }
 
     function clear() {
         version++;
@@ -24,7 +52,11 @@ export default defineNuxtPlugin((app) => {
     }
     function revealPage() {
         clear();
-        if (staticLocaleSwap || reduced.matches || (isLoading.value && !isRevealing.value) || (isOpen.value && !isPageRevealing.value)) return;
+        if (staticLocaleSwap || reduced.matches) {
+            if (pageCovered.value) void revealCover();
+            return;
+        }
+        if ((isLoading.value && !isRevealing.value) || (isOpen.value && !isPageRevealing.value)) return;
         const main = document.querySelector<HTMLElement>("main#main");
         if (!main) return;
         if (!shellEntered) {
@@ -37,7 +69,8 @@ export default defineNuxtPlugin((app) => {
         const selector = "[data-reveal], h1:not(.sr-only), h2, h3, h4, p:not(.sr-only), figure, dl > div, li, footer, .action-link, .project-row--heading, aside > img";
         const candidates = [...main.querySelectorAll<HTMLElement>(selector)];
         const targets = candidates.filter((element) => {
-            if (element.closest("[aria-hidden='true']") || !element.getClientRects().length) return false;
+            const decorative = element.closest("[aria-hidden='true']");
+            if ((decorative && main.contains(decorative)) || !element.getClientRects().length) return false;
             return !candidates.some(parent => parent !== element && parent.contains(element));
         });
         let visibleIndex = 0;
@@ -67,6 +100,7 @@ export default defineNuxtPlugin((app) => {
                 ...(observer ? { autoplay: observer } : {}),
             }));
         }
+        if (pageCovered.value) void revealCover();
     }
     async function schedule() {
         const scheduledVersion = ++version;
@@ -90,12 +124,20 @@ export default defineNuxtPlugin((app) => {
             }
         }).catch(() => {});
     });
-    const stopBefore = app.$router.beforeEach((to, from) => {
+    const stopBefore = app.$router.beforeEach(async (to, from) => {
         staticLocaleSwap = !!from.matched.length && isLocaleNavigation(to.path, from.path);
-        if (staticLocaleSwap || isOpen.value) to.meta.viewTransition = false;
+        const cover = isProjectNavigation(to.path, from.path) && !isOpen.value && !reduced.matches;
+        if (staticLocaleSwap || isOpen.value || cover || pageCovered.value) to.meta.viewTransition = false;
         clear();
+        if (cover || pageCovered.value) {
+            coverVersion++;
+            coverTarget = to.fullPath;
+            pageCovered.value = true;
+            await fadeCover(1, reduced.matches ? 1 : 220);
+        }
     });
     const stopAfter = app.$router.afterEach((to, from, failure) => {
+        if (failure && pageCovered.value && to.fullPath === coverTarget) void revealCover();
         if (!failure && to.path === from.path) void schedule();
     });
     const stopPage = app.hook("page:loading:end", () => {
@@ -111,6 +153,7 @@ export default defineNuxtPlugin((app) => {
         if (reduced.matches) {
             activeTransition?.skipTransition();
             clear();
+            if (pageCovered.value) void revealCover();
         }
         else void schedule();
     };
@@ -118,6 +161,9 @@ export default defineNuxtPlugin((app) => {
 
     function dispose() {
         clear();
+        coverAnimation?.cancel();
+        resolveCover?.();
+        pageCovered.value = false;
         activeTransition?.skipTransition();
         delete document.documentElement.dataset.viewTransition;
         stopTransition();

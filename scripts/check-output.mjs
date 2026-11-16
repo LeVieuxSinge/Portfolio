@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { contentRoutes, projects } from "../shared/data/projects.ts";
+import { nextSelectedProject, projectPath } from "../shared/utils/catalog.ts";
 
 const output = path.resolve(".output/public");
 for (const route of contentRoutes) {
@@ -11,6 +12,7 @@ for (const route of contentRoutes) {
     assert.match(html, /<main\b/, `Missing rendered main: ${route}`);
     assert.match(html, /<h1\b/, `Missing rendered heading: ${route}`);
     assert.match(html, /data-entry-loader/, `Missing initial loading surface: ${route}`);
+    assert.match(html.slice(html.indexOf("data-entry-loader")), /<ol\b[^>]*>[\s\S]*?<li\b/, `Missing first-paint loading sentence: ${route}`);
     assert.match(html, /<noscript><style>\[data-entry-loader\]\{display:none!important\}<\/style><\/noscript>/, `Missing no-JavaScript loading fallback: ${route}`);
     assert.match(html, route.startsWith("/fr") ? /<html[^>]*lang="fr"/ : /<html[^>]*lang="en"/);
     assert.match(html, /rel="canonical"/);
@@ -29,6 +31,10 @@ for (const route of contentRoutes) {
             previousIndex = index;
         }
         assert.ok(!/<video[^>]*\scontrols(?:\s|=|>)/.test(html), `Unexpected video controls: ${route}`);
+        if (project.featuredOrder !== undefined) {
+            const next = nextSelectedProject(projects, slug);
+            assert.ok(html.includes(`href="${projectPath(next.slug, route.startsWith("/fr") ? "fr" : "en")}"`), `Missing next selected project: ${route}`);
+        }
     }
 }
 for (const route of ["projects", "fr/projects"]) {
