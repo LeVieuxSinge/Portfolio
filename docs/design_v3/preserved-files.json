@@ -1,0 +1,7 @@
+{
+  "app/composables/useProjects.ts": "f00ad3b7695763f6c1d00d0e013a7d23ae6b47593b814af1f7eb4800067a0a48",
+  "app/pages/about.vue": "1472934f1888e715fa97836b6b8da762f0ec97406b424eb10c6a7ac8788600dd",
+  "app/pages/project/[slug].vue": "da45df3d6f5ecb2ba5de80c61e78675f51c96a2ead81e940fe6ad9125cdfd3ac",
+  "DESIGN.md": "0ddf3a6236d16aff6a12337e0acd47b264f8acffdb92dfc4ed3d5fdd12284c7c",
+  "DESIGN_V2.md": "16f99c3381455bba59c8460b4c8d36307e5862ccd2fb7a74eaba8125afe5e19f"
+}

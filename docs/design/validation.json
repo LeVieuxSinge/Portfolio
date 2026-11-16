@@ -1,0 +1,28 @@
+{
+  "date": "2026-11-13",
+  "images": {
+    "screens": 39,
+    "boards": 16,
+    "references": 13,
+    "concepts": 2
+  },
+  "localReferences": 83,
+  "contrast": {
+    "light": {
+      "inkOnPaper": 13.26,
+      "mutedOnPaper": 4.88,
+      "inkOnSurface": 12.2,
+      "mutedOnSurface": 4.49
+    },
+    "dark": {
+      "inkOnPaper": 16.11,
+      "mutedOnPaper": 7.36,
+      "inkOnSurface": 14.98,
+      "mutedOnSurface": 6.84
+    }
+  },
+  "prohibitedTextPairings": [
+    "Light Muted on Surface: 4.49:1. Use Ink on Surface."
+  ],
+  "errors": []
+}

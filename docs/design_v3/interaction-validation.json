@@ -1,0 +1,46 @@
+{
+  "filter": {
+    "localeLink": "?page=archive&variation=b&locale=fr&role=webgldeveloper&sort=title&state=default",
+    "role": "webgldeveloper",
+    "sort": "title",
+    "titles": [
+      "Bromont"
+    ],
+    "url": "http://localhost:4180/docs/design_v3/source/studio.html?page=archive&variation=b&role=webgldeveloper&sort=title"
+  },
+  "scrollTop": {
+    "before": {
+      "label": "Scroll to top",
+      "progress": "33",
+      "y": 900
+    },
+    "after": {
+      "label": "Scroll down",
+      "progress": "0",
+      "y": 0
+    }
+  },
+  "tooltip": {
+    "focus": {
+      "describedBy": "scroll-tip",
+      "focused": true,
+      "visible": "1"
+    },
+    "escape": {
+      "dismissed": true,
+      "opacity": "0.147418"
+    }
+  },
+  "interruption": {
+    "afterUserScroll": 1491,
+    "afterFurtherUI": 1491
+  },
+  "reducedMotion": {
+    "beforeY": 900,
+    "after": {
+      "reducedClass": true,
+      "underlineAnimation": "none",
+      "y": 0
+    }
+  }
+}

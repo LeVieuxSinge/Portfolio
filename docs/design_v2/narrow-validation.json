@@ -1,0 +1,38 @@
+[
+  {
+    "page": "home",
+    "contentWidth": 320,
+    "images": true,
+    "width": 320
+  },
+  {
+    "page": "menu",
+    "width": 320,
+    "contentWidth": 320,
+    "images": true
+  },
+  {
+    "page": "work",
+    "contentWidth": 320,
+    "images": true,
+    "width": 320
+  },
+  {
+    "page": "archive",
+    "contentWidth": 320,
+    "images": true,
+    "width": 320
+  },
+  {
+    "page": "about",
+    "contentWidth": 320,
+    "images": true,
+    "width": 320
+  },
+  {
+    "page": "project",
+    "contentWidth": 320,
+    "images": true,
+    "width": 320
+  }
+]

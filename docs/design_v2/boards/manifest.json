@@ -1,0 +1,30 @@
+[
+  {
+    "id": "controls-interaction-dark-desktop",
+    "file": "boards/controls-interaction-dark-desktop.jpg",
+    "width": 1440,
+    "height": 900,
+    "bytes": 63380
+  },
+  {
+    "id": "controls-interaction-light-desktop",
+    "file": "boards/controls-interaction-light-desktop.jpg",
+    "width": 1440,
+    "height": 900,
+    "bytes": 59571
+  },
+  {
+    "id": "scroll-progress-light-desktop",
+    "file": "boards/scroll-progress-light-desktop.jpg",
+    "width": 1440,
+    "height": 900,
+    "bytes": 76656
+  },
+  {
+    "id": "scroll-progress-light-mobile",
+    "file": "boards/scroll-progress-light-mobile.jpg",
+    "width": 390,
+    "height": 844,
+    "bytes": 29010
+  }
+]

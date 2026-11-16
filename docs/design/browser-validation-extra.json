@@ -1,0 +1,372 @@
+[
+  {
+    "id": "home-centered-light-desktop-fr",
+    "page": "home",
+    "variation": "centered",
+    "theme": "light",
+    "device": "desktop",
+    "locale": "fr",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "contentWidth": 1440,
+    "height": 900,
+    "images": true,
+    "overflow": [],
+    "width": 1440
+  },
+  {
+    "id": "home-centered-dark-mobile-fr",
+    "page": "home",
+    "variation": "centered",
+    "theme": "dark",
+    "device": "mobile",
+    "locale": "fr",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "contentWidth": 390,
+    "height": 844,
+    "images": true,
+    "overflow": [],
+    "width": 390
+  },
+  {
+    "id": "work-light-mobile-fr",
+    "page": "work",
+    "theme": "light",
+    "device": "mobile",
+    "locale": "fr",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "contentWidth": 390,
+    "height": 2455,
+    "images": true,
+    "overflow": [],
+    "width": 390
+  },
+  {
+    "id": "about-light-mobile-fr",
+    "page": "about",
+    "theme": "light",
+    "device": "mobile",
+    "locale": "fr",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "contentWidth": 390,
+    "height": 3649,
+    "images": true,
+    "overflow": [],
+    "width": 390
+  },
+  {
+    "id": "archive-dark-mobile-fr",
+    "page": "archive",
+    "theme": "dark",
+    "device": "mobile",
+    "locale": "fr",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "contentWidth": 390,
+    "height": 1546,
+    "images": true,
+    "overflow": [],
+    "width": 390
+  },
+  {
+    "id": "menu-dark-mobile-fr",
+    "page": "menu",
+    "theme": "dark",
+    "device": "mobile",
+    "locale": "fr",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "contentWidth": 390,
+    "height": 844,
+    "images": true,
+    "overflow": [],
+    "width": 390
+  },
+  {
+    "id": "project-light-desktop-fr",
+    "page": "project",
+    "theme": "light",
+    "device": "desktop",
+    "locale": "fr",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "contentWidth": 1440,
+    "height": 2959,
+    "images": true,
+    "overflow": [],
+    "width": 1440
+  },
+  {
+    "id": "intro-light-desktop",
+    "page": "intro",
+    "theme": "light",
+    "device": "desktop",
+    "board": true,
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "contentWidth": 1440,
+    "height": 1289,
+    "images": true,
+    "overflow": [],
+    "width": 1440
+  },
+  {
+    "id": "intro-dark-desktop",
+    "page": "intro",
+    "theme": "dark",
+    "device": "desktop",
+    "board": true,
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "contentWidth": 1440,
+    "height": 1289,
+    "images": true,
+    "overflow": [],
+    "width": 1440
+  },
+  {
+    "id": "arrival-light-desktop",
+    "page": "arrival",
+    "theme": "light",
+    "device": "desktop",
+    "board": true,
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "contentWidth": 1440,
+    "height": 1040,
+    "images": true,
+    "overflow": [],
+    "width": 1440
+  },
+  {
+    "id": "arrival-dark-desktop",
+    "page": "arrival",
+    "theme": "dark",
+    "device": "desktop",
+    "board": true,
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "contentWidth": 1440,
+    "height": 1040,
+    "images": true,
+    "overflow": [],
+    "width": 1440
+  },
+  {
+    "id": "archive-states-light-desktop",
+    "page": "archive-states",
+    "theme": "light",
+    "device": "desktop",
+    "board": true,
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "contentWidth": 1440,
+    "height": 1068,
+    "images": true,
+    "overflow": [],
+    "width": 1440
+  },
+  {
+    "id": "archive-states-dark-desktop",
+    "page": "archive-states",
+    "theme": "dark",
+    "device": "desktop",
+    "board": true,
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "contentWidth": 1440,
+    "height": 1068,
+    "images": true,
+    "overflow": [],
+    "width": 1440
+  },
+  {
+    "id": "media-light-desktop",
+    "page": "media",
+    "theme": "light",
+    "device": "desktop",
+    "board": true,
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "contentWidth": 1440,
+    "height": 971,
+    "images": true,
+    "overflow": [],
+    "width": 1440
+  },
+  {
+    "id": "media-dark-desktop",
+    "page": "media",
+    "theme": "dark",
+    "device": "desktop",
+    "board": true,
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "contentWidth": 1440,
+    "height": 971,
+    "images": true,
+    "overflow": [],
+    "width": 1440
+  },
+  {
+    "id": "fallback-light-desktop",
+    "page": "fallback",
+    "theme": "light",
+    "device": "desktop",
+    "board": true,
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "contentWidth": 1440,
+    "height": 1119,
+    "images": true,
+    "overflow": [],
+    "width": 1440
+  },
+  {
+    "id": "fallback-dark-desktop",
+    "page": "fallback",
+    "theme": "dark",
+    "device": "desktop",
+    "board": true,
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "contentWidth": 1440,
+    "height": 1119,
+    "images": true,
+    "overflow": [],
+    "width": 1440
+  },
+  {
+    "id": "foundations-light-desktop",
+    "page": "foundations",
+    "theme": "light",
+    "device": "desktop",
+    "board": true,
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "contentWidth": 1440,
+    "height": 1064,
+    "images": true,
+    "overflow": [],
+    "width": 1440
+  },
+  {
+    "id": "foundations-dark-desktop",
+    "page": "foundations",
+    "theme": "dark",
+    "device": "desktop",
+    "board": true,
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "contentWidth": 1440,
+    "height": 1064,
+    "images": true,
+    "overflow": [],
+    "width": 1440
+  },
+  {
+    "id": "typography-light-desktop",
+    "page": "typography",
+    "theme": "light",
+    "device": "desktop",
+    "board": true,
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "contentWidth": 1440,
+    "height": 911,
+    "images": true,
+    "overflow": [],
+    "width": 1440
+  },
+  {
+    "id": "typography-dark-desktop",
+    "page": "typography",
+    "theme": "dark",
+    "device": "desktop",
+    "board": true,
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "contentWidth": 1440,
+    "height": 911,
+    "images": true,
+    "overflow": [],
+    "width": 1440
+  },
+  {
+    "id": "controls-light-desktop",
+    "page": "controls",
+    "theme": "light",
+    "device": "desktop",
+    "board": true,
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "contentWidth": 1440,
+    "height": 904,
+    "images": true,
+    "overflow": [],
+    "width": 1440
+  },
+  {
+    "id": "controls-dark-desktop",
+    "page": "controls",
+    "theme": "dark",
+    "device": "desktop",
+    "board": true,
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "contentWidth": 1440,
+    "height": 904,
+    "images": true,
+    "overflow": [],
+    "width": 1440
+  }
+]

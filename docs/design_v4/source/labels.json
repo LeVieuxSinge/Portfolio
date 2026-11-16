@@ -1,0 +1,118 @@
+{
+  "en": {
+    "role": {
+      "artist3d": "3D Artist",
+      "frontenddeveloper": "Frontend Developer",
+      "gamedeveloper": "Game Developer",
+      "programmer": "Programmer",
+      "uiuxdesigner": "UI/UX Designer",
+      "webgldeveloper": "WebGL Developer"
+    },
+    "tool": {
+      "adobexd": "Adobe XD",
+      "animejs": "Anime.js",
+      "blender": "Blender",
+      "cpp": "C++",
+      "cppunreal": "C++ (Unreal Engine)",
+      "figma": "Figma",
+      "houdini": "Houdini",
+      "javascript": "JavaScript",
+      "javascriptnode": "JavaScript (Node.js)",
+      "nuxt": "Nuxt",
+      "gdevelop": "GDevelop",
+      "unity": "Unity",
+      "csharp": "C#",
+      "vue": "Vue",
+      "sketchfab": "Sketchfab",
+      "p5js": "P5.js",
+      "python": "Python",
+      "pythonblender": "Python (Blender)",
+      "substancepainter": "Substance Painter",
+      "tailwindcss": "Tailwind CSS",
+      "threejs": "Three.js",
+      "typescript": "TypeScript",
+      "typescriptnode": "TypeScript (Node.js)",
+      "unrealengine": "Unreal Engine"
+    },
+    "loading": {
+      "continue": "Click anywhere to continue",
+      "messages": {
+        "1": "Loading a blind monk and other champions",
+        "2": "Loading a galaxy with only one purple saber",
+        "3": "Loading the punk in cyber",
+        "4": "Loading birdie pour carl carmoni!",
+        "5": "Loading a greener planet",
+        "6": "Loading dubstep.mp3",
+        "7": "Loading crankdat's playlist",
+        "8": "Loading le francais",
+        "9": "Loading english.dll",
+        "10": "Loading lofi boy and girl",
+        "11": "Loading mon québec la place que j'ai choisi",
+        "12": "Loading an orange mushroom (and pink bean...)",
+        "13": "Loading numbers and data",
+        "14": "Loading my own video game (eventually)",
+        "15": "Loading le coeur à ses raisons",
+        "16": "Loading the escape to the room"
+      },
+      "successful": "Loading successful"
+    }
+  },
+  "fr": {
+    "role": {
+      "artist3d": "Artiste 3D",
+      "frontenddeveloper": "Dev. Frontend",
+      "gamedeveloper": "Dev. de Jeux",
+      "programmer": "Programmeur",
+      "uiuxdesigner": "Designer UI/UX",
+      "webgldeveloper": "Dev. WebGL"
+    },
+    "tool": {
+      "adobexd": "Adobe XD",
+      "animejs": "Anime.js",
+      "blender": "Blender",
+      "cpp": "C++",
+      "cppunreal": "C++ (Unreal Engine)",
+      "figma": "Figma",
+      "houdini": "Houdini",
+      "javascript": "JavaScript",
+      "javascriptnode": "JavaScript (Node.js)",
+      "nuxt": "Nuxt",
+      "gdevelop": "GDevelop",
+      "unity": "Unity",
+      "csharp": "C#",
+      "vue": "Vue",
+      "sketchfab": "Sketchfab",
+      "p5js": "P5.js",
+      "python": "Python",
+      "pythonblender": "Python (Blender)",
+      "substancepainter": "Substance Painter",
+      "tailwindcss": "Tailwind CSS",
+      "threejs": "Three.js",
+      "typescript": "TypeScript",
+      "typescriptnode": "TypeScript (Node.js)",
+      "unrealengine": "Unreal Engine"
+    },
+    "loading": {
+      "continue": "Appuyez n'importe où pour continuer",
+      "messages": {
+        "1": "Chargement d'un blind monk et des autres champions",
+        "2": "Chargement d'une galaxie avec un seul sabre violet",
+        "3": "Chargement du punk dans cyber",
+        "4": "Chargement de birdie pour carl carmoni!",
+        "5": "Chargement d'une planète plus verte",
+        "6": "Chargement de dubstep.mp3",
+        "7": "Chargement de la playlist de crankdat",
+        "8": "Chargement du français",
+        "9": "Chargement de english.dll",
+        "10": "Chargement du lofi boy and girl",
+        "11": "Chargement de mon Québec, la place que j'ai choisie",
+        "12": "Chargement d'un orange mushroom (et d'un pink bean...)",
+        "13": "Chargement des nombres et des données",
+        "14": "Chargement de mon propre jeu vidéo (éventuellement)",
+        "15": "Chargement du coeur à ses raisons",
+        "16": "Chargement de l'évasion à la salle"
+      },
+      "successful": "Chargement réussi"
+    }
+  }
+}

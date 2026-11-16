@@ -1,0 +1,132 @@
+[
+  {
+    "id": "sharlee-menu",
+    "url": "https://itssharl.ee/",
+    "title": "Sharlee",
+    "captured": "2026-11-13",
+    "state": "Numbered full-screen menu",
+    "file": "references/sharlee-menu.jpg",
+    "imageWidth": 1440,
+    "imageHeight": 900
+  },
+  {
+    "id": "lucas-home",
+    "url": "https://www.lucaslima.design/",
+    "title": "Lucas Lima · Product designer and design engineer",
+    "captured": "2026-11-13",
+    "state": "Home typography and hierarchy",
+    "file": "references/lucas-home.jpg",
+    "imageWidth": 1265,
+    "imageHeight": 712
+  },
+  {
+    "id": "givelet-rows",
+    "url": "https://matthieugivelet.com/archive",
+    "title": "Matthieu Givelet • Front-end developer & designer",
+    "captured": "2026-11-13",
+    "state": "Scrolled archive rows",
+    "file": "references/givelet-rows.jpg",
+    "imageWidth": 1265,
+    "imageHeight": 712
+  },
+  {
+    "id": "collect-webgl",
+    "url": "https://collectui.com/designs/webgl-ui-design-inspiration",
+    "title": "WebGL UI Design Inspiration - Collect UI",
+    "captured": "2026-11-13",
+    "state": "WebGL discovery collection",
+    "file": "references/collect-webgl.jpg",
+    "imageWidth": 809,
+    "imageHeight": 851
+  },
+  {
+    "id": "sharlee-home",
+    "url": "https://itssharl.ee/",
+    "title": "Sharlee",
+    "captured": "2026-11-13",
+    "state": "Home: single-frame composition",
+    "file": "references/sharlee-home.jpg",
+    "imageWidth": 1440,
+    "imageHeight": 900
+  },
+  {
+    "id": "canvas-ink",
+    "url": "https://canvasui.dev/docs/components/ink-object",
+    "title": "Ink Object | Canvas UI",
+    "captured": "2026-11-13",
+    "state": "Live Ink Object demo",
+    "file": "references/canvas-ink.jpg",
+    "imageWidth": 809,
+    "imageHeight": 836
+  },
+  {
+    "id": "collect-portfolio",
+    "url": "https://collectui.com/designs/portfolio-ui-design-inspiration",
+    "title": "Portfolio UI Design Inspiration - Collect UI",
+    "captured": "2026-11-13",
+    "state": "Portfolio discovery collection",
+    "file": "references/collect-portfolio.jpg",
+    "imageWidth": 809,
+    "imageHeight": 836
+  },
+  {
+    "id": "awwwards-portfolio",
+    "url": "https://www.awwwards.com/websites/portfolio/",
+    "title": "Best Portfolio Websites | Web Design Inspiration",
+    "captured": "2026-11-13",
+    "state": "Portfolio discovery collection",
+    "file": "references/awwwards-portfolio.jpg",
+    "imageWidth": 1265,
+    "imageHeight": 712
+  },
+  {
+    "id": "awwwards-animation",
+    "url": "https://www.awwwards.com/websites/animation/",
+    "title": "Best Animation Websites | Web Design Inspiration",
+    "captured": "2026-11-13",
+    "state": "Animation discovery collection",
+    "file": "references/awwwards-animation.jpg",
+    "imageWidth": 1265,
+    "imageHeight": 712
+  },
+  {
+    "id": "awwwards-transitions",
+    "url": "https://www.awwwards.com/websites/transitions/",
+    "title": "Best Transition Websites | Web Design Inspiration",
+    "captured": "2026-11-13",
+    "state": "Transitions discovery collection",
+    "file": "references/awwwards-transitions.jpg",
+    "imageWidth": 1265,
+    "imageHeight": 712
+  },
+  {
+    "id": "awwwards-interaction",
+    "url": "https://www.awwwards.com/websites/interaction-design/",
+    "title": "Best Interaction Design websites | Web Design Inspiration",
+    "captured": "2026-11-13",
+    "state": "Interaction Design discovery collection",
+    "file": "references/awwwards-interaction.jpg",
+    "imageWidth": 1265,
+    "imageHeight": 712
+  },
+  {
+    "id": "dribbble-mikan",
+    "url": "https://dribbble.com/shots/26995447-Personal-Portfolio-Website-Animations",
+    "title": "Personal Portfolio Website — Animations by Dymas Alfin 🌵 for Mikan Team on Dribbble",
+    "captured": "2026-11-13",
+    "state": "Shot opening: typography-led portfolio",
+    "file": "references/dribbble-mikan.jpg",
+    "imageWidth": 809,
+    "imageHeight": 836
+  },
+  {
+    "id": "codrops-stefan",
+    "url": "https://tympanus.net/codrops/2025/03/05/case-study-stefan-vitasovic-portfolio-2025/",
+    "title": "Case Study: Stefan Vitasović Portfolio — 2025 | Codrops",
+    "captured": "2026-11-13",
+    "state": "Published case study opening",
+    "file": "references/codrops-stefan.jpg",
+    "imageWidth": 809,
+    "imageHeight": 836
+  }
+]

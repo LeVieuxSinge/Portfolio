@@ -1,0 +1,40 @@
+{
+  "date": "2026-11-14",
+  "scope": "Design documentation only",
+  "images": {
+    "screens": 40,
+    "boards": 5,
+    "references": 6
+  },
+  "totalImages": 51,
+  "primaryScreens": 32,
+  "frenchScreens": 8,
+  "browserLayouts": 45,
+  "responsiveLayouts": 32,
+  "localLinks": 82,
+  "activeProjects": 16,
+  "orderedMediaItems": 118,
+  "retainedAssetPaths": 119,
+  "preservedFiles": [
+    "app/composables/useProjects.ts",
+    "app/pages/about.vue",
+    "app/pages/project/[slug].vue",
+    "DESIGN.md",
+    "DESIGN_V2.md"
+  ],
+  "darkContrast": {
+    "inkOnPaper": 16.11,
+    "mutedOnPaper": 7.36,
+    "inkOnSurface": 14.98,
+    "mutedOnSurface": 6.84
+  },
+  "interactionChecks": [
+    "role filter and sort",
+    "locale query preservation",
+    "AnimeJS scroll-to-top",
+    "manual scroll cancellation",
+    "focus tooltip and Escape",
+    "reduced-motion study setting"
+  ],
+  "errors": []
+}

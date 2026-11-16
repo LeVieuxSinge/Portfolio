@@ -1,0 +1,16 @@
+[
+  {
+    "id": "machine-dark",
+    "file": "concepts/machine-dark.png",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 1329562
+  },
+  {
+    "id": "machine-light",
+    "file": "concepts/machine-light.png",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 1585633
+  }
+]

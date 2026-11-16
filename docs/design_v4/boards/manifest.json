@@ -1,0 +1,37 @@
+[
+  {
+    "id": "badges-desktop-en",
+    "file": "boards/badges-desktop-en.jpg",
+    "width": 1440,
+    "height": 900,
+    "bytes": 84756
+  },
+  {
+    "id": "links-desktop-en",
+    "file": "boards/links-desktop-en.jpg",
+    "width": 1440,
+    "height": 900,
+    "bytes": 68905
+  },
+  {
+    "id": "readiness-desktop-en",
+    "file": "boards/readiness-desktop-en.jpg",
+    "width": 1440,
+    "height": 900,
+    "bytes": 80418
+  },
+  {
+    "id": "scroll-desktop-en",
+    "file": "boards/scroll-desktop-en.jpg",
+    "width": 1440,
+    "height": 900,
+    "bytes": 61825
+  },
+  {
+    "id": "video-desktop-en",
+    "file": "boards/video-desktop-en.jpg",
+    "width": 1440,
+    "height": 900,
+    "bytes": 94014
+  }
+]
