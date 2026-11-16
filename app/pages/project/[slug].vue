@@ -7,8 +7,6 @@ const { t } = useI18n();
 const { state } = useArchiveState();
 const project = computed(() => projects.find(item => item.slug === route.params.slug));
 if (!project.value) throw createError({ statusCode: 404, statusMessage: "Project not found" });
-const titleElement = useTemplateRef<HTMLElement>("titleElement");
-useFitText(titleElement);
 usePageSeo(() => project.value?.title || t("pages.error.title"), () => project.value ? t(`${project.value.contentKey}.summary`) : t("pages.error.description"), () => project.value?.hero || "/portrait.webp");
 </script>
 
@@ -23,11 +21,10 @@ usePageSeo(() => project.value?.title || t("pages.error.title"), () => project.v
             <p class="eyebrow mb-6">
                 {{ t(project.featuredOrder !== undefined ? 'pages.project.selected' : 'pages.project.archived') }}
             </p>
-            <h1 class="display-type text-[12.5vw] md:text-[clamp(70px,10.8vw,170px)]">
+            <h1 class="display-type text-[10.8vw] wrap-anywhere md:text-[clamp(70px,10.8vw,170px)]">
                 <span
-                    ref="titleElement"
                     data-text-reveal
-                    class="inline-block whitespace-nowrap"
+                    class="whitespace-normal"
                 >{{ project.title }}</span>
             </h1>
             <ProjectFacts :project="project" />

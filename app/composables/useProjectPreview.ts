@@ -24,7 +24,9 @@ export function useProjectPreview(projects: () => readonly Project[]) {
         if (Math.abs(dx) < 0.1 && Math.abs(target.y - current.y) < 0.1 && Math.abs(current.rotation) < 0.1 && Math.abs(angularVelocity) < 0.05) pause();
     }, { immediate: false });
     function place(x: number, y: number, stationary = false) {
-        const media = project.value?.media.find(item => item.src === image.value || (item.type === "video" && item.poster === image.value)) || project.value?.media[0];
+        const media = project.value?.media.find(item => item.src === image.value)
+            || project.value?.media.find(item => item.type === "video" && item.poster === image.value)
+            || project.value?.media[0];
         const frame = previewFrame(x, y, window.innerWidth, window.innerHeight, media?.width || 16, media?.height || 9);
         const { width, maxHeight } = frame;
         target = { x: frame.x, y: frame.y };
@@ -34,11 +36,7 @@ export function useProjectPreview(projects: () => readonly Project[]) {
             position.value = { ...target, rotation: 0, width, maxHeight };
         }
         else {
-            position.value = {
-                ...position.value, width, maxHeight,
-                x: Math.max(64, Math.min(position.value.x, window.innerWidth - width - 64)),
-                y: Math.max(64, Math.min(position.value.y, window.innerHeight - frame.height - 64)),
-            };
+            position.value = { ...position.value, width, maxHeight };
             resume();
         }
     }
@@ -58,7 +56,8 @@ export function useProjectPreview(projects: () => readonly Project[]) {
         keyboard.value = true;
         focusedRow = row;
         project.value = item;
-        place(window.innerWidth * 0.58, row.getBoundingClientRect().bottom, true);
+        const rect = row.getBoundingClientRect();
+        place(window.innerWidth * 0.58, rect.top + rect.height / 2, true);
     }
     function clear() {
         pause();
@@ -71,7 +70,8 @@ export function useProjectPreview(projects: () => readonly Project[]) {
     }
     function scroll() {
         if (keyboard.value && focusedRow === document.activeElement) {
-            place(window.innerWidth * 0.58, focusedRow!.getBoundingClientRect().bottom, true);
+            const rect = focusedRow!.getBoundingClientRect();
+            place(window.innerWidth * 0.58, rect.top + rect.height / 2, true);
         }
         else if (cursor && desktop.value && pointer.value) {
             const row = document.elementFromPoint(cursor.x, cursor.y)?.closest<HTMLElement>("[data-project-slug]");

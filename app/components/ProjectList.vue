@@ -1,11 +1,38 @@
 <script setup lang="ts">
+import { createLayout } from "animejs";
 import type { Project } from "#shared/types/portfolio";
 
 const props = defineProps<{ projects: readonly Project[]; variant: "work" | "archive"; query?: Record<string, string>; label: string }>();
 const { t } = useI18n();
 const localePath = useLocalePath();
+const app = useNuxtApp();
+const list = useTemplateRef<HTMLOListElement>("list");
+const reduced = usePreferredReducedMotion();
+let layout: ReturnType<typeof createLayout> | undefined;
+let layoutVersion = 0;
 const { project, image, position, enter, move, focus, leave, clear } = useProjectPreview(() => props.projects);
-watch(() => props.projects, clear);
+watch(() => props.projects, async () => {
+    clear();
+    if (import.meta.server || props.variant !== "archive" || !list.value) return;
+    const token = ++layoutVersion;
+    // Hand initial entrance/scroll effects over to the list's layout animation.
+    app.$motion.releaseList(list.value);
+    if (reduced.value === "reduce") {
+        layout?.revert();
+        return;
+    }
+    layout ??= createLayout(list.value, {
+        children: "[data-layout-row]", duration: 450, ease: "out(3)",
+        enterFrom: { opacity: 0 }, leaveTo: { opacity: 0 },
+    });
+    layout.record();
+    await nextTick();
+    if (token === layoutVersion) layout.animate();
+}, { flush: "pre" });
+onBeforeUnmount(() => {
+    layoutVersion++;
+    layout?.revert();
+});
 </script>
 
 <template>
@@ -16,10 +43,12 @@ watch(() => props.projects, clear);
             <span class="hidden md:block">{{ t('pages.project.tags') }}</span>
             <span class="text-right">{{ t('pages.project.year') }}</span>
         </div>
-        <ol>
+        <ol ref="list">
             <li
                 v-for="(item, index) in projects"
                 :key="item.slug"
+                :data-layout-id="`project-${item.slug}`"
+                data-layout-row
             >
                 <NuxtLink
                     :to="{ path: localePath(`/project/${item.slug}`), query }"
@@ -59,18 +88,22 @@ watch(() => props.projects, clear);
             <div
                 v-if="project"
                 aria-hidden="true"
-                class="pointer-events-none fixed top-0 left-0 z-30 origin-bottom will-change-transform"
-                data-project-preview
-                :style="{ width: `${position.width}px`, transform: `translate3d(${position.x}px,${position.y}px,0) rotate(${position.rotation}deg)` }"
+                class="pointer-events-none fixed inset-0 z-30 overflow-hidden"
             >
-                <img
-                    :src="image"
-                    alt=""
-                    class="w-full object-contain"
-                    :style="{ maxHeight: `${position.maxHeight}px` }"
-                    decoding="async"
-                    @error="clear"
+                <div
+                    class="absolute top-0 left-0 origin-left will-change-transform"
+                    data-project-preview
+                    :style="{ width: `${position.width}px`, transform: `translate3d(${position.x}px,${position.y}px,0) rotate(${position.rotation}deg)` }"
                 >
+                    <img
+                        :src="image"
+                        alt=""
+                        class="w-full object-contain"
+                        :style="{ maxHeight: `${position.maxHeight}px` }"
+                        decoding="async"
+                        @error="clear"
+                    >
+                </div>
             </div>
         </Teleport>
     </ClientOnly>

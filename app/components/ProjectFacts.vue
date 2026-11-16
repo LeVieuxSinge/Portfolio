@@ -9,10 +9,10 @@ const { t } = useI18n();
     <dl class="mt-10 flex min-w-0 flex-col gap-6 md:mt-[60px] md:flex-row md:gap-[35px]">
         <div class="min-w-0 flex-1">
             <dt class="eyebrow mb-3">
-                {{ t(['feltkutur', 'ecd', 'amb', 'bromont', 'schluter', 'simona'].includes(project.slug) ? 'pages.project.client' : 'pages.project.project') }}
+                {{ t('pages.project.client') }}
             </dt>
             <dd class="text-sm md:text-base">
-                {{ project.title }}
+                {{ project.client }}
             </dd>
         </div>
         <div class="min-w-0 md:flex-[1.4]">

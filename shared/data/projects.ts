@@ -5,6 +5,7 @@ const sourceProjects = [
     {
         slug: "amb",
         title: "American Biltrite",
+        client: "Client 01",
         year: 2024,
         contributions: [
             "frontenddeveloper",
@@ -82,6 +83,7 @@ const sourceProjects = [
     {
         slug: "amie",
         title: "Amie",
+        client: "Client 02",
         year: 2018,
         contributions: [
             "artist3d",
@@ -185,6 +187,7 @@ const sourceProjects = [
     {
         slug: "bromont",
         title: "Bromont",
+        client: "Client 03",
         year: 2022,
         contributions: [
             "artist3d",
@@ -253,6 +256,7 @@ const sourceProjects = [
     {
         slug: "cloner",
         title: "Cloner",
+        client: "Client 04",
         year: 2020,
         contributions: [
             "artist3d",
@@ -312,6 +316,7 @@ const sourceProjects = [
     {
         slug: "cyberblade",
         title: "Cyberblade",
+        client: "Client 05",
         year: 2020,
         contributions: [
             "artist3d",
@@ -393,6 +398,7 @@ const sourceProjects = [
     {
         slug: "ecd",
         title: "ECD",
+        client: "Client 06",
         year: 2023,
         contributions: [
             "frontenddeveloper",
@@ -468,6 +474,7 @@ const sourceProjects = [
     {
         slug: "feltkutur",
         title: "Feltkutur",
+        client: "Client 07",
         year: 2022,
         contributions: [
             "frontenddeveloper",
@@ -565,6 +572,7 @@ const sourceProjects = [
     {
         slug: "grownshrink",
         title: "GrowNShrink",
+        client: "Client 08",
         year: 2020,
         contributions: [
             "gamedeveloper",
@@ -612,6 +620,7 @@ const sourceProjects = [
     {
         slug: "identity",
         title: "Identity",
+        client: "Client 09",
         year: 2020,
         contributions: [
             "artist3d",
@@ -696,6 +705,7 @@ const sourceProjects = [
     {
         slug: "living-typo",
         title: "Living Typo",
+        client: "Client 10",
         year: 2020,
         contributions: [
             "programmer",
@@ -758,6 +768,7 @@ const sourceProjects = [
     {
         slug: "monologue",
         title: "Monologue",
+        client: "Client 11",
         year: 2020,
         contributions: [
             "artist3d",
@@ -811,6 +822,7 @@ const sourceProjects = [
     {
         slug: "ryker",
         title: "Ryker",
+        client: "Client 12",
         year: 2023,
         contributions: [
             "uiuxdesigner",
@@ -895,6 +907,7 @@ const sourceProjects = [
     {
         slug: "schluter",
         title: "Schluter",
+        client: "Client 13",
         year: 2021,
         contributions: [
             "artist3d",
@@ -989,6 +1002,7 @@ const sourceProjects = [
     {
         slug: "simona",
         title: "Simona",
+        client: "Client 14",
         year: 2022,
         contributions: [
             "frontenddeveloper",
@@ -1075,6 +1089,7 @@ const sourceProjects = [
     {
         slug: "tile-map-generator",
         title: "Tile Map Generator",
+        client: "Client 15",
         year: 2020,
         contributions: [
             "programmer",
@@ -1141,6 +1156,7 @@ const sourceProjects = [
     {
         slug: "unstable",
         title: "Unstable",
+        client: "Client 16",
         year: 2020,
         contributions: [
             "gamedeveloper",

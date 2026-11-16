@@ -14,27 +14,27 @@ const nextWork = computed(() => nextSelectedProject(projects, props.project.slug
 <template>
     <nav
         v-if="project.featuredOrder !== undefined"
-        class="section-space pb-20 md:pb-[110px]"
+        class="section-space flex flex-col justify-between gap-10 pb-20 md:flex-row md:items-center md:gap-20 md:pb-[110px]"
         :aria-label="t('pages.project.selectedNavigation')"
     >
-        <h2 class="mb-[30px] text-[29px] font-semibold tracking-[-0.025em] md:text-[46px]">
-            {{ t('pages.project.more') }}
-        </h2>
-        <div class="flex flex-col justify-between gap-10 md:flex-row md:items-end md:gap-20">
+        <div class="min-w-0">
+            <h2 class="mb-[30px] text-[29px] font-semibold tracking-[-0.025em] md:text-[46px]">
+                {{ t('pages.project.more') }}
+            </h2>
             <ActionLink :to="localePath('/work')">
                 {{ t('pages.project.back') }}
             </ActionLink>
-            <div
-                v-if="nextWork"
-                class="min-w-0 md:ml-auto"
-            >
-                <p class="eyebrow mb-[18px]">
-                    {{ t('pages.project.next') }}
-                </p>
-                <ActionLink :to="localePath(`/project/${nextWork.slug}`)">
-                    {{ nextWork.title }}
-                </ActionLink>
-            </div>
+        </div>
+        <div
+            v-if="nextWork"
+            class="min-w-0 self-end text-right md:ml-auto md:self-auto"
+        >
+            <p class="eyebrow mb-[18px]">
+                {{ t('pages.project.next') }}
+            </p>
+            <ActionLink :to="localePath(`/project/${nextWork.slug}`)">
+                {{ nextWork.title }}
+            </ActionLink>
         </div>
     </nav>
     <nav
@@ -55,7 +55,7 @@ const nextWork = computed(() => nextSelectedProject(projects, props.project.slug
         </div>
         <div
             v-if="neighbors.next"
-            class="min-w-0 md:ml-auto"
+            class="min-w-0 self-end text-right md:ml-auto"
         >
             <p class="eyebrow mb-[18px]">
                 {{ t('pages.project.next') }}

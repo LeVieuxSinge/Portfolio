@@ -1,9 +1,10 @@
 import { animate, onScroll, splitText, stagger } from "animejs";
-import { isLocaleNavigation, isProjectNavigation } from "#shared/utils/navigation";
+import { isLocaleNavigation, needsCoveredNavigation } from "#shared/utils/navigation";
 
 export default defineNuxtPlugin((app) => {
     const { isLoading, isRevealing } = useLoading();
     const { isOpen, isPageRevealing } = useMenu();
+    const { isNavigating } = usePageTransition();
     const pageCovered = useState<boolean>("page-covered", () => false);
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
     const animations: ReturnType<typeof animate>[] = [];
@@ -12,9 +13,13 @@ export default defineNuxtPlugin((app) => {
     let transitionReady: Promise<void> | undefined;
     let activeTransition: ViewTransition | undefined;
     let frame = 0;
+    let settleFrame: (() => void) | undefined;
+    let preparing: Promise<void> | undefined;
     let version = 0;
+    let preparedMain: HTMLElement | undefined;
     let shellEntered = false;
     let staticLocaleSwap = false;
+    let samePageUpdate = false;
     let coverAnimation: ReturnType<typeof animate> | undefined;
     let resolveCover: (() => void) | undefined;
     let coverVersion = 0;
@@ -39,26 +44,47 @@ export default defineNuxtPlugin((app) => {
         await fadeCover(0, reduced.matches ? 1 : 400);
         if (token !== coverVersion) return;
         pageCovered.value = false;
+        isNavigating.value = false;
+        delete document.documentElement.dataset.pageHandoff;
         await nextTick();
         document.querySelector<HTMLElement>("main#main")?.focus({ preventScroll: true });
     }
 
+    function cancelFrame() {
+        cancelAnimationFrame(frame);
+        settleFrame?.();
+        settleFrame = undefined;
+    }
     function clear() {
         version++;
-        cancelAnimationFrame(frame);
+        preparing = undefined;
+        cancelFrame();
+        preparedMain = undefined;
         observers.splice(0).forEach(observer => observer.revert());
         animations.splice(0).forEach(animation => animation.revert());
         splits.splice(0).forEach(split => split.revert());
     }
-    function revealPage() {
-        clear();
-        if (staticLocaleSwap || reduced.matches) {
-            if (pageCovered.value) void revealCover();
-            return;
+    function releaseList(root: HTMLElement) {
+        for (let i = observers.length - 1; i >= 0; i--) {
+            if (root.contains(observers[i]!.target)) observers.splice(i, 1)[0]!.revert();
         }
+        for (let i = animations.length - 1; i >= 0; i--) {
+            if (animations[i]!.targets.some(target => target instanceof Element && root.contains(target))) {
+                animations.splice(i, 1)[0]!.revert();
+            }
+        }
+    }
+    function revealPage() {
         if ((isLoading.value && !isRevealing.value) || (isOpen.value && !isPageRevealing.value)) return;
         const main = document.querySelector<HTMLElement>("main#main");
-        if (!main) return;
+        if (!main || main === preparedMain) return;
+        clear();
+        preparedMain = main;
+        if (staticLocaleSwap || reduced.matches) {
+            if (pageCovered.value) void revealCover();
+            else if (!isOpen.value) isNavigating.value = false;
+            return;
+        }
         if (!shellEntered) {
             shellEntered = true;
             animations.push(animate(document.querySelectorAll("header > a, header > nav"), {
@@ -81,7 +107,7 @@ export default defineNuxtPlugin((app) => {
             const delay = visible ? Math.min(visibleIndex++ * 45, 270) : 0;
             const title = element.matches("h1") ? element.querySelector<HTMLElement>("[data-text-reveal]") : null;
             if (title && visible) {
-                const split = splitText(title, { chars: true, words: false, lines: false, accessible: true });
+                const split = splitText(title, { chars: true, words: true, lines: false, accessible: true });
                 splits.push(split);
                 animations.push(animate(split.chars, {
                     y: ["60%", "0%"], opacity: [0, 1], duration: 800,
@@ -101,21 +127,39 @@ export default defineNuxtPlugin((app) => {
             }));
         }
         if (pageCovered.value) void revealCover();
+        else if (!isOpen.value) isNavigating.value = false;
     }
-    async function schedule() {
+    async function runPreparation() {
         const scheduledVersion = ++version;
+        cancelFrame();
         await nextTick();
         await transitionReady?.catch(() => {});
         if (scheduledVersion !== version) return;
-        cancelAnimationFrame(frame);
-        frame = requestAnimationFrame(() => {
-            frame = requestAnimationFrame(revealPage);
+        await new Promise<void>((resolve) => {
+            settleFrame = resolve;
+            frame = requestAnimationFrame(() => {
+                frame = requestAnimationFrame(() => {
+                    settleFrame = undefined;
+                    if (scheduledVersion === version) revealPage();
+                    resolve();
+                });
+            });
         });
+    }
+    function preparePage() {
+        if (preparing) return preparing;
+        const pending = runPreparation();
+        preparing = pending;
+        void pending.finally(() => {
+            if (preparing === pending) preparing = undefined;
+        }).catch(() => {});
+        return pending;
     }
     const stopTransition = app.hook("page:view-transition:start", (transition) => {
         activeTransition = transition;
         document.documentElement.dataset.viewTransition = "active";
-        transitionReady = transition.ready;
+        // The browser captures an opaque handoff, never an unprepared new page.
+        transitionReady = transition.finished;
         void transition.finished.finally(() => {
             if (activeTransition === transition) {
                 activeTransition = undefined;
@@ -125,37 +169,45 @@ export default defineNuxtPlugin((app) => {
         }).catch(() => {});
     });
     const stopBefore = app.$router.beforeEach(async (to, from) => {
+        samePageUpdate = !!from.matched.length && to.path === from.path;
+        if (samePageUpdate) {
+            to.meta.viewTransition = false;
+            return;
+        }
         staticLocaleSwap = !!from.matched.length && isLocaleNavigation(to.path, from.path);
-        const cover = isProjectNavigation(to.path, from.path) && !isOpen.value && !reduced.matches;
-        if (staticLocaleSwap || isOpen.value || cover || pageCovered.value) to.meta.viewTransition = false;
-        clear();
+        const changingPage = !!from.matched.length && needsCoveredNavigation(to.path, from.path);
+        if (changingPage) isNavigating.value = true;
+        const cover = changingPage && !isOpen.value && !reduced.matches;
+        to.meta.viewTransition = changingPage && !isOpen.value && !reduced.matches;
         if (cover || pageCovered.value) {
+            document.documentElement.dataset.pageHandoff = "covered";
             coverVersion++;
             coverTarget = to.fullPath;
             pageCovered.value = true;
-            await fadeCover(1, reduced.matches ? 1 : 220);
+            await fadeCover(1, reduced.matches ? 1 : 280);
         }
+        clear();
     });
     const stopAfter = app.$router.afterEach((to, from, failure) => {
         if (failure && pageCovered.value && to.fullPath === coverTarget) void revealCover();
-        if (!failure && to.path === from.path) void schedule();
+        else if (failure && !pageCovered.value) isNavigating.value = false;
     });
     const stopPage = app.hook("page:loading:end", () => {
-        void schedule();
+        if (!samePageUpdate || isLoading.value) void preparePage();
     });
-    const stopLoading = watch(isRevealing, (value) => {
-        if (value) void schedule();
-    });
-    const stopMenu = watch(isPageRevealing, (value) => {
-        if (value) void schedule();
-    });
+    const recover = () => {
+        if (pageCovered.value) void revealCover();
+        else isNavigating.value = false;
+    };
+    const stopError = app.$router.onError(recover);
+    const stopAppError = app.hook("app:error", recover);
     const onPreference = () => {
         if (reduced.matches) {
             activeTransition?.skipTransition();
             clear();
             if (pageCovered.value) void revealCover();
         }
-        else void schedule();
+        else void preparePage();
     };
     reduced.addEventListener("change", onPreference);
 
@@ -164,15 +216,18 @@ export default defineNuxtPlugin((app) => {
         coverAnimation?.cancel();
         resolveCover?.();
         pageCovered.value = false;
+        isNavigating.value = false;
         activeTransition?.skipTransition();
         delete document.documentElement.dataset.viewTransition;
+        delete document.documentElement.dataset.pageHandoff;
         stopTransition();
         stopBefore();
         stopAfter();
         stopPage();
-        stopLoading();
-        stopMenu();
+        stopError();
+        stopAppError();
         reduced.removeEventListener("change", onPreference);
     }
     if (import.meta.hot) import.meta.hot.dispose(dispose);
+    return { provide: { motion: { releaseList, preparePage } } };
 });

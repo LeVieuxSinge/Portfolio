@@ -9,6 +9,7 @@ const route = useRoute();
 const router = useRouter();
 const app = useNuxtApp();
 const { isOpen, isPageRevealing } = useMenu();
+const { isNavigating } = usePageTransition();
 const header = useTemplateRef<HTMLElement>("header");
 const panel = useTemplateRef<HTMLElement>("panel");
 const menuHeaderHost = useTemplateRef<HTMLElement>("menuHeaderHost");
@@ -26,7 +27,11 @@ const currentPage = computed(() => {
     }
     return key === "work" || key === "archive" || key === "about" ? t(`pages.${key}.title`) : "";
 });
-const showPage = computed(() => !!currentPage.value && introEnd.value > 0 && y.value >= introEnd.value - 2 && !isOpen.value);
+const displayedPage = shallowRef(currentPage.value);
+watch([currentPage, isNavigating, isOpen], ([text, navigating, menuOpen]) => {
+    if (!navigating && !menuOpen) displayedPage.value = text;
+});
+const showPage = computed(() => !!displayedPage.value && introEnd.value > 0 && y.value >= introEnd.value - 2 && !isOpen.value && !isNavigating.value);
 useResizeObserver(header, ([entry]) => {
     if (entry) document.documentElement.style.setProperty("--header-height", `${entry.target.getBoundingClientRect().height}px`);
 });
@@ -39,6 +44,7 @@ onBeforeUnmount(() => {
     cancelPendingNavigation();
     isOpen.value = false;
     isPageRevealing.value = false;
+    isNavigating.value = false;
 });
 
 async function opened(event: Event) {
@@ -58,6 +64,7 @@ async function removeMenu() {
     await nextTick();
     isOpen.value = false;
     isPageRevealing.value = false;
+    isNavigating.value = false;
     await nextTick();
     returningHeader.value = false;
     phase.value = "closed";
@@ -105,6 +112,7 @@ async function followLink(target: string) {
         stopReady();
         await nextTick();
         isPageRevealing.value = !failure;
+        if (!failure) await app.$motion.preparePage();
         await motion.revealPage();
     }
     finally {
@@ -140,7 +148,8 @@ function identityClick(event: MouseEvent) {
                         v-if="showPage"
                         class="pointer-events-none absolute left-1/2 max-w-[40%] -translate-x-1/2 truncate text-center font-sans text-xs font-normal tracking-[0.06em] uppercase md:text-sm"
                         aria-hidden="true"
-                    >{{ currentPage }}</span>
+                        data-header-page
+                    >{{ displayedPage }}</span>
                 </Transition>
                 <nav
                     :aria-label="t('layouts.headerControls')"

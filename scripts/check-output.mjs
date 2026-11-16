@@ -24,6 +24,7 @@ for (const route of contentRoutes) {
     const slug = route.split("/project/")[1];
     if (slug) {
         const project = projects.find(item => item.slug === slug);
+        assert.match(html, /<dt\b[^>]*>\s*Client\s*<\/dt>/, `Missing Client fact: ${route}`);
         let previousIndex = -1;
         for (const media of project.media) {
             const index = html.indexOf(`data-media-src="${media.src}"`);

@@ -13,6 +13,7 @@ export interface ProjectMedia {
 export interface Project {
     slug: string;
     title: string;
+    client: string;
     year: number;
     contributions: readonly ContributionRoleId[];
     profiles: readonly ProfileId[];

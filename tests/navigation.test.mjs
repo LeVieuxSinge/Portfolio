@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { isLocaleNavigation, isProjectNavigation, localizedPageKey, scrollDownTarget } from "../shared/utils/navigation.ts";
+import { isLocaleNavigation, needsCoveredNavigation, localizedPageKey, scrollDownTarget } from "../shared/utils/navigation.ts";
 
 test("locale swaps identify only equivalent localized pages", () => {
     assert.equal(localizedPageKey("/fr/"), "/");
@@ -14,12 +14,18 @@ test("locale swaps identify only equivalent localized pages", () => {
     assert.equal(isLocaleNavigation("/fr/work", "/fr/work"), false);
 });
 
-test("only a change between different projects needs a covered scroll reset", () => {
-    assert.equal(isProjectNavigation("/project/ecd", "/project/amb"), true);
-    assert.equal(isProjectNavigation("/fr/project/ecd", "/fr/project/amb"), true);
-    assert.equal(isProjectNavigation("/fr/project/ecd", "/project/ecd"), false);
-    assert.equal(isProjectNavigation("/archive", "/project/ecd"), false);
-    assert.equal(isProjectNavigation("/project/ecd", "/work"), false);
+test("every page change uses the covered handoff while locale and query updates stay in place", () => {
+    for (const from of ["/", "/work", "/archive", "/about", "/project/amb"]) {
+        for (const to of ["/", "/work", "/archive", "/about", "/project/ecd"]) {
+            assert.equal(needsCoveredNavigation(to, from), to !== from);
+            const frenchFrom = `/fr${from === "/" ? "" : from}`;
+            const frenchTo = `/fr${to === "/" ? "" : to}`;
+            assert.equal(needsCoveredNavigation(frenchTo, frenchFrom), to !== from);
+        }
+    }
+    assert.equal(needsCoveredNavigation("/fr/project/ecd", "/project/ecd"), false);
+    assert.equal(needsCoveredNavigation("/fr/about", "/about"), false);
+    assert.equal(needsCoveredNavigation("/archive", "/archive"), false);
 });
 
 test("the scroll-down destination also defines the header label threshold", () => {

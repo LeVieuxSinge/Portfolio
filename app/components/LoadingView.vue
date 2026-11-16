@@ -2,6 +2,7 @@
 import { animate } from "animejs";
 
 const { progress, ready, isRevealing, finish } = useLoading();
+const app = useNuxtApp();
 const { t } = useI18n();
 const reduced = usePreferredReducedMotion();
 const panel = useTemplateRef<HTMLElement>("panel");
@@ -60,6 +61,7 @@ watch([ready, elapsed], async ([isReady, minimumElapsed]) => {
     isRevealing.value = true;
     pause();
     await nextTick();
+    await app.$motion.preparePage();
     if (!panel.value) return finish();
     if (foreground.value) foregroundExit = animate(foreground.value, {
         opacity: [1, 0], ...(reduced.value !== "reduce" ? { y: [0, -20] } : {}), duration: 320, ease: "in(3)",

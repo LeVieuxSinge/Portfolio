@@ -28,6 +28,7 @@ test("the active catalog preserves slugs and all ordered source media", () => {
     for (const project of projects) {
         const source = baseline.find(item => item.slug === project.slug);
         assert.ok(source);
+        assert.ok(project.client.trim(), `Client name missing for ${project.slug}`);
         assert.match(project.slug, /^[a-z0-9]+(?:-[a-z0-9]+)*$/);
         assert.deepEqual(project.media.map(({ type, src }) => ({ type, src })), source.assets);
         assert.deepEqual(project.contributions, source.roles);
