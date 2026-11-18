@@ -36,14 +36,6 @@ function onMousemove(event: MouseEvent) {
     }
 }
 
-function onMousedown() {
-    // useAnimatableIcon().scale!(0);
-}
-
-function onMouseup() {
-    // useAnimatableIcon().scale!(1);
-}
-
 function onButtonMouseEnter() {
     useAnimatableIcon().scale!(1.5);
     useAnimatableIcon().opacity!(1);
@@ -66,21 +58,16 @@ onMounted(() => {
     useAnimatableIcon().opacity!(0);
 
     window.addEventListener("mousemove", onMousemove);
-    window.addEventListener("mousedown", onMousedown);
-    window.addEventListener("mouseup", onMouseup);
 });
 
 onUnmounted(() => {
     animatableIcon?.revert();
     window.removeEventListener("mousemove", onMousemove);
-    window.removeEventListener("mousedown", onMousedown);
-    window.removeEventListener("mouseup", onMouseup);
 });
 </script>
 
 <template>
     <div
-        ref="refRoot"
         class="fixed top-0 left-0 w-dvw h-dvh z-custom-cursor pointer-events-none"
     >
         <span

@@ -38,12 +38,6 @@
   .noise::before, .noise::after { animation: none; }
 }
 
-@-webkit-keyframes noise {
-  to {
-    transform: translate3d(-7rem, 0, 0)
-  }
-}
-
 @keyframes noise {
   0% {
     transform: translate3d(0, 9rem, 0)

@@ -93,18 +93,13 @@ main#main { view-transition-name: page; }
 .site-header { view-transition-name: site-header; }
 .site-header::before { content: ""; position: absolute; inset: 0 0 -12px; z-index: -1; pointer-events: none; background: linear-gradient(to bottom, var(--color-paper), transparent); }
 [data-view-transition] [data-project-preview] { opacity: 0; }
-::view-transition-group(page), ::view-transition-group(site-header) { animation: none; }
-::view-transition-old(page), ::view-transition-new(page) { mix-blend-mode: normal; }
-::view-transition-old(page) { animation: page-out 450ms cubic-bezier(.4,0,.2,1) both; }
-::view-transition-new(page) { animation: page-in 650ms cubic-bezier(.22,1,.36,1) both; }
+::view-transition-group(site-header) { animation: none; }
 ::view-transition-old(site-header), ::view-transition-new(site-header) { animation: none; }
 ::view-transition-group(root) { animation: none; }
 ::view-transition-old(root) { animation: none; opacity: 0; }
 ::view-transition-new(root) { animation: none; }
 .header-page-enter-active, .header-page-leave-active { transition: opacity 260ms ease; }
 .header-page-enter-from, .header-page-leave-to { opacity: 0; }
-@keyframes page-out { to { opacity: 0; transform: translateY(-24px); } }
-@keyframes page-in { from { opacity: 0; clip-path: inset(24px 0 0 0); transform: translateY(32px); } to { opacity: 1; clip-path: inset(0 0 0 0); transform: translateY(0); } }
 
 @property --entry-count { syntax: "<integer>"; initial-value: 0; inherits: false; }
 @counter-style entry-digits { system: numeric; symbols: "0" "1" "2" "3" "4" "5" "6" "7" "8" "9"; pad: 3 "0"; }

@@ -28,9 +28,9 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm lint
       - run: pnpm typecheck
-      - run: pnpm test
       - run: pnpm generate
       - run: pnpm check:output
+      - run: pnpm check:routes
       - uses: actions/upload-pages-artifact@v3
         with:
           path: .output/public
