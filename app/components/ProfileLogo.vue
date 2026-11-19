@@ -1,3 +1,4 @@
+<!-- Four retained color paths with no SVG IDs, so multiple rendered instances cannot collide. -->
 <template>
     <svg
         viewBox="0 0 36 36"

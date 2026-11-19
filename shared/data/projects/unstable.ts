@@ -1,19 +1,24 @@
 import type { ProjectRecord } from "../../types/portfolio.ts";
 
+/** Authored facts and source-ordered media; derived profiles are added by the catalog aggregator. */
 export default {
     slug: "unstable",
     title: "Unstable",
     client: "School",
     year: 2020,
+
     contributions: [
         "gamedeveloper",
         "programmer",
     ],
+
     tags: [
         "javascript",
         "gdevelop",
     ],
+
     hero: "/images/projects/unstable/cover.webp",
+
     media: [
         {
             type: "video",
@@ -52,6 +57,8 @@ export default {
             altKey: "pages.project.items.unstable.media.4",
         },
     ],
+
     links: [],
+
     contentKey: "pages.project.items.unstable",
 } satisfies ProjectRecord;

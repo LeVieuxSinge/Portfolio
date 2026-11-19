@@ -2,14 +2,30 @@ import type { Ref } from "vue";
 import { createAnimationScope } from "~/utils/motion/scope";
 import { motionDurations } from "~/utils/motion/tokens";
 
-export function useLoadingPresentation(elements: { panel: Ref<HTMLElement | null>; number: Ref<HTMLElement | null>; foreground: Ref<HTMLElement | null>; log: Ref<HTMLElement | null> }) {
+/**
+ * Coordinate percentage timing, message history, entrance readiness, and the 500ms overlay exit.
+ * @param elements Component-owned panel, counter, foreground, and history refs.
+ * @returns Read-only progress/ownership/history for the template; timers/effects are stopped on unmount.
+ */
+export function useLoadingPresentation(elements: {
+    /** Entry overlay containing its independently fading background. */
+    panel: Ref<HTMLElement | null>;
+    /** CSS first-paint counter handed over to AnimeJS after hydration. */
+    number: Ref<HTMLElement | null>;
+    /** Percentage and message surface, hidden upward before background exit. */
+    foreground: Ref<HTMLElement | null>;
+    /** Five-line history surface receiving the small insertion movement. */
+    log: Ref<HTMLElement | null>;
+}) {
     const { ready, beginReveal, finish } = useLoading();
     const app = useNuxtApp();
     const reduced = usePreferredReducedMotion();
     const messages = useEntryMessages();
     const { progress, owned, elapsed } = useEntryProgress(elements.number, ready, messages.start);
+
     const effects = createAnimationScope();
     const logEffects = createAnimationScope();
+
     let exiting = false;
     let disposed = false;
 
@@ -32,15 +48,19 @@ export function useLoadingPresentation(elements: { panel: Ref<HTMLElement | null
         if (elements.foreground.value) void effects.run(elements.foreground.value, {
             opacity: [1, 0], ...(reduced.value !== "reduce" ? { y: [0, -20] } : {}), duration: 320, ease: "in(3)",
         });
+
         const background = elements.panel.value.querySelector<HTMLElement>("[data-loading-background]")!;
+
         background.style.animation = "none";
         if (await effects.run(background, { opacity: [1, 0], duration: motionDurations.overlayExit, ease: "inOut(3)" })) finish();
     });
+
     onBeforeUnmount(() => {
         disposed = true;
         messages.stop();
         logEffects.revert();
         effects.revert();
     });
+
     return { progress: readonly(progress), owned, history: messages.history };
 }

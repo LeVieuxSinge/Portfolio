@@ -1,9 +1,15 @@
+<!-- Supplementary desktop/mobile progress control sharing its intro destination with the centered header label. -->
 <script setup lang="ts">
 const { t } = useI18n();
 const { y, progress, introEnd, moveTo } = useDocumentScroll();
 const { isOpen } = useMenu();
 const { isLoading } = useLoading();
+
 const label = computed(() => t(y.value > 8 ? "components.scroll.up" : "components.scroll.down"));
+
+/**
+ * Use the shared intro threshold at page start and return to top after scrolling; the service keeps movement interruptible.
+ */
 function activate() {
     moveTo(y.value > 8 ? 0 : introEnd.value);
 }

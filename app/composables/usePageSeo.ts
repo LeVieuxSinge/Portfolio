@@ -2,11 +2,21 @@ import { site } from "#shared/data/site";
 import { localizedPath } from "#shared/utils/navigation";
 import type { MaybeRefOrGetter } from "vue";
 
+/**
+ * Publish localized titles/descriptions, canonical/alternate links, and retained-media social metadata during SSR and navigation.
+ * @param title Text or reactive getter in the active locale.
+ * @param description Text or reactive getter in the active locale.
+ * @param image Root-relative retained image; defaults to the shared public portrait.
+ * @returns No state; Nuxt owns reactive head registration and cleanup.
+ */
 export function usePageSeo(title: MaybeRefOrGetter<string>, description: MaybeRefOrGetter<string>, image: MaybeRefOrGetter<string> = site.portrait.src) {
     const route = useRoute();
     const { locale } = useI18n();
+
     const origin = site.origin;
+
     const unprefixed = computed(() => localizedPath(route.path));
+
     useHead(() => ({
         htmlAttrs: { lang: locale.value },
         link: [

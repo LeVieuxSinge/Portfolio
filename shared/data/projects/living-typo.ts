@@ -1,18 +1,23 @@
 import type { ProjectRecord } from "../../types/portfolio.ts";
 
+/** Authored facts and source-ordered media; derived profiles are added by the catalog aggregator. */
 export default {
     slug: "living-typo",
     title: "Living Typo",
     client: "School",
     year: 2020,
+
     contributions: [
         "programmer",
     ],
+
     tags: [
         "javascript",
         "p5js",
     ],
+
     hero: "/images/projects/living-typo/2.webp",
+
     media: [
         {
             type: "video",
@@ -51,6 +56,7 @@ export default {
             altKey: "pages.project.items.living-typo.media.4",
         },
     ],
+
     links: [
         {
             labelKey: "pages.project.items.living-typo.links.0",
@@ -61,5 +67,6 @@ export default {
             url: "https://github.com/LeVieuxSinge/CodingExperiments/tree/master/LivingTypo",
         },
     ],
+
     contentKey: "pages.project.items.living-typo",
 } satisfies ProjectRecord;

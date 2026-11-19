@@ -1,19 +1,27 @@
+<!-- One persistent header instance is teleported into Reka's modal focus region; this template never duplicates it. -->
 <script setup lang="ts">
 import { DialogContent, DialogDescription, DialogPortal, DialogRoot, DialogTitle, DialogTrigger } from "reka-ui";
 import { navigationItems } from "#shared/data/site";
 
-const props = defineProps<{ blocked?: boolean }>();
+const props = defineProps<{
+    /** Make controls inert during document entry or a regular page-cover handoff. */
+    blocked?: boolean;
+}>();
+
 const { t } = useI18n();
 const localePath = useLocalePath();
 const route = useRoute();
+
 const header = useTemplateRef<HTMLElement>("header");
 const panel = useTemplateRef<HTMLElement>("panel");
 const menuHeaderHost = useTemplateRef<HTMLElement>("menuHeaderHost");
+
 const { isOpen, teleported, iconOpen, opened, requestState, restoreFocus, followLink, identityClick, settle } = useModalNavigation(header, panel, menuHeaderHost);
 
 useResizeObserver(header, ([entry]) => {
     if (entry) document.documentElement.style.setProperty("--header-height", `${entry.target.getBoundingClientRect().height}px`);
 });
+
 onBeforeUnmount(() => document.documentElement.style.removeProperty("--header-height"));
 </script>
 

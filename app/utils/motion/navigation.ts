@@ -7,43 +7,76 @@ import { motionDurations } from "./tokens";
 import { createAnimationScope } from "./scope";
 import type { createPageReveals } from "./reveals";
 
+/** Dependencies supplied by the shell plugin; this controller owns phase writes. */
 interface NavigationOptions {
+    /** Internal SSR-safe phase used by read-only header/cover facades. */
     phase: Ref<NavigationPhase>;
+    /** Existing modal surface owns coverage while true. */
     menuOpen: Readonly<Ref<boolean>>;
+    /** Entry surface requests its own preparation after essential readiness. */
     loading: Readonly<Ref<boolean>>;
+    /** Native preference query; listener cleanup belongs to this controller. */
     reduced: MediaQueryList;
+    /** Element/text preparation owner, independent of routing and covers. */
     reveals: ReturnType<typeof createPageReveals>;
+    /** Mark equivalent locale navigation as a static text/content swap. */
     setStaticSwap: (value: boolean) => void;
 }
+
+/** Menu-owned visual operations; the controller supplies destination sequencing. */
 interface MenuHandoff {
+    /** Hide complete rows while retaining an opaque background. */
     exit: () => Promise<unknown>;
+    /** Fade that background only after the latest destination is prepared. */
     reveal: () => Promise<unknown>;
+    /** Synchronously re-cover an interrupted route without replacing the header. */
     hold: () => void;
 }
 
+/** Client-only shell service injected as `$pageTransition`. */
 export interface PageNavigation {
+    /** Deduplicated entry preparation; regular navigation also awaits cover exit. */
     preparePage: () => Promise<void>;
+    /** Route beneath an existing menu surface, following later interruptions. */
     navigateMenu: (target: string, motion: MenuHandoff) => Promise<void>;
+    /** Native snapshot completion barrier, or undefined when no snapshot is active. */
     whenNativeReady: () => Promise<unknown> | undefined;
+    /** Settle waiters and release every owned hook, listener, frame, and effect. */
     dispose: () => void;
 }
-/** One shell-level owner for covers, navigation readiness, recovery, and cancellation. */
+
+/**
+ * Coordinate route readiness, opaque covers, native snapshots, and menu handoffs through one writable phase.
+ * @param app Nuxt/router lifecycle host; installed once by the client plugin.
+ * @param options Shared phase and read-only loader/menu policy.
+ * @returns Shell services; dispose settles waiters and removes all registered hooks/listeners.
+ */
 export function createPageNavigation(app: NuxtApp, options: NavigationOptions): PageNavigation {
     const { phase, menuOpen, reduced, reveals } = options;
+
     const coverEffects = createAnimationScope();
+
+    // Native snapshots and shared preparation belong to the current navigation.
     let transitionReady: Promise<unknown> | undefined;
     let activeTransition: ViewTransition | undefined;
     let preparation: Promise<void> | undefined;
+
+    // Generation/target identity prevents old guards or frames revealing a newer page.
     let version = 0;
     let samePageUpdate = false;
     let menuTarget: string | undefined;
     let menuHandoff: MenuHandoff | undefined;
     let navigationTarget = "";
+
+    // A superseded mount promise is resolved before a replacement is installed.
     let mountedTarget = "";
     let mountedReady: Promise<void> = Promise.resolve();
     let settleMounted = () => {};
     let disposed = false;
 
+    /**
+     * Settle a superseded mount barrier before waiting for the next pathname's page:finish hook.
+     */
     function waitForMount(path: string) {
         settleMounted();
         mountedTarget = path;
@@ -51,20 +84,38 @@ export function createPageNavigation(app: NuxtApp, options: NavigationOptions): 
             settleMounted = resolve;
         });
     }
+
+    // Register before routing: a cached page can finish mounting immediately.
     const stopMounted = app.hook("page:finish", () => {
         if (app.$router.currentRoute.value.path === mountedTarget) settleMounted();
     });
+
+    /**
+     * Release navigation-derived blocking flags and the named-page snapshot suppression marker.
+     */
     function finish() {
         phase.value = "idle";
         delete document.documentElement.dataset.pageHandoff;
     }
+
+    /**
+     * Interrupt the previous cover effect, wait for its conditional DOM, then animate opacity.
+     * @param opacity Destination opacity, normally zero or one.
+     * @param duration Duration in milliseconds; reduced motion uses one millisecond.
+     */
     async function fadeCover(opacity: number, duration: number) {
         coverEffects.cancel();
         await nextTick();
+
         const cover = document.querySelector<HTMLElement>("[data-page-cover]");
+
         if (cover)
             await coverEffects.run(cover, { opacity, duration: reduced.matches ? 1 : duration, ease: "inOut(3)" });
     }
+
+    /**
+     * Fade out only the current generation's cover, release the phase, and focus main without moving the restored document.
+     */
     async function uncover(token: number) {
         phase.value = "page-revealing";
         await fadeCover(0, motionDurations.pageReveal);
@@ -75,12 +126,20 @@ export function createPageNavigation(app: NuxtApp, options: NavigationOptions): 
         await nextTick();
         document.querySelector<HTMLElement>("main#main")?.focus({ preventScroll: true });
     }
+
+    /**
+     * Deduplicate preparation and reject stale generations before touching new-page elements.
+     * @returns A promise that includes the regular page-cover exit; menu/entry surfaces own their own exits.
+     */
     function preparePage() {
         if (preparation)
             return preparation;
+
         const token = version;
+
         if (phase.value.startsWith("page-"))
             phase.value = "page-preparing";
+
         const task = (async () => {
             await mountedReady;
             if (token !== version || disposed) return;
@@ -92,13 +151,16 @@ export function createPageNavigation(app: NuxtApp, options: NavigationOptions): 
             else if (!menuOpen.value && !options.loading.value)
                 finish();
         })();
+
         preparation = task;
         void task.finally(() => {
             if (preparation === task)
                 preparation = undefined;
         }).catch(() => { });
+
         return task;
     }
+
     const stopTransition = app.hook("page:view-transition:start", (transition) => {
         if (reduced.matches) transition.skipTransition();
         activeTransition = transition;
@@ -112,6 +174,8 @@ export function createPageNavigation(app: NuxtApp, options: NavigationOptions): 
             delete document.documentElement.dataset.viewTransition;
         }).catch(() => { });
     });
+    // Cover → commit/mount → scroll restoration → target preparation → uncover.
+    // Same-page URL updates bypass this cycle so Archive can retain its list instance.
     const stopBefore = app.$router.beforeEach(async (to, from) => {
         navigationTarget = to.fullPath;
         samePageUpdate = !!from.matched.length && to.path === from.path;
@@ -134,11 +198,15 @@ export function createPageNavigation(app: NuxtApp, options: NavigationOptions): 
             return;
         }
         if (menuHandoff && menuTarget !== to.path) menuHandoff.hold();
+
         const token = menuTarget === to.path ? version : ++version;
+
         preparation = undefined;
         waitForMount(to.path);
         options.setStaticSwap(!!from.matched.length && isLocaleNavigation(to.path, from.path));
+
         const changingPage = !!from.matched.length && needsCoveredNavigation(to.path, from.path);
+
         to.meta.viewTransition = changingPage && !menuOpen.value && !reduced.matches;
         if ((changingPage && !menuOpen.value && !reduced.matches) || phase.value.startsWith("page-")) {
             phase.value = "page-covering";
@@ -153,6 +221,7 @@ export function createPageNavigation(app: NuxtApp, options: NavigationOptions): 
         if (token === version)
             reveals.clear();
     });
+    /** Release readiness on navigation/app failure while preserving existing coverage. */
     const recover = () => {
         settleMounted();
         if (phase.value.startsWith("page-"))
@@ -171,8 +240,16 @@ export function createPageNavigation(app: NuxtApp, options: NavigationOptions): 
         if (!samePageUpdate && !menuOpen.value && !options.loading.value)
             void preparePage();
     });
+
+    /**
+     * Keep the existing menu opaque across routing and prepare the latest destination, including interrupted Back/Forward/locale navigation.
+     * @param target Intended internal destination.
+     * @param motion Menu-owned exit/reveal/hold operations; no header instance is replaced.
+     * @returns Completion after reveal; finally releases ownership even when router navigation fails.
+     */
     async function navigateMenu(target: string, motion: MenuHandoff) {
         const token = ++version;
+
         menuTarget = app.$router.resolve(target).path;
         menuHandoff = motion;
         phase.value = "menu-covered";
@@ -201,6 +278,8 @@ export function createPageNavigation(app: NuxtApp, options: NavigationOptions): 
             }
         }
     }
+
+    /** Stop decorative snapshot/reveal work while leaving the current page readable. */
     const onPreference = () => {
         activeTransition?.skipTransition();
         reveals.clear();
@@ -211,7 +290,12 @@ export function createPageNavigation(app: NuxtApp, options: NavigationOptions): 
         }
         else if (!menuOpen.value && !options.loading.value) void preparePage();
     };
+
     reduced.addEventListener("change", onPreference);
+
+    /**
+     * Invalidate generations, settle mount/animation waiters, skip pending native snapshots, and unregister shell hooks/listeners.
+     */
     function dispose() {
         disposed = true;
         version++;
@@ -224,5 +308,6 @@ export function createPageNavigation(app: NuxtApp, options: NavigationOptions): 
         [stopTransition, stopBefore, stopAfter, stopPage, stopMounted, stopError, stopAppError].forEach(stop => stop());
         reduced.removeEventListener("change", onPreference);
     }
+
     return { preparePage, navigateMenu, whenNativeReady: () => transitionReady?.catch(() => { }), dispose };
 }

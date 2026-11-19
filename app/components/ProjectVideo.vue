@@ -1,11 +1,21 @@
+<!-- Native button activation wraps muted inline video; playback policy and native events live in useInlineVideo. -->
 <script setup lang="ts">
 import type { ProjectVideo } from "#shared/types/portfolio";
 
-const props = defineProps<{ media: ProjectVideo; eager?: boolean }>();
+const props = defineProps<{
+    /** Video-only record with required retained poster and intrinsic dimensions. */
+    media: ProjectVideo;
+    /** Preload only metadata for the leading video; gallery videos defer loading until needed. */
+    eager?: boolean;
+}>();
+
 const { t } = useI18n();
+
 const video = useTemplateRef<HTMLVideoElement>("video");
 const surface = useTemplateRef<HTMLElement>("surface");
+
 const { playing, failed, toggle, retry } = useInlineVideo(video, surface);
+
 const label = computed(() => `${t(playing.value ? "components.media.pause" : "components.media.playVideo")}: ${t(props.media.altKey)}`);
 </script>
 

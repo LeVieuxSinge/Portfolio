@@ -1,12 +1,27 @@
+<!-- Render ordered rows, register exclusive list-motion ownership, and portal decorative previews outside normal flow. -->
 <script setup lang="ts">
 import type { Project } from "#shared/types/portfolio";
 
-const props = defineProps<{ projects: readonly Project[]; variant: "work" | "archive"; query?: Record<string, string>; label: string }>();
+const props = defineProps<{
+    /** Already ordered collection; the list never re-sorts authored membership. */
+    projects: readonly Project[];
+    /** Work/Archive row density and whether filter updates use layout animation. */
+    variant: "work" | "archive";
+    /** Canonical browsing context forwarded to project links; locale changes preserve it. */
+    query?: Record<string, string>;
+    /** Localized accessible name for the complete collection section. */
+    label: string;
+}>();
+
 const { t } = useI18n();
 const localePath = useLocalePath();
+
 const list = useTemplateRef<HTMLOListElement>("list");
+
 const { project, image, position, enter, move, focus, leave, clear } = useProjectPreview(() => props.projects, list);
+
 useProjectListMotion(list, () => props.projects, props.variant);
+
 watch(() => props.projects, clear);
 </script>
 

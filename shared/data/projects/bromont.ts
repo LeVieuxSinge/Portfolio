@@ -1,21 +1,26 @@
 import type { ProjectRecord } from "../../types/portfolio.ts";
 
+/** Authored facts and source-ordered media; derived profiles are added by the catalog aggregator. */
 export default {
     slug: "bromont",
     title: "Bromont Interactive Map",
     client: "Bromont",
     year: 2022,
+
     contributions: [
         "artist3d",
         "frontenddeveloper",
         "webgldeveloper",
     ],
+
     tags: [
         "typescript",
         "vue",
         "sketchfab",
     ],
+
     hero: "/images/projects/bromont/0.webp",
+
     media: [
         {
             type: "video",
@@ -61,11 +66,13 @@ export default {
             altKey: "pages.project.items.bromont.media.5",
         },
     ],
+
     links: [
         {
             labelKey: "pages.project.items.bromont.links.0",
             url: "https://www.bromontmontagne.com/cartes-de-la-montagne/",
         },
     ],
+
     contentKey: "pages.project.items.bromont",
 } satisfies ProjectRecord;

@@ -1,19 +1,31 @@
 import type { Ref } from "vue";
 
-/** Own the persistent header's modal placement and Reka focus lifecycle. */
+/**
+ * Own the single header's Teleport placement and Reka focus lifecycle while the navigation controller owns destination readiness.
+ * @param header Persistent header element; never replaced by a second modal header.
+ * @param panel Menu animation surface.
+ * @param host Modal host receiving that same header instance.
+ * @returns Derived placement/icon flags and modal/navigation event handlers; unmount prevents late DOM work.
+ */
 export function useModalNavigation(header: Ref<HTMLElement | null>, panel: Ref<HTMLElement | null>, host: Ref<HTMLElement | null>) {
     const app = useNuxtApp();
     const route = useRoute();
     const localePath = useLocalePath();
     const { isOpen } = useMenu();
     const motion = useMenuMotion(panel);
+
     const returningHeader = shallowRef(false);
     const phase = shallowRef<"closed" | "opening" | "open" | "closing">("closed");
+
     const teleported = computed(() => !!host.value && isOpen.value && !returningHeader.value);
     const iconOpen = computed(() => isOpen.value && phase.value !== "closing");
+
     let navigating = false;
     let disposed = false;
 
+    /**
+     * Prevent default autofocus until the header has moved into the dialog, restore its accessibility visibility, and focus the toggle.
+     */
     async function opened(event: Event) {
         event.preventDefault();
         await nextTick();
@@ -28,6 +40,9 @@ export function useModalNavigation(header: Ref<HTMLElement | null>, panel: Ref<H
         if (!disposed && phase.value === "opening") phase.value = "open";
     }
 
+    /**
+     * Return the header before unmounting the dialog, restore styles, and focus destination main without scrolling.
+     */
     async function removeMenu() {
         if (disposed) return;
         returningHeader.value = true;
@@ -42,6 +57,9 @@ export function useModalNavigation(header: Ref<HTMLElement | null>, panel: Ref<H
         navigating = false;
     }
 
+    /**
+     * Coalesce duplicate close requests, await the full exit, then let Reka restore the trigger's focus.
+     */
     async function close() {
         if (phase.value === "closing" || !isOpen.value) return;
         phase.value = "closing";
@@ -49,6 +67,9 @@ export function useModalNavigation(header: Ref<HTMLElement | null>, panel: Ref<H
         await removeMenu();
     }
 
+    /**
+     * Translate Reka's controlled open requests into the owned opening/closing lifecycle.
+     */
     function requestState(open: boolean) {
         if (!open) void close();
         else if (!isOpen.value) {
@@ -57,10 +78,16 @@ export function useModalNavigation(header: Ref<HTMLElement | null>, panel: Ref<H
         }
     }
 
+    /**
+     * Suppress trigger restoration during destination navigation; main receives focus after the covered handoff.
+     */
     function restoreFocus(event: Event) {
         if (navigating) event.preventDefault();
     }
 
+    /**
+     * Close a current-page menu link or delegate covered routing; always remove the modal after success, interruption, or failure.
+     */
     async function followLink(target: string) {
         if (phase.value === "closing") return;
         if (target === route.path) return close();
@@ -77,6 +104,9 @@ export function useModalNavigation(header: Ref<HTMLElement | null>, panel: Ref<H
         }
     }
 
+    /**
+     * Route an unmodified logo click through the menu handoff while retaining native modified-link behavior.
+     */
     function identityClick(event: MouseEvent) {
         if (!isOpen.value || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
         event.preventDefault();
@@ -87,5 +117,6 @@ export function useModalNavigation(header: Ref<HTMLElement | null>, panel: Ref<H
         disposed = true;
         isOpen.value = false;
     });
+
     return { isOpen, teleported, iconOpen, opened, requestState, restoreFocus, followLink, identityClick, settle: motion.settle };
 }

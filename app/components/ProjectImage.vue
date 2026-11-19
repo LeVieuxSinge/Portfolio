@@ -1,7 +1,14 @@
+<!-- Image presentation and localized recovery UI; failed requests remount through an explicit retry key. -->
 <script setup lang="ts">
 import type { ProjectImage } from "#shared/types/portfolio";
 
-const props = defineProps<{ media: ProjectImage; eager?: boolean }>();
+const props = defineProps<{
+    /** Image-only record with intrinsic dimensions and a localized description key. */
+    media: ProjectImage;
+    /** Load the leading source image eagerly; remaining gallery images use lazy loading. */
+    eager?: boolean;
+}>();
+
 const { t } = useI18n();
 const { failed, attempt, fail, retry } = useImageRecovery(() => props.media.src);
 </script>

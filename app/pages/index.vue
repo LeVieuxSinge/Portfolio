@@ -1,9 +1,11 @@
+<!-- Keep the reserved artwork region empty and let enlarged introduction text grow with the viewport. -->
 <script setup lang="ts">
 import { site } from "#shared/data/site";
 import { profileOrder } from "#shared/utils/catalog";
 
 const { t } = useI18n();
 const localePath = useLocalePath();
+
 usePageSeo(() => t("pages.home.title"), () => t("pages.home.introduction"));
 </script>
 

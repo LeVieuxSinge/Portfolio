@@ -1,7 +1,18 @@
+<!-- Collection/About display heading with optional introduction and a count aligned independently of text fitting. -->
 <script setup lang="ts">
-const props = defineProps<{ title: string; note?: string; count?: number }>();
+const props = defineProps<{
+    /** Localized display heading; fitting preserves one line where the masthead design requires it. */
+    title: string;
+    /** Optional upper introduction; its presence controls the heading's vertical spacing. */
+    note?: string;
+    /** Optional collection size; undefined hides the counter while zero remains meaningful. */
+    count?: number;
+}>();
+
 const titleElement = useTemplateRef<HTMLElement>("titleElement");
+
 const { fit } = useFitText(titleElement);
+
 watch(() => props.title, () => nextTick(fit));
 </script>
 

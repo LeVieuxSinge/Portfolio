@@ -1,3 +1,4 @@
+<!-- Persistent document shell: one header, modal/cover accessibility boundaries, and one entry loader. -->
 <script setup lang="ts">
 import { TooltipProvider } from "reka-ui";
 
@@ -8,10 +9,16 @@ const { pageCovered } = usePageTransition();
 const isFinePointer = useMediaQuery("(hover: hover) and (pointer: fine)");
 const reduced = usePreferredReducedMotion();
 const mounted = useMounted();
+
 const entryPending = computed(() => mounted.value && isLoading.value);
+
 useHead({ noscript: [{ innerHTML: "<style>[data-entry-loader]{display:none!important}</style>" }] });
+
+// Setup runs after Nuxt i18n has loaded the active messages; later hooks resolve route and DOM milestones.
 complete("locale");
+
 const stopReadiness = useNuxtApp().hook("page:finish", () => complete("route"));
+
 onBeforeUnmount(stopReadiness);
 onMounted(() => complete("shell"));
 </script>

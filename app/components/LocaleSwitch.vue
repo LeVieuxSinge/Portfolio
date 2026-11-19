@@ -1,11 +1,21 @@
+<!-- Render a real alternate-language link while ordinary clicks use a router swap preserving query/hash. -->
 <script setup lang="ts">
 import { localeLocation } from "#shared/utils/navigation";
 
 const { locale, t } = useI18n();
 const route = useRoute();
 const router = useRouter();
-const emit = defineEmits<{ beforeSwitch: [] }>();
+
+const emit = defineEmits<{
+    /** Let an open menu settle its presentation before the router swaps equivalent locales. */
+    beforeSwitch: [];
+}>();
+
 const destination = computed(() => localeLocation({ path: route.path, query: route.query, hash: route.hash }, locale.value === "fr" ? "en" : "fr"));
+
+/**
+ * Intercept unmodified clicks for an in-place router locale swap, preserving query/hash and native modified-link behavior.
+ */
 function switchLanguage(event: MouseEvent) {
     if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     event.preventDefault();

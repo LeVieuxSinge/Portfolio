@@ -1,12 +1,19 @@
 import type { CvGroup, ProfileId } from "../types/portfolio";
 
-export const capabilityStacks: readonly { profile: ProfileId; tools: readonly string[] }[] = [
+/** Authored stack names, grouped in canonical profile order; these are publication claims for the owner to review. */
+export const capabilityStacks: readonly {
+    /** Profile shared with badges and capability translations. */
+    profile: ProfileId;
+    /** Proper tool names, preserved without translating product branding. */
+    tools: readonly string[];
+}[] = [
     { profile: "frontend", tools: ["Nuxt", "Vue", "Tailwind CSS", "TypeScript", "Three.js", "Node.js"] },
     { profile: "uiux", tools: ["Figma", "Adobe XD", "Miro", "Adobe Photoshop", "Adobe Illustrator"] },
     { profile: "art", tools: ["Blender", "Unreal Engine", "Substance Painter", "Houdini"] },
     { profile: "programming", tools: ["TypeScript", "C++", "Python", "PowerShell"] },
 ];
 
+/** Authored CV facts in display order; dates remain text and are not inferred from the current year. */
 export const cvGroups: readonly CvGroup[] = [
     { id: "experiences", entries: [
         { id: "pixistudio", dates: "2021 — 2026", organization: "Pixistudio", location: "Montréal", titleKey: "pages.about.cv.experiences.pixistudio.title" },

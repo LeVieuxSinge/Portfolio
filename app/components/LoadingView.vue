@@ -1,9 +1,12 @@
+<!-- SSR-readable document-entry surface; composables own readiness, percentage timing, messages, and exit cleanup. -->
 <script setup lang="ts">
 const { t } = useI18n();
+
 const panel = useTemplateRef<HTMLElement>("panel");
 const number = useTemplateRef<HTMLElement>("number");
 const foreground = useTemplateRef<HTMLElement>("foreground");
 const log = useTemplateRef<HTMLElement>("log");
+
 const { progress, owned, history } = useLoadingPresentation({ panel, number, foreground, log });
 </script>
 

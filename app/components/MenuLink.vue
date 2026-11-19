@@ -1,11 +1,31 @@
+<!-- One complete numbered menu row, including its separator, is the animation target; modified links stay native. -->
 <script setup lang="ts">
 import type { RouteLocationRaw } from "vue-router";
 
-const props = defineProps<{ to: RouteLocationRaw; index: number; title: string; current?: boolean }>();
-const emit = defineEmits<{ navigate: [] }>();
+const props = defineProps<{
+    /** Equivalent localized router destination; modified clicks retain their native link behavior. */
+    to: RouteLocationRaw;
+    /** One-based visual navigation number; the label is formatted with a leading zero. */
+    index: number;
+    /** Current-language row label, fitted within its display column. */
+    title: string;
+    /** Mark the matching pathname with aria-current=page. */
+    current?: boolean;
+}>();
+const emit = defineEmits<{
+    /** Request the shell's covered menu handoff for an unmodified click. */
+    navigate: [];
+}>();
+
 const label = useTemplateRef<HTMLElement>("label");
+
 const { fit } = useFitText(label);
+
 watch(() => props.title, () => nextTick(fit));
+
+/**
+ * Emit the covered-navigation request for an ordinary click; leave new-tab/download browser gestures native.
+ */
 function activate(event: MouseEvent) {
     if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     event.preventDefault();

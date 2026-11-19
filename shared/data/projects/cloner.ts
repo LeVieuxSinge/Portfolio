@@ -1,17 +1,22 @@
 import type { ProjectRecord } from "../../types/portfolio.ts";
 
+/** Authored facts and source-ordered media; derived profiles are added by the catalog aggregator. */
 export default {
     slug: "cloner",
     title: "Cloner",
     client: "Personal",
     year: 2020,
+
     contributions: [
         "artist3d",
     ],
+
     tags: [
         "blender",
     ],
+
     hero: "/images/projects/cloner/0.jpg",
+
     media: [
         {
             type: "video",
@@ -57,6 +62,8 @@ export default {
             altKey: "pages.project.items.cloner.media.5",
         },
     ],
+
     links: [],
+
     contentKey: "pages.project.items.cloner",
 } satisfies ProjectRecord;

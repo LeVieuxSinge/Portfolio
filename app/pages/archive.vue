@@ -1,10 +1,14 @@
+<!-- Own collection selection in the URL while leaving list animation and previews to the shared list. -->
 <script setup lang="ts">
 import { projects } from "#shared/data/projects";
 import { browseArchive } from "#shared/utils/catalog";
 
 const { t } = useI18n();
 const { state, query, update } = useArchiveState();
+
+// URL-derived selection changes only this collection; ProjectList owns its layout animation.
 const visibleProjects = computed(() => browseArchive(projects, state.value));
+
 usePageSeo(() => t("pages.archive.title"), () => t("pages.archive.note"));
 </script>
 

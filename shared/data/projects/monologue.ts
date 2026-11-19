@@ -1,17 +1,22 @@
 import type { ProjectRecord } from "../../types/portfolio.ts";
 
+/** Authored facts and source-ordered media; derived profiles are added by the catalog aggregator. */
 export default {
     slug: "monologue",
     title: "Monologue",
     client: "School",
     year: 2020,
+
     contributions: [
         "artist3d",
     ],
+
     tags: [
         "blender",
     ],
+
     hero: "/images/projects/monologue/0.jpg",
+
     media: [
         {
             type: "video",
@@ -51,6 +56,8 @@ export default {
             altKey: "pages.project.items.monologue.media.4",
         },
     ],
+
     links: [],
+
     contentKey: "pages.project.items.monologue",
 } satisfies ProjectRecord;

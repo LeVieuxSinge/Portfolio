@@ -1,3 +1,4 @@
+<!-- Understated shared identity/attribution; wording stays in the active locale and identity data stays in site.ts. -->
 <script setup lang="ts">
 import { site } from "#shared/data/site";
 

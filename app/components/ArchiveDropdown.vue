@@ -1,14 +1,34 @@
+<!-- Full-outline Reka radio-menu trigger with one typed option set and native focus/keyboard behavior. -->
 <script setup lang="ts" generic="T extends string">
 import { DropdownMenuContent, DropdownMenuItemIndicator, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuRoot, DropdownMenuTrigger } from "reka-ui";
 
 import type { SelectOption } from "#shared/types/portfolio";
 
-const props = defineProps<{ modelValue: T; label: string; accessibleLabel: string; options: readonly SelectOption<T>[] }>();
-const emit = defineEmits<{ "update:modelValue": [value: T] }>();
+const props = defineProps<{
+    /** Canonical controlled value; selection is read from the supplied options. */
+    modelValue: T;
+    /** Short localized field label visible inside the outlined trigger. */
+    label: string;
+    /** Full localized control name, combined with the selected option for assistive technology. */
+    accessibleLabel: string;
+    /** Typed choices shared by trigger and menu; only these values may be emitted. */
+    options: readonly SelectOption<T>[];
+}>();
+const emit = defineEmits<{
+    /** Emit the selected option's typed value; this component never changes the route itself. */
+    "update:modelValue": [value: T];
+}>();
+
 const open = shallowRef(false);
+
 const selected = computed(() => props.options.find(option => option.value === props.modelValue)?.label);
+
+/**
+ * Emit only a value present in the typed options; untrusted Reka payloads cannot introduce an invalid URL filter.
+ */
 function select(value: unknown) {
     const option = props.options.find(option => option.value === value);
+
     if (option) emit("update:modelValue", option.value);
 }
 </script>
@@ -63,9 +83,33 @@ function select(value: unknown) {
 </template>
 
 <style>
-.archive-dropdown { transform-origin: var(--reka-dropdown-menu-content-transform-origin); }
-.archive-dropdown[data-state="open"] { animation: dropdown-reveal 260ms cubic-bezier(.22,1,.36,1) both; }
-.archive-dropdown[data-state="closed"] { animation: dropdown-hide 140ms ease-in both; }
-@keyframes dropdown-reveal { from { opacity: 0; clip-path: inset(0 0 100% 0 round 24px); transform: translateY(-6px); } to { opacity: 1; clip-path: inset(0 0 0 0 round 24px); transform: translateY(0); } }
-@keyframes dropdown-hide { to { opacity: 0; clip-path: inset(0 0 100% 0 round 24px); transform: translateY(-4px); } }
+/* Reka retains the closed portal for this exit animation; origin follows its collision-resolved placement. */
+.archive-dropdown {
+    transform-origin: var(--reka-dropdown-menu-content-transform-origin);
+}
+.archive-dropdown[data-state="open"] {
+    animation: dropdown-reveal 260ms cubic-bezier(.22,1,.36,1) both;
+}
+.archive-dropdown[data-state="closed"] {
+    animation: dropdown-hide 140ms ease-in both;
+}
+@keyframes dropdown-reveal {
+    from {
+        opacity: 0;
+        clip-path: inset(0 0 100% 0 round 24px);
+        transform: translateY(-6px);
+    }
+    to {
+        opacity: 1;
+        clip-path: inset(0 0 0 0 round 24px);
+        transform: translateY(0);
+    }
+}
+@keyframes dropdown-hide {
+    to {
+        opacity: 0;
+        clip-path: inset(0 0 100% 0 round 24px);
+        transform: translateY(-4px);
+    }
+}
 </style>

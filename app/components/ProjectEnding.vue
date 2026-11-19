@@ -1,11 +1,19 @@
+<!-- Choose the selected-project invitation/next action or looping Archive neighbors from preserved browsing context. -->
 <script setup lang="ts">
 import type { ArchiveState, Project } from "#shared/types/portfolio";
 import { projects } from "#shared/data/projects";
 import { archiveNeighbors, archiveQuery, nextSelectedProject } from "#shared/utils/catalog";
 
-const props = defineProps<{ project: Project; state: ArchiveState }>();
+const props = defineProps<{
+    /** Current catalog record; featuredOrder selects Work versus Archive closing behavior. */
+    project: Project;
+    /** Normalized Archive context used for looping previous/next links. */
+    state: ArchiveState;
+}>();
+
 const { t } = useI18n();
 const localePath = useLocalePath();
+
 const neighbors = computed(() => archiveNeighbors(projects, props.project.slug, props.state));
 const query = computed(() => archiveQuery(props.state));
 const nextWork = computed(() => nextSelectedProject(projects, props.project.slug));

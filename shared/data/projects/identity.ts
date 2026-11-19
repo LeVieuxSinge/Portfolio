@@ -1,18 +1,23 @@
 import type { ProjectRecord } from "../../types/portfolio.ts";
 
+/** Authored facts and source-ordered media; derived profiles are added by the catalog aggregator. */
 export default {
     slug: "identity",
     title: "Identity",
     client: "School",
     year: 2020,
+
     contributions: [
         "artist3d",
     ],
+
     tags: [
         "blender",
         "houdini",
     ],
+
     hero: "/images/projects/identity/0.jpg",
+
     media: [
         {
             type: "video",
@@ -82,6 +87,8 @@ export default {
             altKey: "pages.project.items.identity.media.8",
         },
     ],
+
     links: [],
+
     contentKey: "pages.project.items.identity",
 } satisfies ProjectRecord;

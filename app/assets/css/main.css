@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+/* Semantic design tokens: Paper is the dark background and Ink is the light foreground. Compact layouts end at 700px. */
 @theme {
     --color-paper: #111211;
     --color-surface: #191a19;
@@ -16,113 +17,394 @@
     --breakpoint-md: 43.8125rem;
 }
 
+/* Global document defaults. The measured header height may grow beyond its responsive minimum. */
 @layer base {
-    :root { color-scheme: dark; --gutter: max(56px, 4vw); --header-min-height: 96px; --header-height: 96px; }
-    html { background: var(--color-paper); color: var(--color-ink); scroll-padding-top: calc(var(--header-height) + 24px); scrollbar-width: none; }
-    * { scrollbar-width: none; }
-    *::-webkit-scrollbar { display: none; width: 0; height: 0; }
-    body { margin: 0; font-family: var(--font-sans); font-size: 16px; line-height: 1.65; }
-    h1, h2, h3, h4 { line-height: 1.2; }
-    button, a, select { -webkit-tap-highlight-color: transparent; }
-    button, select { cursor: pointer; }
-    a:focus-visible, button:focus-visible, select:focus-visible, [tabindex]:focus-visible {
-        outline: 2px solid var(--color-ink); outline-offset: 5px;
+    :root {
+        color-scheme: dark;
+        --gutter: max(56px, 4vw);
+        --header-min-height: 96px;
+        --header-height: 96px;
     }
-    button:disabled { cursor: default; }
-    img { height: auto; }
-    ::selection { color: var(--color-paper); background: var(--color-ink); }
+    html {
+        background: var(--color-paper);
+        color: var(--color-ink);
+        scroll-padding-top: calc(var(--header-height) + 24px);
+        scrollbar-width: none;
+    }
+    * {
+        scrollbar-width: none;
+    }
+    *::-webkit-scrollbar {
+        display: none;
+        width: 0;
+        height: 0;
+    }
+    body {
+        margin: 0;
+        font-family: var(--font-sans);
+        font-size: 16px;
+        line-height: 1.65;
+    }
+    h1, h2, h3, h4 {
+        line-height: 1.2;
+    }
+    button, a, select {
+        -webkit-tap-highlight-color: transparent;
+    }
+    button, select {
+        cursor: pointer;
+    }
+    a:focus-visible, button:focus-visible, select:focus-visible, [tabindex]:focus-visible {
+        outline: 2px solid var(--color-ink);
+        outline-offset: 5px;
+    }
+    button:disabled {
+        cursor: default;
+    }
+    img {
+        height: auto;
+    }
+    ::selection {
+        color: var(--color-paper);
+        background: var(--color-ink);
+    }
     @media (max-width: 700px) {
-        :root { --gutter: 20px; --header-min-height: 84px; --header-height: 84px; }
-        body { font-size: 15px; }
+        :root {
+            --gutter: 20px;
+            --header-min-height: 84px;
+            --header-height: 84px;
+        }
+        body {
+            font-size: 15px;
+        }
     }
 }
 
-@utility page-gutter { padding-inline: var(--gutter); }
-@utility no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; &::-webkit-scrollbar { display: none; width: 0; height: 0; } }
-@utility section-space { margin-top: 160px; @media (max-width: 700px) { margin-top: 80px; } }
-@utility display-type {
-    font-family: var(--font-display); font-weight: 400; text-transform: uppercase;
-    font-variation-settings: "YEAR" 1979; font-synthesis: none;
-    font-kerning: none; letter-spacing: 0.012em; line-height: 1.13;
+/* Shared layout/type primitives; display-type preserves Climate Crisis’s retained YEAR 1979 axis. */
+@utility page-gutter {
+    padding-inline: var(--gutter);
 }
-@utility eyebrow { font-family: var(--font-mono); font-size: 11px; line-height: 1.6; text-transform: uppercase; color: var(--color-muted); }
-@utility section-label { font-family: var(--font-mono); font-size: 11px; line-height: 1.8; text-transform: uppercase; border-bottom: 1px solid var(--color-line); padding-bottom: 22px; margin-bottom: 45px; }
-@utility badge-shell { display: inline-flex; max-width: 100%; border: 1px solid var(--color-line); border-radius: 9999px; font-family: var(--font-mono); line-height: 1.5; }
+@utility no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+        display: none;
+        width: 0;
+        height: 0;
+    }
+}
+@utility section-space {
+    margin-top: 160px;
+    @media (max-width: 700px) {
+        margin-top: 80px;
+    }
+}
+@utility display-type {
+    font-family: var(--font-display);
+    font-weight: 400;
+    text-transform: uppercase;
+    font-variation-settings: "YEAR" 1979;
+    font-synthesis: none;
+    font-kerning: none;
+    letter-spacing: 0.012em;
+    line-height: 1.13;
+}
+@utility eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 1.6;
+    text-transform: uppercase;
+    color: var(--color-muted);
+}
+@utility section-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 1.8;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--color-line);
+    padding-bottom: 22px;
+    margin-bottom: 45px;
+}
+@utility badge-shell {
+    display: inline-flex;
+    max-width: 100%;
+    border: 1px solid var(--color-line);
+    border-radius: 9999px;
+    font-family: var(--font-mono);
+    line-height: 1.5;
+}
 /* Shared stacking order: content/preview → cover → menu → header → loader → cursor/noise → tooltip/skip link. */
-@utility z-project-preview { z-index: 30; }
-@utility z-page-cover { z-index: 45; }
-@utility z-overlay-ui { z-index: 50; }
-@utility z-site-header { z-index: 55; }
-@utility z-entry-loader { z-index: 60; }
-@utility z-animated-noise { z-index: 70; }
-@utility z-custom-cursor { z-index: 65; }
+@utility z-project-preview {
+    z-index: 30;
+}
+@utility z-page-cover {
+    z-index: 45;
+}
+@utility z-overlay-ui {
+    z-index: 50;
+}
+@utility z-site-header {
+    z-index: 55;
+}
+@utility z-entry-loader {
+    z-index: 60;
+}
+@utility z-animated-noise {
+    z-index: 70;
+}
+@utility z-custom-cursor {
+    z-index: 65;
+}
 
 @layer components {
-    .action-link { position: relative; display: inline-flex; align-items: center; gap: 20px; min-height: 44px; max-width: 100%; width: fit-content; padding-bottom: 9px; font-size: 25px; font-weight: 600; line-height: 1.3; }
-    .action-link::after { content: ""; position: absolute; bottom: 4px; inset-inline: 0; height: 1px; background: currentColor; }
-    .action-link:hover::after, .action-link:focus-visible::after { animation: underline-cycle 480ms ease both; }
-    .action-link--small { font-size: 13px; font-weight: 500; gap: 14px; }
-    .action-link--contact { font-size: 25px; line-height: calc(20 / 14); }
-    .action-link--secondary::after { transform: scaleX(0); transform-origin: left; transition: transform 240ms ease; }
-    .action-link--secondary:hover::after, .action-link--secondary:focus-visible::after { animation: none; transform: scaleX(1); }
-    .tooltip-content { z-index: 80; border: 1px solid var(--color-line); border-radius: 4px; background: var(--color-paper); color: var(--color-ink); padding: 7px 10px; font: 400 11px/1.5 var(--font-sans); max-width: min(250px, calc(100vw - 40px)); }
-    .project-row { display: grid; grid-template-columns: 32px minmax(0, 1.2fr) minmax(0, 1.1fr) minmax(0, 1.25fr) 50px; gap: 28px; align-items: center; min-width: 0; }
-    .project-row--work { min-height: 230px; }
-    .project-row--archive { min-height: 130px; }
-    .project-row--heading { min-height: 50px; }
-    .project-name { font-size: 49px; font-weight: 650; letter-spacing: -0.035em; line-height: 1.15; }
-    .project-row--archive .project-name { font-size: 24px; letter-spacing: -0.02em; line-height: 1.3; }
+    /* ActionLink variants share a 44px target; contact line height preserves the original compact mobile rhythm. */
+    .action-link {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: 20px;
+        min-height: 44px;
+        max-width: 100%;
+        width: fit-content;
+        padding-bottom: 9px;
+        font-size: 25px;
+        font-weight: 600;
+        line-height: 1.3;
+    }
+    .action-link::after {
+        content: "";
+        position: absolute;
+        bottom: 4px;
+        inset-inline: 0;
+        height: 1px;
+        background: currentColor;
+    }
+    .action-link:hover::after, .action-link:focus-visible::after {
+        animation: underline-cycle 480ms ease both;
+    }
+    .action-link--small {
+        font-size: 13px;
+        font-weight: 500;
+        gap: 14px;
+    }
+    .action-link--contact {
+        font-size: 25px;
+        line-height: calc(20 / 14);
+    }
+    .action-link--secondary::after {
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 240ms ease;
+    }
+    .action-link--secondary:hover::after, .action-link--secondary:focus-visible::after {
+        animation: none;
+        transform: scaleX(1);
+    }
+    .tooltip-content {
+        z-index: 80;
+        border: 1px solid var(--color-line);
+        border-radius: 4px;
+        background: var(--color-paper);
+        color: var(--color-ink);
+        padding: 7px 10px;
+        font: 400 11px/1.5 var(--font-sans);
+        max-width: min(250px, calc(100vw - 40px));
+    }
+    /* Work/Archive share columns. Mobile removes role/tool cells from layout and the accessibility tree. */
+    .project-row {
+        display: grid;
+        grid-template-columns: 32px minmax(0, 1.2fr) minmax(0, 1.1fr) minmax(0, 1.25fr) 50px;
+        gap: 28px;
+        align-items: center;
+        min-width: 0;
+    }
+    .project-row--work {
+        min-height: 230px;
+    }
+    .project-row--archive {
+        min-height: 130px;
+    }
+    .project-row--heading {
+        min-height: 50px;
+    }
+    .project-name {
+        font-size: 49px;
+        font-weight: 650;
+        letter-spacing: -0.035em;
+        line-height: 1.15;
+    }
+    .project-row--archive .project-name {
+        font-size: 24px;
+        letter-spacing: -0.02em;
+        line-height: 1.3;
+    }
     @media (min-width: 701px) and (max-width: 1000px) {
-        .project-row { grid-template-columns: 28px minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) 42px; gap: 16px; }
-        .project-name { font-size: 35px; }
+        .project-row {
+            grid-template-columns: 28px minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) 42px;
+            gap: 16px;
+        }
+        .project-name {
+            font-size: 35px;
+        }
     }
     @media (max-width: 700px) {
-        .project-row { grid-template-columns: 25px minmax(0, 1fr) 43px; gap: 12px; }
-        .project-row--work, .project-row--archive { min-height: 115px; }
-        .project-row--heading { min-height: 44px; }
-        .project-name { font-size: 27px; overflow-wrap: anywhere; }
-        .project-row--archive .project-name { font-size: 21px; }
-        .action-link { font-size: 23px; }
-        .action-link--small { font-size: 13px; }
-        .action-link--contact { font-size: 14px; }
-        .section-label { padding-bottom: 17px; margin-bottom: 32px; }
+        .project-row {
+            grid-template-columns: 25px minmax(0, 1fr) 43px;
+            gap: 12px;
+        }
+        .project-row--work, .project-row--archive {
+            min-height: 115px;
+        }
+        .project-row--heading {
+            min-height: 44px;
+        }
+        .project-name {
+            font-size: 27px;
+            overflow-wrap: anywhere;
+        }
+        .project-row--archive .project-name {
+            font-size: 21px;
+        }
+        .action-link {
+            font-size: 23px;
+        }
+        .action-link--small {
+            font-size: 13px;
+        }
+        .action-link--contact {
+            font-size: 14px;
+        }
+        .section-label {
+            padding-bottom: 17px;
+            margin-bottom: 32px;
+        }
     }
-    @media (max-width: 360px) { .project-name { font-size: 24px; } }
+    @media (max-width: 360px) {
+        .project-name {
+            font-size: 24px;
+        }
+    }
 }
 
+/* Retract toward the right, then redraw from the left without moving the link’s hit area. */
 @keyframes underline-cycle {
-    0% { transform: scaleX(1); transform-origin: right; }
-    45% { transform: scaleX(0); transform-origin: right; }
-    46% { transform-origin: left; }
-    100% { transform: scaleX(1); transform-origin: left; }
+    0% {
+        transform: scaleX(1);
+        transform-origin: right;
+    }
+    45% {
+        transform: scaleX(0);
+        transform-origin: right;
+    }
+    46% {
+        transform-origin: left;
+    }
+    100% {
+        transform: scaleX(1);
+        transform-origin: left;
+    }
 }
 
-main#main { view-transition-name: page; }
-[data-page-handoff] main#main { view-transition-name: none; }
-.site-header { view-transition-name: site-header; }
-.site-header::before { content: ""; position: absolute; inset: 0 0 -12px; z-index: -1; pointer-events: none; background: linear-gradient(to bottom, var(--color-paper), transparent); }
-[data-view-transition] [data-project-preview] { opacity: 0; }
-::view-transition-group(site-header) { animation: none; }
-::view-transition-old(site-header), ::view-transition-new(site-header) { animation: none; }
-::view-transition-group(root) { animation: none; }
-::view-transition-old(root) { animation: none; opacity: 0; }
-::view-transition-new(root) { animation: none; }
-.header-page-enter-active, .header-page-leave-active { transition: opacity 260ms ease; }
-.header-page-enter-from, .header-page-leave-to { opacity: 0; }
+/* During a covered route handoff, capture only the opaque root and persistent header to avoid old-page flashes. */
+main#main {
+    view-transition-name: page;
+}
+[data-page-handoff] main#main {
+    view-transition-name: none;
+}
+.site-header {
+    view-transition-name: site-header;
+}
+.site-header::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 -12px;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(to bottom, var(--color-paper), transparent);
+}
+[data-view-transition] [data-project-preview] {
+    opacity: 0;
+}
+::view-transition-group(site-header) {
+    animation: none;
+}
+::view-transition-old(site-header), ::view-transition-new(site-header) {
+    animation: none;
+}
+::view-transition-group(root) {
+    animation: none;
+}
+::view-transition-old(root) {
+    animation: none;
+    opacity: 0;
+}
+::view-transition-new(root) {
+    animation: none;
+}
+/* The frozen header label changes only while hidden; its presentation uses opacity alone. */
+.header-page-enter-active, .header-page-leave-active {
+    transition: opacity 260ms ease;
+}
+.header-page-enter-from, .header-page-leave-to {
+    opacity: 0;
+}
 
-@property --entry-count { syntax: "<integer>"; initial-value: 0; inherits: false; }
-@counter-style entry-digits { system: numeric; symbols: "0" "1" "2" "3" "4" "5" "6" "7" "8" "9"; pad: 3 "0"; }
-.entry-counter { counter-reset: entry var(--entry-count); }
-.entry-counter::after { content: counter(entry, entry-digits); }
+/* SSR first-paint progress works before hydration. useEntryProgress takes ownership via data-owned. */
+@property --entry-count {
+    syntax: "<integer>";
+    initial-value: 0;
+    inherits: false;
+}
+@counter-style entry-digits {
+    system: numeric;
+    symbols: "0" "1" "2" "3" "4" "5" "6" "7" "8" "9";
+    pad: 3 "0";
+}
+.entry-counter {
+    counter-reset: entry var(--entry-count);
+}
+.entry-counter::after {
+    content: counter(entry, entry-digits);
+}
 /* Keep the first-paint counter in step with motionDurations.entryProgress (2000ms). */
-.entry-counter:not([data-owned]) { animation: entry-progress-start 2s linear both; }
-.loading-background { animation: overlay-background-in 360ms ease-out both; }
-@keyframes entry-progress-start { from { --entry-count: 0; } to { --entry-count: 99; } }
-@keyframes overlay-background-in { from { opacity: 0; } to { opacity: 1; } }
+.entry-counter:not([data-owned]) {
+    animation: entry-progress-start 2s linear both;
+}
+.loading-background {
+    animation: overlay-background-in 360ms ease-out both;
+}
+@keyframes entry-progress-start {
+    from {
+        --entry-count: 0;
+    }
+    to {
+        --entry-count: 99;
+    }
+}
+@keyframes overlay-background-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
 
+/* Keep content and the timed loading percentage available while suppressing decorative motion. */
 @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
-    .action-link--secondary::after { transform: scaleX(1); }
-    ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
-    .entry-counter:not([data-owned]) { animation-duration: 2s !important; }
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    .action-link--secondary::after {
+        transform: scaleX(1);
+    }
+    ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) {
+        animation: none !important;
+    }
+    .entry-counter:not([data-owned]) {
+        animation-duration: 2s !important;
+    }
 }

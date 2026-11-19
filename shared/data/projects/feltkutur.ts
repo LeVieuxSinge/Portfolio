@@ -1,22 +1,28 @@
 import type { ProjectRecord } from "../../types/portfolio.ts";
 
+/** Authored facts and source-ordered media; derived profiles are added by the catalog aggregator. */
 export default {
     slug: "feltkutur",
     title: "Feltkutur Illusion",
     client: "Alkegen",
     year: 2022,
+
     contributions: [
         "frontenddeveloper",
         "uiuxdesigner",
         "webgldeveloper",
     ],
+
     tags: [
         "nuxt",
         "threejs",
         "typescript",
     ],
+
     featuredOrder: 0,
+
     hero: "/images/projects/feltkutur/1.webp",
+
     media: [
         {
             type: "video",
@@ -90,11 +96,13 @@ export default {
             altKey: "pages.project.items.feltkutur.media.9",
         },
     ],
+
     links: [
         {
             labelKey: "pages.project.items.feltkutur.links.0",
             url: "https://feltkutur.com/fr/configurateur-3d/",
         },
     ],
+
     contentKey: "pages.project.items.feltkutur",
 } satisfies ProjectRecord;

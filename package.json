@@ -11,6 +11,7 @@
         "postinstall": "nuxt prepare",
         "lint": "eslint .",
         "typecheck": "nuxt typecheck",
+        "check:content": "node scripts/check-content.mjs",
         "check:output": "node scripts/check-output.mjs",
         "check:routes": "node scripts/check-routes.mjs"
     },

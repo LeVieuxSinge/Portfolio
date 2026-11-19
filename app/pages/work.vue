@@ -1,8 +1,10 @@
+<!-- Present selected projects in catalog order and the About/CV invitation. -->
 <script setup lang="ts">
 import { selectedProjects } from "#shared/data/projects";
 
 const { t } = useI18n();
 const localePath = useLocalePath();
+
 usePageSeo(() => t("pages.work.title"), () => t("pages.work.note"));
 </script>
 

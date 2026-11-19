@@ -1,11 +1,17 @@
+<!-- Use one template for all projects, preserving leading media, ordered galleries, and browsing context. -->
 <script setup lang="ts">
 import { projects } from "#shared/data/projects";
 
+// A different slug mounts a fresh media/reveal lifecycle; query-only Archive context keeps this page instance.
 definePageMeta({ key: route => route.path });
+
 const route = useRoute();
 const { t } = useI18n();
 const { state } = useArchiveContext();
+
 const project = computed(() => projects.find(item => item.slug === route.params.slug));
+
+// Validate before rendering facts/media; unknown slugs enter Nuxt’s localized error boundary.
 if (!project.value) throw createError({ statusCode: 404, statusMessage: "Project not found" });
 usePageSeo(() => project.value?.title || t("pages.error.title"), () => project.value ? t(`${project.value.contentKey}.summary`) : t("pages.error.description"), () => project.value?.hero || "/portrait.webp");
 </script>

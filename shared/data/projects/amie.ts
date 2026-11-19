@@ -1,19 +1,24 @@
 import type { ProjectRecord } from "../../types/portfolio.ts";
 
+/** Authored facts and source-ordered media; derived profiles are added by the catalog aggregator. */
 export default {
     slug: "amie",
     title: "Amie",
     client: "School",
     year: 2018,
+
     contributions: [
         "artist3d",
         "programmer",
     ],
+
     tags: [
         "unrealengine",
         "cpp",
     ],
+
     hero: "/images/projects/amie/0.jpg",
+
     media: [
         {
             type: "video",
@@ -101,6 +106,8 @@ export default {
             altKey: "pages.project.items.amie.media.11",
         },
     ],
+
     links: [],
+
     contentKey: "pages.project.items.amie",
 } satisfies ProjectRecord;

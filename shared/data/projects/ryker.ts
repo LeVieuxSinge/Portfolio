@@ -1,21 +1,27 @@
 import type { ProjectRecord } from "../../types/portfolio.ts";
 
+/** Authored facts and source-ordered media; derived profiles are added by the catalog aggregator. */
 export default {
     slug: "ryker",
     title: "Ryker Configurator",
     client: "BRP",
     year: 2023,
+
     contributions: [
         "uiuxdesigner",
         "frontenddeveloper",
     ],
+
     tags: [
         "vue",
         "sketchfab",
         "javascript",
     ],
+
     featuredOrder: 1,
+
     hero: "/images/projects/ryker/0.webp",
+
     media: [
         {
             type: "video",
@@ -82,6 +88,8 @@ export default {
             altKey: "pages.project.items.ryker.media.8",
         },
     ],
+
     links: [],
+
     contentKey: "pages.project.items.ryker",
 } satisfies ProjectRecord;

@@ -1,19 +1,24 @@
 import type { ProjectRecord } from "../../types/portfolio.ts";
 
+/** Authored facts and source-ordered media; derived profiles are added by the catalog aggregator. */
 export default {
     slug: "amb",
     title: "American Biltrite - MTG",
     client: "American Biltrite",
     year: 2024,
+
     contributions: [
         "frontenddeveloper",
         "uiuxdesigner",
     ],
+
     tags: [
         "vue",
         "typescript",
     ],
+
     hero: "/images/projects/amb/0.webp",
+
     media: [
         {
             type: "video",
@@ -66,6 +71,7 @@ export default {
             altKey: "pages.project.items.amb.media.6",
         },
     ],
+
     links: [
         {
             labelKey: "pages.project.items.amb.links.0",
@@ -76,5 +82,6 @@ export default {
             url: "https://mytexasgranite.american-biltrite.com/?lang=en-CA",
         },
     ],
+
     contentKey: "pages.project.items.amb",
 } satisfies ProjectRecord;

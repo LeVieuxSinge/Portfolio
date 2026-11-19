@@ -1,18 +1,23 @@
 import type { ProjectRecord } from "../../types/portfolio.ts";
 
+/** Authored facts and source-ordered media; derived profiles are added by the catalog aggregator. */
 export default {
     slug: "cyberblade",
     title: "Cyberblade",
     client: "Personal",
     year: 2020,
+
     contributions: [
         "artist3d",
     ],
+
     tags: [
         "blender",
         "substancepainter",
     ],
+
     hero: "/images/projects/cyberblade/0.jpg",
+
     media: [
         {
             type: "video",
@@ -79,6 +84,8 @@ export default {
             altKey: "pages.project.items.cyberblade.media.8",
         },
     ],
+
     links: [],
+
     contentKey: "pages.project.items.cyberblade",
 } satisfies ProjectRecord;

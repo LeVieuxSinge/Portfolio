@@ -1,3 +1,4 @@
+<!-- Render the four capability narratives and authored tool stacks; no proficiency facts are inferred here. -->
 <script setup lang="ts">
 import { capabilityStacks } from "#shared/data/about";
 

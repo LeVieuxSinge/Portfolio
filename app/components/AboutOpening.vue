@@ -1,7 +1,9 @@
+<!-- Compose the shared portrait, activity/motivation lists, and three localized personal chapters. -->
 <script setup lang="ts">
 import { site } from "#shared/data/site";
 
 const { t } = useI18n();
+
 const activities = ["web", "graphics", "design", "games", "tools"];
 const motivations = ["procedural", "automation", "simulation", "optimization", "aesthetics", "organization"];
 </script>

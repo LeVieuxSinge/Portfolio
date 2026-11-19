@@ -1,3 +1,4 @@
+<!-- Render the five authored CV categories and explicit localized organization names without sorting or rewording facts. -->
 <script setup lang="ts">
 import { cvGroups } from "#shared/data/about";
 

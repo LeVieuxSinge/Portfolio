@@ -1,7 +1,17 @@
+<!-- Shared underlined action with typed size variants and native NuxtLink navigation semantics. -->
 <script setup lang="ts">
 import type { RouteLocationRaw } from "vue-router";
 
-withDefaults(defineProps<{ to: RouteLocationRaw; size?: "default" | "small" | "contact"; secondary?: boolean; external?: boolean }>(), { size: "default" });
+withDefaults(defineProps<{
+    /** Internal router location or explicit external destination; query/hash belong to the caller. */
+    to: RouteLocationRaw;
+    /** Typography/icon variant; defaults to default, with small and contact alternatives. */
+    size?: "default" | "small" | "contact";
+    /** Use the restrained underline treatment instead of the primary underline cycle. */
+    secondary?: boolean;
+    /** Pass external navigation semantics to NuxtLink. */
+    external?: boolean;
+}>(), { size: "default" });
 </script>
 
 <template>

@@ -1,21 +1,26 @@
 import type { ProjectRecord } from "../../types/portfolio.ts";
 
+/** Authored facts and source-ordered media; derived profiles are added by the catalog aggregator. */
 export default {
     slug: "ecd",
     title: "ECD Car Configurator",
     client: "ECD",
     year: 2023,
+
     contributions: [
         "frontenddeveloper",
         "uiuxdesigner",
         "artist3d",
     ],
+
     tags: [
         "vue",
         "sketchfab",
         "typescript",
     ],
+
     hero: "/images/projects/ecd/0.webp",
+
     media: [
         {
             type: "video",
@@ -68,11 +73,13 @@ export default {
             altKey: "pages.project.items.ecd.media.6",
         },
     ],
+
     links: [
         {
             labelKey: "pages.project.items.ecd.links.0",
             url: "https://configurator.ecdautodesign.com/?v=D90&o=",
         },
     ],
+
     contentKey: "pages.project.items.ecd",
 } satisfies ProjectRecord;

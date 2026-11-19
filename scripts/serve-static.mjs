@@ -4,28 +4,45 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { parseArgs } from "node:util";
 
+/** MIME types needed by the generated site; unrecognized files remain downloadable binary data. */
 const contentTypes = {
     ".html": "text/html; charset=utf-8", ".js": "application/javascript", ".mjs": "application/javascript",
     ".css": "text/css", ".json": "application/json", ".xml": "application/xml",
     ".webp": "image/webp", ".jpg": "image/jpeg", ".png": "image/png", ".svg": "image/svg+xml",
     ".woff2": "font/woff2", ".mp4": "video/mp4", ".webm": "video/webm", ".ico": "image/x-icon",
 };
+/** Opt-in recovery fixture served as 503; no retained media file is modified. */
 const failureMedia = new Set(["/images/projects/feltkutur/showcase.webm", "/images/projects/feltkutur/1.webp"]);
 
-/** Resolve a single HTTP byte range, including suffix ranges; invalid ranges return null. */
+/**
+ * Resolve one inclusive HTTP byte range, including open-ended and suffix forms.
+ * @param {string} value Range header; multiple or malformed ranges are unsupported.
+ * @param {number} size File length in bytes.
+ * @returns {{start:number,end:number}|null} Bounded byte offsets, or null for invalid/unsatisfiable input.
+ */
 export function parseByteRange(value, size) {
     const match = /^bytes=(\d*)-(\d*)$/.exec(value);
+
     if (!match || (!match[1] && !match[2]) || size < 1) return null;
+
     const suffix = !match[1];
     const first = Number(match[1] || match[2]);
     const last = match[2] ? Number(match[2]) : size - 1;
+
     if (!Number.isSafeInteger(first) || !Number.isSafeInteger(last)) return null;
     if (suffix) return first > 0 ? { start: Math.max(0, size - first), end: size - 1 } : null;
     if (first >= size || first > last) return null;
+
     return { start: first, end: Math.min(last, size - 1) };
 }
 
-/** Serve generated files with directory indexes, a real 404, and inline-video range support. */
+/**
+ * Serve generated directory indexes with real 404s, HEAD, media ranges, and path containment.
+ * @param {object} [options] Preview configuration.
+ * @param {string} [options.root] Static output directory, resolved once at creation.
+ * @param {boolean} [options.failMedia] Simulate the retained Feltkutur video/poster failure.
+ * @returns {import('node:http').Server} Unstarted server; callers own listening/closing it.
+ */
 export function createStaticServer({ root = ".output/public", failMedia = false } = {}) {
     const directory = fs.realpathSync(root);
     const contained = file => file === directory || file.startsWith(directory + path.sep);
@@ -35,7 +52,9 @@ export function createStaticServer({ root = ".output/public", failMedia = false 
             response.writeHead(405, { Allow: "GET, HEAD" }).end();
             return;
         }
+
         let pathname;
+
         try {
             pathname = decodeURIComponent(new URL(request.url, "http://localhost").pathname);
         }
@@ -53,13 +72,17 @@ export function createStaticServer({ root = ".output/public", failMedia = false 
         }
 
         let file = path.resolve(directory, "." + pathname);
+
         if (!contained(file)) {
             response.writeHead(403).end();
             return;
         }
+
         let status = 200;
+
         try {
             if (fs.statSync(file).isDirectory()) file = path.join(file, "index.html");
+            // Resolve symlinks before a second containment check; lexical containment alone is insufficient.
             file = fs.realpathSync(file);
             if (!contained(file)) {
                 response.writeHead(403).end();
@@ -79,6 +102,7 @@ export function createStaticServer({ root = ".output/public", failMedia = false 
         const size = fs.statSync(file).size;
         const headers = { "Content-Type": contentTypes[path.extname(file)] || "application/octet-stream", "Cache-Control": "no-store", "Accept-Ranges": "bytes" };
         let range;
+
         if (request.headers.range && status === 200) {
             range = parseByteRange(request.headers.range, size);
             if (!range) {
@@ -95,17 +119,24 @@ export function createStaticServer({ root = ".output/public", failMedia = false 
     });
 }
 
-/** Start on loopback only; port 0 lets automated checks reserve a free port. */
+/**
+ * Start the preview on loopback only; port zero reserves a free port for HTTP checks.
+ * @param {object} [options] Static-server options plus a numeric port (default 3001).
+ * @returns {Promise<{server:import('node:http').Server,url:string}>} Owned server and resolved base URL; close the server after checks.
+ */
 export async function startStaticServer(options = {}) {
     const { port = 3001, ...settings } = options;
     const server = createStaticServer(settings);
+
     await new Promise((resolve, reject) => {
         server.once("error", reject);
         server.listen(port, "127.0.0.1", resolve);
     });
+
     return { server, url: `http://127.0.0.1:${server.address().port}` };
 }
 
+// Importers own server shutdown; direct CLI execution keeps the loopback preview running until interrupted.
 if (process.argv[1] && pathToFileURL(path.resolve(process.argv[1])).href === import.meta.url) {
     const { values } = parseArgs({ options: { "port": { type: "string", default: "3001" }, "fail-media": { type: "boolean", default: false } } });
     const port = Number(values.port);

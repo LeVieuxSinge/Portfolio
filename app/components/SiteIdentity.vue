@@ -1,3 +1,4 @@
+<!-- Shared home link and four-color logo; desktop identity copy remains hidden at compact widths. -->
 <script setup lang="ts">
 import { site } from "#shared/data/site";
 

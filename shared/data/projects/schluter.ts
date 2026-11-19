@@ -1,25 +1,31 @@
 import type { ProjectRecord } from "../../types/portfolio.ts";
 
+/** Authored facts and source-ordered media; derived profiles are added by the catalog aggregator. */
 export default {
     slug: "schluter",
     title: "Schluter Interactive Bathroom",
     client: "Schluter",
     tagLabels: { unrealengine: "Unreal Engine 4" },
     year: 2021,
+
     contributions: [
         "artist3d",
         "gamedeveloper",
         "programmer",
         "uiuxdesigner",
     ],
+
     tags: [
         "unrealengine",
         "cppunreal",
         "levelcreation",
         "blueprint",
     ],
+
     featuredOrder: 2,
+
     hero: "/images/projects/schluter/7.webp",
+
     media: [
         {
             type: "video",
@@ -93,6 +99,8 @@ export default {
             altKey: "pages.project.items.schluter.media.9",
         },
     ],
+
     links: [],
+
     contentKey: "pages.project.items.schluter",
 } satisfies ProjectRecord;

@@ -1,15 +1,25 @@
+<!-- Provide readable localized failure copy and recovery without relying on a normal page mount. -->
 <script setup lang="ts">
 import { localizedPath } from "#shared/utils/navigation";
 import type { NuxtError } from "#app";
 
-const props = defineProps<{ error: NuxtError }>();
+const props = defineProps<{
+    /** Nuxt-owned error; status selects localized missing-page versus general-failure copy. */
+    error: NuxtError;
+}>();
+
 const { t, locale } = useI18n();
 const { complete } = useLoading();
+
+// Errors have no normal page:finish milestone; resolve readiness here instead of stranding the loader.
 complete("locale");
 complete("route");
+
 onMounted(() => complete("shell"));
+
 const home = computed(() => localizedPath("/", locale.value));
 const missing = computed(() => props.error.statusCode === 404);
+
 useHead(() => ({ title: t(missing.value ? "pages.error.title" : "pages.error.failed"), htmlAttrs: { lang: locale.value }, meta: [{ name: "robots", content: "noindex" }] }));
 </script>
 

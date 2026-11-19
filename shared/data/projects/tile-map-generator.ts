@@ -1,18 +1,23 @@
 import type { ProjectRecord } from "../../types/portfolio.ts";
 
+/** Authored facts and source-ordered media; derived profiles are added by the catalog aggregator. */
 export default {
     slug: "tile-map-generator",
     title: "Tile Map Generator",
     client: "Personal",
     year: 2020,
+
     contributions: [
         "programmer",
     ],
+
     tags: [
         "javascript",
         "p5js",
     ],
+
     hero: "/images/projects/tile-map-generator/0.jpg",
+
     media: [
         {
             type: "video",
@@ -59,11 +64,13 @@ export default {
             altKey: "pages.project.items.tile-map-generator.media.5",
         },
     ],
+
     links: [
         {
             labelKey: "pages.project.items.tile-map-generator.links.0",
             url: "https://levieuxsinge.github.io/CodingExperiments/TileMapGenerator/",
         },
     ],
+
     contentKey: "pages.project.items.tile-map-generator",
 } satisfies ProjectRecord;

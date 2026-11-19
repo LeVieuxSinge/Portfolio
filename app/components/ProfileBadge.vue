@@ -1,9 +1,15 @@
+<!-- Reusable canonical profile label and swatch; original contribution IDs remain catalog facts. -->
 <script setup lang="ts">
 import { profiles } from "#shared/data/site";
 import type { ProfileId } from "#shared/types/portfolio";
 
-const props = defineProps<{ profile: ProfileId }>();
+const props = defineProps<{
+    /** Canonical profile ID resolving the shared swatch and role translation. */
+    profile: ProfileId;
+}>();
+
 const { t } = useI18n();
+
 const swatch = computed(() => profiles.find(profile => profile.id === props.profile)!.swatch);
 </script>
 

@@ -1,7 +1,9 @@
+<!-- Fine-pointer decoration bound to this span ref; dimensions are shared with project-preview alignment. -->
 <script setup lang="ts">
 import { cursorGeometry } from "#shared/utils/preview";
 
 const icon = useTemplateRef<HTMLElement>("icon");
+
 useCursorMotion(icon);
 </script>
 

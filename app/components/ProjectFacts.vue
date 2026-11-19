@@ -1,7 +1,12 @@
+<!-- Flexible client/profile/tool/year facts for detail pages; collection column labels are owned separately. -->
 <script setup lang="ts">
 import type { Project } from "#shared/types/portfolio";
 
-defineProps<{ project: Project }>();
+defineProps<{
+    /** Current detail record; client is independent of the collection's Project column. */
+    project: Project;
+}>();
+
 const { t } = useI18n();
 </script>
 

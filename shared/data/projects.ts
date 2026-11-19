@@ -24,10 +24,13 @@ const projectRecords: readonly ProjectRecord[] = [
     amb, amie, bromont, cloner, cyberblade, ecd, feltkutur, grownshrink, identity, livingTypo, monologue, ryker, schluter, simona, tileMapGenerator, unstable,
 ];
 
+/** Complete runtime inventory. Derivation adds profiles without editing authored records or media order. */
 export const projects: readonly Project[] = projectRecords.map(project => ({ ...project, profiles: deriveProfiles(project.contributions) }));
 
+/** Work collection in explicit featured order; zero is a valid first position. */
 export const selectedProjects = projects.filter(project => project.featuredOrder !== undefined).sort((a, b) => a.featuredOrder! - b.featuredOrder!);
 
+/** Forty English/French content paths shared by prerendering, sitemap, and verification. */
 export const contentRoutes = siteLocales.flatMap(({ code }) => [
     ...navigationItems.map(item => localizedPath(item.path, code)),
     ...projects.map(project => localizedPath("/project/" + project.slug, code)),

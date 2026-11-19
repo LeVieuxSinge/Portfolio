@@ -1,7 +1,14 @@
+<!-- Preserve intrinsic media ratios and the narrower portrait convention while delegating image/video recovery. -->
 <script setup lang="ts">
 import type { ProjectMedia } from "#shared/types/portfolio";
 
-const props = defineProps<{ media: ProjectMedia; eager?: boolean }>();
+const props = defineProps<{
+    /** Discriminated image/video record; this wrapper preserves source order and intrinsic proportions. */
+    media: ProjectMedia;
+    /** Leading-media hint forwarded to image loading or video metadata preload. */
+    eager?: boolean;
+}>();
+
 const portrait = computed(() => props.media.height > props.media.width * 1.15);
 </script>
 

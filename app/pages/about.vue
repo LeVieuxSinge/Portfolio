@@ -1,7 +1,9 @@
+<!-- Compose authored About/CV sections; translated prose and factual records retain separate owners. -->
 <script setup lang="ts">
 import { contactLinks, site } from "#shared/data/site";
 
 const { t } = useI18n();
+
 usePageSeo(() => t("pages.about.title"), () => t("pages.about.note"));
 </script>
 

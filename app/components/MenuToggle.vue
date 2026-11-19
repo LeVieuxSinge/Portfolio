@@ -1,36 +1,59 @@
+<!-- Interpolate offset Manrope lines into a cross without relying on :hover surviving header Teleport moves. -->
 <script setup lang="ts">
 import { animate } from "animejs";
 import { motionDurations } from "~/utils/motion/tokens";
 
-const props = defineProps<{ open: boolean; label: string; accessibleLabel: string }>();
+const props = defineProps<{
+    /** Visual cross state supplied by modal coordination, including the closing phase. */
+    open: boolean;
+    /** Short visible Manrope label; hidden visually at compact widths. */
+    label: string;
+    /** Localized open/close action name that remains available on mobile. */
+    accessibleLabel: string;
+}>();
+
 const button = useTemplateRef<HTMLButtonElement>("button");
+
 const finePointer = useMediaQuery("(hover: hover) and (pointer: fine) and (min-width: 701px)");
 const reduced = usePreferredReducedMotion();
 const { point } = usePointerTracker();
+
 const hovered = computed(() => {
     const rect = button.value?.getBoundingClientRect();
+
     return !!rect && !!point.value && point.value.x >= rect.left && point.value.x <= rect.right
         && point.value.y >= rect.top && point.value.y <= rect.bottom;
 });
+
 const focused = shallowRef(false);
+
 const aligned = computed(() => finePointer.value && (hovered.value || focused.value));
+
 const progress = { open: Number(props.open), aligned: 0 };
 const rendered = shallowRef({ ...progress });
+
 const lineTransforms = computed(() => {
     const closed = 1 - rendered.value.open;
     const offset = 3 * (1 - rendered.value.aligned) * closed;
     const angle = 45 * rendered.value.open;
+
     return [
         `translate(${-offset}px, ${-3 * closed}px) rotate(${angle}deg)`,
         `translate(${offset}px, ${3 * closed}px) rotate(${-angle}deg)`,
     ];
 });
+
 let animation: ReturnType<typeof animate> | undefined;
 
 // Shared pointer geometry survives Teleport reparenting without a :hover reset.
+
+/**
+ * Align the lines for keyboard-visible focus without treating every mouse focus as hover.
+ */
 function focus(event: FocusEvent) {
     focused.value = (event.currentTarget as HTMLElement).matches(":focus-visible");
 }
+
 onMounted(() => {
     watch([() => props.open, aligned, reduced], () => {
         animation?.cancel();
@@ -67,6 +90,20 @@ onBeforeUnmount(() => animation?.cancel());
 </template>
 
 <style scoped>
-.menu-toggle-lines { position: relative; display: block; width: 24px; height: 24px; flex: none; }
-.menu-toggle-lines > span { position: absolute; left: 3px; top: 11px; width: 18px; height: 1px; background: currentColor; }
+/* Fixed icon geometry survives header Teleport. AnimeJS owns each line’s live offset/rotation. */
+.menu-toggle-lines {
+    position: relative;
+    display: block;
+    width: 24px;
+    height: 24px;
+    flex: none;
+}
+.menu-toggle-lines > span {
+    position: absolute;
+    left: 3px;
+    top: 11px;
+    width: 18px;
+    height: 1px;
+    background: currentColor;
+}
 </style>

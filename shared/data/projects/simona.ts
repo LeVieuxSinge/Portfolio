@@ -1,22 +1,28 @@
 import type { ProjectRecord } from "../../types/portfolio.ts";
 
+/** Authored facts and source-ordered media; derived profiles are added by the catalog aggregator. */
 export default {
     slug: "simona",
     title: "Simona Configurator",
     client: "Simona American Group",
     preview: "/images/projects/simona/0.webp",
     year: 2022,
+
     contributions: [
         "frontenddeveloper",
         "uiuxdesigner",
     ],
+
     tags: [
         "sketchfab",
         "typescript",
         "nuxt",
     ],
+
     featuredOrder: 3,
+
     hero: "/images/projects/simona/4.webp",
+
     media: [
         {
             type: "video",
@@ -76,6 +82,7 @@ export default {
             altKey: "pages.project.items.simona.media.7",
         },
     ],
+
     links: [
         {
             labelKey: "pages.project.items.simona.links.0",
@@ -86,5 +93,6 @@ export default {
             url: "https://boltaron.com/configurators/simona/aircraft_seat/index.html/",
         },
     ],
+
     contentKey: "pages.project.items.simona",
 } satisfies ProjectRecord;

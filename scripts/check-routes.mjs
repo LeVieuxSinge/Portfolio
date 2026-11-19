@@ -3,15 +3,19 @@ import fs from "node:fs";
 import { contentRoutes } from "../shared/data/projects.ts";
 import { startStaticServer } from "./serve-static.mjs";
 
+// Port zero avoids a fixed-port conflict; both servers close in finally blocks even when an assertion fails.
 const { server, url } = await startStaticServer({ port: 0 });
+
 try {
     const routes = await Promise.all(contentRoutes.map(async (route) => {
         const response = await fetch(url + route);
         const html = await response.text();
+
         assert.equal(response.status, 200, route);
         assert.match(html, /<main\b/);
         assert.match(html, /<h1\b/);
         assert.match(html, route.startsWith("/fr") ? /<html[^>]*lang="fr"/ : /<html[^>]*lang="en"/);
+
         return { route, status: response.status, bytes: Buffer.byteLength(html) };
     }));
     for (const route of ["/projects", "/fr/projects"]) {
