@@ -1,13 +1,11 @@
 <script setup lang="ts">
+import { localeLocation } from "#shared/utils/navigation";
+
 const { locale, t } = useI18n();
-const switchLocalePath = useSwitchLocalePath();
 const route = useRoute();
 const router = useRouter();
 const emit = defineEmits<{ beforeSwitch: [] }>();
-const destination = computed(() => {
-    const path = switchLocalePath(locale.value === "fr" ? "en" : "fr") || "/";
-    return { path: path.split(/[?#]/)[0], query: route.query, hash: route.hash };
-});
+const destination = computed(() => localeLocation({ path: route.path, query: route.query, hash: route.hash }, locale.value === "fr" ? "en" : "fr"));
 function switchLanguage(event: MouseEvent) {
     if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     event.preventDefault();

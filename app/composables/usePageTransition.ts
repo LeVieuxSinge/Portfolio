@@ -1,4 +1,6 @@
 export function usePageTransition() {
-    const isNavigating = useState<boolean>("page-navigating", () => false);
-    return { isNavigating };
+    const phase = useNavigationState();
+    const isNavigating = computed(() => phase.value !== "idle");
+    const pageCovered = computed(() => phase.value.startsWith("page-"));
+    return { phase: readonly(phase), isNavigating, pageCovered };
 }

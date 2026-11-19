@@ -1,12 +1,15 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends string">
 import { DropdownMenuContent, DropdownMenuItemIndicator, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuRoot, DropdownMenuTrigger } from "reka-ui";
 
-const props = defineProps<{ modelValue: string; label: string; accessibleLabel: string; options: readonly { value: string; label: string }[] }>();
-const emit = defineEmits<{ "update:modelValue": [value: string] }>();
+import type { SelectOption } from "#shared/types/portfolio";
+
+const props = defineProps<{ modelValue: T; label: string; accessibleLabel: string; options: readonly SelectOption<T>[] }>();
+const emit = defineEmits<{ "update:modelValue": [value: T] }>();
 const open = shallowRef(false);
 const selected = computed(() => props.options.find(option => option.value === props.modelValue)?.label);
 function select(value: unknown) {
-    if (typeof value === "string" && props.options.some(option => option.value === value)) emit("update:modelValue", value);
+    const option = props.options.find(option => option.value === value);
+    if (option) emit("update:modelValue", option.value);
 }
 </script>
 
@@ -30,7 +33,7 @@ function select(value: unknown) {
         </DropdownMenuTrigger>
         <DropdownMenuPortal>
             <DropdownMenuContent
-                class="archive-dropdown no-scrollbar z-50 max-h-(--reka-dropdown-menu-content-available-height) w-(--reka-dropdown-menu-trigger-width) overflow-y-auto rounded-3xl border border-line bg-paper p-1.5 text-ink"
+                class="archive-dropdown no-scrollbar z-overlay-ui max-h-(--reka-dropdown-menu-content-available-height) w-(--reka-dropdown-menu-trigger-width) overflow-y-auto rounded-3xl border border-line bg-paper p-1.5 text-ink"
                 align="start"
                 :side-offset="8"
                 :collision-padding="20"

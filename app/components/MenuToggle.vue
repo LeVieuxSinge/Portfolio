@@ -1,11 +1,17 @@
 <script setup lang="ts">
 import { animate } from "animejs";
+import { motionDurations } from "~/utils/motion/tokens";
 
 const props = defineProps<{ open: boolean; label: string; accessibleLabel: string }>();
 const button = useTemplateRef<HTMLButtonElement>("button");
 const finePointer = useMediaQuery("(hover: hover) and (pointer: fine) and (min-width: 701px)");
 const reduced = usePreferredReducedMotion();
-const hovered = shallowRef(false);
+const { point } = usePointerTracker();
+const hovered = computed(() => {
+    const rect = button.value?.getBoundingClientRect();
+    return !!rect && !!point.value && point.value.x >= rect.left && point.value.x <= rect.right
+        && point.value.y >= rect.top && point.value.y <= rect.bottom;
+});
 const focused = shallowRef(false);
 const aligned = computed(() => finePointer.value && (hovered.value || focused.value));
 const progress = { open: Number(props.open), aligned: 0 };
@@ -21,18 +27,7 @@ const lineTransforms = computed(() => {
 });
 let animation: ReturnType<typeof animate> | undefined;
 
-// Pointer geometry survives the header's move into/out of the dialog. Native
-// :hover and CSS transitions can reset when Teleport reparents the same node.
-function trackPointer(event: PointerEvent) {
-    if (event.pointerType !== "mouse") return;
-    const rect = button.value?.getBoundingClientRect();
-    hovered.value = !!rect && event.clientX >= rect.left && event.clientX <= rect.right
-        && event.clientY >= rect.top && event.clientY <= rect.bottom;
-}
-useEventListener("pointermove", trackPointer, { passive: true });
-useEventListener("pointerout", (event: PointerEvent) => {
-    if (!event.relatedTarget) hovered.value = false;
-});
+// Shared pointer geometry survives Teleport reparenting without a :hover reset.
 function focus(event: FocusEvent) {
     focused.value = (event.currentTarget as HTMLElement).matches(":focus-visible");
 }
@@ -41,7 +36,7 @@ onMounted(() => {
         animation?.cancel();
         animation = animate(progress, {
             open: Number(props.open), aligned: Number(aligned.value),
-            duration: reduced.value === "reduce" ? 1 : 400, ease: "out(3)",
+            duration: reduced.value === "reduce" ? 1 : motionDurations.icon, ease: "out(3)",
             onUpdate: () => { rendered.value = { ...progress }; },
         });
     }, { immediate: true });
@@ -57,7 +52,6 @@ onBeforeUnmount(() => animation?.cancel());
         :aria-label="accessibleLabel"
         :data-open="open"
         data-menu-toggle
-        @pointerenter="trackPointer"
         @focus="focus"
         @blur="focused = false"
     >

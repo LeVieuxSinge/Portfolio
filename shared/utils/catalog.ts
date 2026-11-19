@@ -1,14 +1,8 @@
 import type { ArchiveState, ContributionRoleId, ProfileId, Project } from "../types/portfolio.ts";
+import { contributionProfiles, profileOrder } from "../data/site.ts";
+import { localizedPath } from "./navigation.ts";
 
-export const profileOrder: readonly ProfileId[] = ["frontend", "uiux", "art", "programming"];
-export const contributionProfiles: Record<ContributionRoleId, ProfileId> = {
-    frontenddeveloper: "frontend",
-    webgldeveloper: "frontend",
-    uiuxdesigner: "uiux",
-    artist3d: "art",
-    gamedeveloper: "programming",
-    programmer: "programming",
-};
+export { contributionProfiles, profileOrder };
 
 export function deriveProfiles(roles: readonly ContributionRoleId[]): ProfileId[] {
     return profileOrder.filter(profile => roles.some(role => contributionProfiles[role] === profile));
@@ -52,5 +46,5 @@ export function nextSelectedProject(projects: readonly Project[], slug: string) 
 }
 
 export function projectPath(slug: string, locale: "en" | "fr" = "en") {
-    return `${locale === "fr" ? "/fr" : ""}/project/${slug}`;
+    return localizedPath(`/project/${slug}`, locale);
 }

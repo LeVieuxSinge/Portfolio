@@ -1,0 +1,100 @@
+import type { ProjectRecord } from "../../types/portfolio.ts";
+
+export default {
+    slug: "feltkutur",
+    title: "Feltkutur Illusion",
+    client: "Alkegen",
+    year: 2022,
+    contributions: [
+        "frontenddeveloper",
+        "uiuxdesigner",
+        "webgldeveloper",
+    ],
+    tags: [
+        "nuxt",
+        "threejs",
+        "typescript",
+    ],
+    featuredOrder: 0,
+    hero: "/images/projects/feltkutur/1.webp",
+    media: [
+        {
+            type: "video",
+            src: "/images/projects/feltkutur/showcase.webm",
+            width: 1920,
+            height: 1080,
+            altKey: "pages.project.items.feltkutur.media.0",
+            poster: "/images/projects/feltkutur/1.webp",
+        },
+        {
+            type: "image",
+            src: "/images/projects/feltkutur/0.webp",
+            width: 1920,
+            height: 1079,
+            altKey: "pages.project.items.feltkutur.media.1",
+        },
+        {
+            type: "image",
+            src: "/images/projects/feltkutur/1.webp",
+            width: 1920,
+            height: 1080,
+            altKey: "pages.project.items.feltkutur.media.2",
+        },
+        {
+            type: "image",
+            src: "/images/projects/feltkutur/2.webp",
+            width: 1920,
+            height: 1080,
+            altKey: "pages.project.items.feltkutur.media.3",
+        },
+        {
+            type: "image",
+            src: "/images/projects/feltkutur/3.webp",
+            width: 1920,
+            height: 1080,
+            altKey: "pages.project.items.feltkutur.media.4",
+        },
+        {
+            type: "image",
+            src: "/images/projects/feltkutur/4.webp",
+            width: 1920,
+            height: 1080,
+            altKey: "pages.project.items.feltkutur.media.5",
+        },
+        {
+            type: "image",
+            src: "/images/projects/feltkutur/5.webp",
+            width: 828,
+            height: 1792,
+            altKey: "pages.project.items.feltkutur.media.6",
+        },
+        {
+            type: "image",
+            src: "/images/projects/feltkutur/6.webp",
+            width: 828,
+            height: 1792,
+            altKey: "pages.project.items.feltkutur.media.7",
+        },
+        {
+            type: "image",
+            src: "/images/projects/feltkutur/7.webp",
+            width: 828,
+            height: 1792,
+            altKey: "pages.project.items.feltkutur.media.8",
+        },
+        {
+            type: "image",
+            src: "/images/projects/feltkutur/8.webp",
+            width: 828,
+            height: 1792,
+            altKey: "pages.project.items.feltkutur.media.9",
+        },
+    ],
+    links: [
+        {
+            labelKey: "pages.project.items.feltkutur.links.0",
+            url: "https://feltkutur.com/fr/configurateur-3d/",
+        },
+    ],
+    contentKey: "pages.project.items.feltkutur",
+} satisfies ProjectRecord;

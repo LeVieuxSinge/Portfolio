@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { site } from "#shared/data/site";
 import { profileOrder } from "#shared/utils/catalog";
 
 const { t } = useI18n();
@@ -12,8 +13,11 @@ usePageSeo(() => t("pages.home.title"), () => t("pages.home.introduction"));
         tabindex="-1"
         class="page-gutter flex min-h-[calc(100svh-var(--header-height))] flex-col pb-[30px] md:pb-[45px]"
     >
-        <h1 class="sr-only">
-            Xavier Champoux — {{ t('pages.home.title') }}
+        <h1
+            data-reveal
+            class="sr-only"
+        >
+            {{ site.name }} — {{ t('pages.home.title') }}
         </h1>
         <div
             class="min-h-20 flex-1 md:min-h-[180px]"
@@ -21,13 +25,17 @@ usePageSeo(() => t("pages.home.title"), () => t("pages.home.introduction"));
         />
         <div class="flex w-full flex-col gap-[35px] max-md:mx-auto max-md:max-w-[640px] md:flex-row md:items-end md:justify-between md:gap-[60px]">
             <div class="min-w-0 md:max-w-[600px]">
-                <p class="text-[15px] leading-[1.55] md:max-w-[390px] md:text-lg">
+                <p
+                    data-reveal
+                    class="text-[15px] leading-[1.55] md:max-w-[390px] md:text-lg"
+                >
                     {{ t('pages.home.introduction') }}
                 </p>
                 <ul class="mt-[22px] flex flex-wrap gap-[7px] md:mt-7 md:gap-2">
                     <li
                         v-for="profile in profileOrder"
                         :key="profile"
+                        data-reveal
                         class="flex"
                     >
                         <ProfileBadge
@@ -42,12 +50,14 @@ usePageSeo(() => t("pages.home.title"), () => t("pages.home.introduction"));
                 class="flex w-full flex-wrap gap-6 md:w-auto md:shrink-0 md:flex-nowrap md:gap-9"
             >
                 <ActionLink
+                    data-reveal
                     :to="localePath('/work')"
                     class="max-md:min-w-0 max-md:flex-[1_1_calc(3.8em+36px)] max-md:justify-between max-md:gap-3 max-[360px]:text-xl!"
                 >
                     {{ t('layouts.navigation.work') }}
                 </ActionLink>
                 <ActionLink
+                    data-reveal
                     :to="localePath('/about')"
                     class="max-md:min-w-0 max-md:flex-[1_1_calc(3.8em+36px)] max-md:justify-between max-md:gap-3 max-[360px]:text-xl!"
                 >

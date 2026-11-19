@@ -25,6 +25,7 @@ usePageSeo(() => t("pages.archive.title"), () => t("pages.archive.note"));
             @change="update"
         />
         <p
+            data-reveal
             class="sr-only"
             role="status"
         >
@@ -38,6 +39,7 @@ usePageSeo(() => t("pages.archive.title"), () => t("pages.archive.note"));
         />
         <p
             v-if="!visibleProjects.length"
+            data-reveal
             class="py-20 text-xl"
         >
             {{ t('pages.archive.empty') }}

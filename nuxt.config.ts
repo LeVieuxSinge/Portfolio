@@ -1,3 +1,4 @@
+import { site, siteLocales } from "./shared/data/site";
 import tailwindcss from "@tailwindcss/vite";
 import { contentRoutes } from "./shared/data/projects";
 import english from "./app/locales/en.json";
@@ -58,11 +59,8 @@ export default defineNuxtConfig({
         ],
     },
     i18n: {
-        baseUrl: "https://xavierchampoux.com",
-        locales: [
-            { code: "en", language: "en-CA", name: "English", file: "en.json" },
-            { code: "fr", language: "fr-CA", name: "Français", file: "fr.json" },
-        ],
+        baseUrl: site.origin,
+        locales: siteLocales.map(locale => ({ ...locale })),
         strategy: "prefix_except_default",
         defaultLocale: "en",
         detectBrowserLanguage: false,

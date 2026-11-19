@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { localizedPath } from "#shared/utils/navigation";
 import type { NuxtError } from "#app";
 
 const props = defineProps<{ error: NuxtError }>();
@@ -7,7 +8,7 @@ const { complete } = useLoading();
 complete("locale");
 complete("route");
 onMounted(() => complete("shell"));
-const home = computed(() => locale.value === "fr" ? "/fr" : "/");
+const home = computed(() => localizedPath("/", locale.value));
 const missing = computed(() => props.error.statusCode === 404);
 useHead(() => ({ title: t(missing.value ? "pages.error.title" : "pages.error.failed"), htmlAttrs: { lang: locale.value }, meta: [{ name: "robots", content: "noindex" }] }));
 </script>

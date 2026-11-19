@@ -1,233 +1,33 @@
-import { animate, onScroll, splitText, stagger } from "animejs";
-import { isLocaleNavigation, needsCoveredNavigation } from "#shared/utils/navigation";
+import { createPageNavigation } from "~/utils/motion/navigation";
+import type { PageNavigation } from "~/utils/motion/navigation";
+import { createPageReveals } from "~/utils/motion/reveals";
+import type { RevealScope } from "~/utils/motion/reveals";
 
-export default defineNuxtPlugin((app) => {
+export default defineNuxtPlugin<{
+    pageTransition: PageNavigation;
+    reveals: {
+        register: (root: HTMLElement, scope: RevealScope) => () => void;
+    };
+}>((app) => {
     const { isLoading, isRevealing } = useLoading();
-    const { isOpen, isPageRevealing } = useMenu();
-    const { isNavigating } = usePageTransition();
-    const pageCovered = useState<boolean>("page-covered", () => false);
+    const { isOpen } = useMenu();
+    const phase = useNavigationState();
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const animations: ReturnType<typeof animate>[] = [];
-    const observers: ReturnType<typeof onScroll>[] = [];
-    const splits: ReturnType<typeof splitText>[] = [];
-    let transitionReady: Promise<void> | undefined;
-    let activeTransition: ViewTransition | undefined;
-    let frame = 0;
-    let settleFrame: (() => void) | undefined;
-    let preparing: Promise<void> | undefined;
-    let version = 0;
-    let preparedMain: HTMLElement | undefined;
-    let shellEntered = false;
-    let staticLocaleSwap = false;
-    let samePageUpdate = false;
-    let coverAnimation: ReturnType<typeof animate> | undefined;
-    let resolveCover: (() => void) | undefined;
-    let coverVersion = 0;
-    let coverTarget = "";
-
-    async function fadeCover(opacity: number, duration: number) {
-        coverAnimation?.cancel();
-        resolveCover?.();
-        await nextTick();
-        const element = document.querySelector<HTMLElement>("[data-page-cover]");
-        if (!element) return;
-        await new Promise<void>((resolve) => {
-            resolveCover = resolve;
-            coverAnimation = animate(element, { opacity, duration, ease: "inOut(3)", onComplete: () => {
-                resolveCover = undefined;
-                resolve();
-            } });
-        });
-    }
-    async function revealCover() {
-        const token = ++coverVersion;
-        await fadeCover(0, reduced.matches ? 1 : 400);
-        if (token !== coverVersion) return;
-        pageCovered.value = false;
-        isNavigating.value = false;
-        delete document.documentElement.dataset.pageHandoff;
-        await nextTick();
-        document.querySelector<HTMLElement>("main#main")?.focus({ preventScroll: true });
-    }
-
-    function cancelFrame() {
-        cancelAnimationFrame(frame);
-        settleFrame?.();
-        settleFrame = undefined;
-    }
-    function clear() {
-        version++;
-        preparing = undefined;
-        cancelFrame();
-        preparedMain = undefined;
-        observers.splice(0).forEach(observer => observer.revert());
-        animations.splice(0).forEach(animation => animation.revert());
-        splits.splice(0).forEach(split => split.revert());
-    }
-    function releaseList(root: HTMLElement) {
-        for (let i = observers.length - 1; i >= 0; i--) {
-            if (root.contains(observers[i]!.target)) observers.splice(i, 1)[0]!.revert();
-        }
-        for (let i = animations.length - 1; i >= 0; i--) {
-            if (animations[i]!.targets.some(target => target instanceof Element && root.contains(target))) {
-                animations.splice(i, 1)[0]!.revert();
-            }
-        }
-    }
-    function revealPage() {
-        if ((isLoading.value && !isRevealing.value) || (isOpen.value && !isPageRevealing.value)) return;
-        const main = document.querySelector<HTMLElement>("main#main");
-        if (!main || main === preparedMain) return;
-        clear();
-        preparedMain = main;
-        if (staticLocaleSwap || reduced.matches) {
-            if (pageCovered.value) void revealCover();
-            else if (!isOpen.value) isNavigating.value = false;
-            return;
-        }
-        if (!shellEntered) {
-            shellEntered = true;
-            animations.push(animate(document.querySelectorAll("header > a, header > nav"), {
-                opacity: [0, 1], y: [-10, 0], duration: 550, ease: "out(3)",
-            }));
-        }
-        // Animate meaningful units without moving containers that own fixed controls.
-        const selector = "[data-reveal], h1:not(.sr-only), h2, h3, h4, p:not(.sr-only), figure, dl > div, li, footer, .action-link, .project-row--heading, aside > img";
-        const candidates = [...main.querySelectorAll<HTMLElement>(selector)];
-        const targets = candidates.filter((element) => {
-            const decorative = element.closest("[aria-hidden='true']");
-            if ((decorative && main.contains(decorative)) || !element.getClientRects().length) return false;
-            return !candidates.some(parent => parent !== element && parent.contains(element));
-        });
-        let visibleIndex = 0;
-        for (const element of targets) {
-            const rect = element.getBoundingClientRect();
-            if (rect.bottom < 0) continue;
-            const visible = rect.top < window.innerHeight - 24;
-            const delay = visible ? Math.min(visibleIndex++ * 45, 270) : 0;
-            const title = element.matches("h1") ? element.querySelector<HTMLElement>("[data-text-reveal]") : null;
-            if (title && visible) {
-                const split = splitText(title, { chars: true, words: true, lines: false, accessible: true });
-                splits.push(split);
-                animations.push(animate(split.chars, {
-                    y: ["60%", "0%"], opacity: [0, 1], duration: 800,
-                    delay: stagger(25, { start: delay }), ease: "out(4)",
-                }));
-                continue;
-            }
-            const observer = visible
-                ? undefined
-                : onScroll({
-                        target: element, enter: "bottom-=40 top", leave: "top bottom", repeat: false,
-                    });
-            if (observer) observers.push(observer);
-            animations.push(animate(element, {
-                opacity: [0, 1], y: [visible ? 22 : 30, 0], duration: 700, delay, ease: "out(4)",
-                ...(observer ? { autoplay: observer } : {}),
-            }));
-        }
-        if (pageCovered.value) void revealCover();
-        else if (!isOpen.value) isNavigating.value = false;
-    }
-    async function runPreparation() {
-        const scheduledVersion = ++version;
-        cancelFrame();
-        await nextTick();
-        await transitionReady?.catch(() => {});
-        if (scheduledVersion !== version) return;
-        await new Promise<void>((resolve) => {
-            settleFrame = resolve;
-            frame = requestAnimationFrame(() => {
-                frame = requestAnimationFrame(() => {
-                    settleFrame = undefined;
-                    if (scheduledVersion === version) revealPage();
-                    resolve();
-                });
-            });
-        });
-    }
-    function preparePage() {
-        if (preparing) return preparing;
-        const pending = runPreparation();
-        preparing = pending;
-        void pending.finally(() => {
-            if (preparing === pending) preparing = undefined;
-        }).catch(() => {});
-        return pending;
-    }
-    const stopTransition = app.hook("page:view-transition:start", (transition) => {
-        activeTransition = transition;
-        document.documentElement.dataset.viewTransition = "active";
-        // The browser captures an opaque handoff, never an unprepared new page.
-        transitionReady = transition.finished;
-        void transition.finished.finally(() => {
-            if (activeTransition === transition) {
-                activeTransition = undefined;
-                transitionReady = undefined;
-                delete document.documentElement.dataset.viewTransition;
-            }
-        }).catch(() => {});
+    let staticSwap = false;
+    const reveals = createPageReveals({
+        reduced,
+        blocked: () => (isLoading.value && !isRevealing.value) || (isOpen.value && !["menu-preparing", "menu-revealing"].includes(phase.value)),
+        staticSwap: () => staticSwap,
+        ready: async () => {
+            await navigation.whenNativeReady();
+            await app.$scroll?.whenRestored();
+        },
     });
-    const stopBefore = app.$router.beforeEach(async (to, from) => {
-        samePageUpdate = !!from.matched.length && to.path === from.path;
-        if (samePageUpdate) {
-            to.meta.viewTransition = false;
-            return;
-        }
-        staticLocaleSwap = !!from.matched.length && isLocaleNavigation(to.path, from.path);
-        const changingPage = !!from.matched.length && needsCoveredNavigation(to.path, from.path);
-        if (changingPage) isNavigating.value = true;
-        const cover = changingPage && !isOpen.value && !reduced.matches;
-        to.meta.viewTransition = changingPage && !isOpen.value && !reduced.matches;
-        if (cover || pageCovered.value) {
-            document.documentElement.dataset.pageHandoff = "covered";
-            coverVersion++;
-            coverTarget = to.fullPath;
-            pageCovered.value = true;
-            await fadeCover(1, reduced.matches ? 1 : 280);
-        }
-        clear();
-    });
-    const stopAfter = app.$router.afterEach((to, from, failure) => {
-        if (failure && pageCovered.value && to.fullPath === coverTarget) void revealCover();
-        else if (failure && !pageCovered.value) isNavigating.value = false;
-    });
-    const stopPage = app.hook("page:loading:end", () => {
-        if (!samePageUpdate || isLoading.value) void preparePage();
-    });
-    const recover = () => {
-        if (pageCovered.value) void revealCover();
-        else isNavigating.value = false;
-    };
-    const stopError = app.$router.onError(recover);
-    const stopAppError = app.hook("app:error", recover);
-    const onPreference = () => {
-        if (reduced.matches) {
-            activeTransition?.skipTransition();
-            clear();
-            if (pageCovered.value) void revealCover();
-        }
-        else void preparePage();
-    };
-    reduced.addEventListener("change", onPreference);
-
-    function dispose() {
-        clear();
-        coverAnimation?.cancel();
-        resolveCover?.();
-        pageCovered.value = false;
-        isNavigating.value = false;
-        activeTransition?.skipTransition();
-        delete document.documentElement.dataset.viewTransition;
-        delete document.documentElement.dataset.pageHandoff;
-        stopTransition();
-        stopBefore();
-        stopAfter();
-        stopPage();
-        stopError();
-        stopAppError();
-        reduced.removeEventListener("change", onPreference);
-    }
-    if (import.meta.hot) import.meta.hot.dispose(dispose);
-    return { provide: { motion: { releaseList, preparePage } } };
+    const navigation = createPageNavigation(app, { phase, menuOpen: isOpen, loading: isLoading, reduced, reveals, setStaticSwap: (value) => {
+        staticSwap = value;
+    } });
+    if (import.meta.hot)
+        import.meta.hot.dispose(navigation.dispose);
+    app.vueApp.onUnmount(navigation.dispose);
+    return { provide: { pageTransition: navigation, reveals: { register: reveals.register } } };
 });

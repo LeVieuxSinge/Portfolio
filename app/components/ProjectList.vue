@@ -1,52 +1,34 @@
 <script setup lang="ts">
-import { createLayout } from "animejs";
 import type { Project } from "#shared/types/portfolio";
 
 const props = defineProps<{ projects: readonly Project[]; variant: "work" | "archive"; query?: Record<string, string>; label: string }>();
 const { t } = useI18n();
 const localePath = useLocalePath();
-const app = useNuxtApp();
 const list = useTemplateRef<HTMLOListElement>("list");
-const reduced = usePreferredReducedMotion();
-let layout: ReturnType<typeof createLayout> | undefined;
-let layoutVersion = 0;
-const { project, image, position, enter, move, focus, leave, clear } = useProjectPreview(() => props.projects);
-watch(() => props.projects, async () => {
-    clear();
-    if (import.meta.server || props.variant !== "archive" || !list.value) return;
-    const token = ++layoutVersion;
-    // Hand initial entrance/scroll effects over to the list's layout animation.
-    app.$motion.releaseList(list.value);
-    if (reduced.value === "reduce") {
-        layout?.revert();
-        return;
-    }
-    layout ??= createLayout(list.value, {
-        children: "[data-layout-row]", duration: 450, ease: "out(3)",
-        enterFrom: { opacity: 0 }, leaveTo: { opacity: 0 },
-    });
-    layout.record();
-    await nextTick();
-    if (token === layoutVersion) layout.animate();
-}, { flush: "pre" });
-onBeforeUnmount(() => {
-    layoutVersion++;
-    layout?.revert();
-});
+const { project, image, position, enter, move, focus, leave, clear } = useProjectPreview(() => props.projects, list);
+useProjectListMotion(list, () => props.projects, props.variant);
+watch(() => props.projects, clear);
 </script>
 
 <template>
     <section :aria-label="label">
-        <div class="project-row project-row--heading px-[3px] font-mono text-[10px] text-muted md:px-3">
+        <div
+            class="project-row project-row--heading px-[3px] font-mono text-[10px] text-muted md:px-3"
+            data-reveal
+        >
             <span>#</span><span>{{ t('pages.project.project') }}</span>
             <span class="hidden md:block">{{ t('pages.project.role') }}</span>
             <span class="hidden md:block">{{ t('pages.project.tags') }}</span>
             <span class="text-right">{{ t('pages.project.year') }}</span>
         </div>
-        <ol ref="list">
+        <ol
+            ref="list"
+            data-reveal-scope="project-list"
+        >
             <li
                 v-for="(item, index) in projects"
                 :key="item.slug"
+                data-reveal
                 :data-layout-id="`project-${item.slug}`"
                 data-layout-row
             >
@@ -62,7 +44,10 @@ onBeforeUnmount(() => {
                     @blur="clear"
                 >
                     <span class="font-mono text-[10px] text-muted">{{ String(index + 1).padStart(2, '0') }}</span>
-                    <h2 class="project-name min-w-0">{{ item.title }}</h2>
+                    <h2
+                        data-reveal
+                        class="project-name min-w-0"
+                    >{{ item.title }}</h2>
                     <span class="hidden flex-wrap items-start gap-[7px] md:flex">
                         <ProfileBadge
                             v-for="profile in item.profiles"
@@ -75,7 +60,7 @@ onBeforeUnmount(() => {
                             v-for="tag in item.tags"
                             :key="tag"
                             :tag="tag"
-                            :project-slug="item.slug"
+                            :label="item.tagLabels?.[tag]"
                         />
                     </span>
                     <span class="text-right font-mono text-[10px] text-muted md:text-xs">{{ item.year }}</span>
@@ -88,7 +73,7 @@ onBeforeUnmount(() => {
             <div
                 v-if="project"
                 aria-hidden="true"
-                class="pointer-events-none fixed inset-0 z-30 overflow-hidden"
+                class="pointer-events-none fixed inset-0 z-project-preview overflow-hidden"
             >
                 <div
                     class="absolute top-0 left-0 origin-left will-change-transform"

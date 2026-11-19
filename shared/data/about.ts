@@ -13,11 +13,11 @@ export const cvGroups: readonly CvGroup[] = [
         { id: "retiredAssociation", dates: "2019 — 2021", organization: "Association des Retraité.es du Cégep de Saint-Hyacinthe", titleKey: "pages.about.cv.experiences.retiredAssociation.title" },
     ] },
     { id: "education", entries: [
-        { id: "computationArts", dates: "2018 — 2021", organization: "Concordia University", location: "Montréal", titleKey: "pages.about.cv.education.computationArts.title" },
+        { id: "computationArts", dates: "2018 — 2021", organization: "Concordia University", organizationLabels: { fr: "Université Concordia" }, location: "Montréal", titleKey: "pages.about.cv.education.computationArts.title" },
         { id: "arts", dates: "2016 — 2018", organization: "Cégep de Saint-Hyacinthe", titleKey: "pages.about.cv.education.arts.title" },
     ] },
     { id: "awards", entries: [
-        { id: "fofa", dates: "2018", organization: "Concordia University", location: "Montréal", titleKey: "pages.about.cv.awards.fofa.title" },
+        { id: "fofa", dates: "2018", organization: "Concordia University", organizationLabels: { fr: "Université Concordia" }, location: "Montréal", titleKey: "pages.about.cv.awards.fofa.title" },
         { id: "arts", dates: "2018", organization: "Cégep de Saint-Hyacinthe", titleKey: "pages.about.cv.awards.arts.title" },
     ] },
     { id: "teaching", entries: [
@@ -31,9 +31,4 @@ export const cvGroups: readonly CvGroup[] = [
     ] },
 ];
 
-export const contactLinks = [
-    { label: "GitHub", url: "https://github.com/LeVieuxSinge" },
-    { label: "LinkedIn", url: "https://www.linkedin.com/in/doldmnk/" },
-    { label: "Instagram", url: "https://www.instagram.com/doldmnk/" },
-    { label: "YouTube", url: "https://www.youtube.com/@levieuxsinge1168" },
-] as const;
+export { contactLinks } from "./site.ts";

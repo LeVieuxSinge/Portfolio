@@ -4,7 +4,7 @@ import { projects } from "#shared/data/projects";
 definePageMeta({ key: route => route.path });
 const route = useRoute();
 const { t } = useI18n();
-const { state } = useArchiveState();
+const { state } = useArchiveContext();
 const project = computed(() => projects.find(item => item.slug === route.params.slug));
 if (!project.value) throw createError({ statusCode: 404, statusMessage: "Project not found" });
 usePageSeo(() => project.value?.title || t("pages.error.title"), () => project.value ? t(`${project.value.contentKey}.summary`) : t("pages.error.description"), () => project.value?.hero || "/portrait.webp");
@@ -18,10 +18,16 @@ usePageSeo(() => project.value?.title || t("pages.error.title"), () => project.v
         class="page-gutter"
     >
         <div class="pt-[45px] md:pt-[68px]">
-            <p class="eyebrow mb-6">
+            <p
+                data-reveal
+                class="eyebrow mb-6"
+            >
                 {{ t(project.featuredOrder !== undefined ? 'pages.project.selected' : 'pages.project.archived') }}
             </p>
-            <h1 class="display-type text-[10.8vw] wrap-anywhere md:text-[clamp(70px,10.8vw,170px)]">
+            <h1
+                data-reveal
+                class="display-type text-[10.8vw] wrap-anywhere md:text-[clamp(70px,10.8vw,170px)]"
+            >
                 <span
                     data-text-reveal
                     class="whitespace-normal"
@@ -36,11 +42,13 @@ usePageSeo(() => project.value?.title || t("pages.error.title"), () => project.v
             <li
                 v-for="link in project.links"
                 :key="link.url"
+                data-reveal
             >
                 <ActionLink
+                    data-reveal
                     :to="link.url"
                     external
-                    small
+                    size="small"
                 >
                     {{ t(link.labelKey) }}
                 </ActionLink>
@@ -55,22 +63,35 @@ usePageSeo(() => project.value?.title || t("pages.error.title"), () => project.v
         </div>
         <div class="section-space mb-20 flex flex-col gap-[50px] md:mb-[160px] md:flex-row md:gap-[100px]">
             <section class="min-w-0 flex-1">
-                <h2 class="section-label">
+                <h2
+                    data-reveal
+                    class="section-label"
+                >
                     {{ t('pages.project.context') }}
                 </h2>
-                <p class="max-w-[65ch] text-[15px] leading-[1.8] md:text-[18px]">
+                <p
+                    data-reveal
+                    class="max-w-[65ch] text-[15px] leading-[1.8] md:text-[18px]"
+                >
                     {{ t(`${project.contentKey}.context`) }}
                 </p>
             </section>
             <section class="min-w-0 flex-1">
-                <h2 class="section-label">
+                <h2
+                    data-reveal
+                    class="section-label"
+                >
                     {{ t('pages.project.contribution') }}
                 </h2>
-                <p class="max-w-[65ch] text-[15px] leading-[1.8] md:text-[18px]">
+                <p
+                    data-reveal
+                    class="max-w-[65ch] text-[15px] leading-[1.8] md:text-[18px]"
+                >
                     {{ t(`${project.contentKey}.contribution`) }}
                 </p>
                 <p
                     v-if="t(`${project.contentKey}.credits`)"
+                    data-reveal
                     class="mt-6 max-w-[65ch] text-xs leading-relaxed text-muted"
                 >
                     {{ t(`${project.contentKey}.credits`) }}

@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { ArchiveSort, ProfileId } from "#shared/types/portfolio";
+import type { ArchiveSort, ProfileId, SelectOption } from "#shared/types/portfolio";
 import { profileOrder } from "#shared/utils/catalog";
 
 const props = defineProps<{ role: ProfileId | ""; sort: ArchiveSort }>();
 const emit = defineEmits<{ change: [role: ProfileId | "", sort: ArchiveSort] }>();
 const { t } = useI18n();
-const roles = computed(() => [{ value: "", label: t("pages.archive.all") }, ...profileOrder.map(value => ({ value, label: t(`role.${value}`) }))]);
-const sorts = computed(() => [
+const roles = computed<readonly SelectOption<ProfileId | "">[]>(() => [{ value: "", label: t("pages.archive.all") }, ...profileOrder.map(value => ({ value, label: t(`role.${value}`) }))]);
+const sorts = computed<readonly SelectOption<ArchiveSort>[]>(() => [
     { value: "newest", label: t("pages.archive.newest") },
     { value: "oldest", label: t("pages.archive.oldest") },
     { value: "title", label: t("pages.archive.byTitle") },
@@ -24,7 +24,7 @@ const sorts = computed(() => [
                 :label="t('pages.project.role')"
                 :accessible-label="t('pages.archive.filterLabel')"
                 :options="roles"
-                @update:model-value="emit('change', $event as ProfileId | '', props.sort)"
+                @update:model-value="emit('change', $event, props.sort)"
             />
         </div>
         <div class="w-full md:max-w-[280px]">
@@ -33,7 +33,7 @@ const sorts = computed(() => [
                 :label="t('pages.archive.sort')"
                 :accessible-label="t('pages.archive.sortLabel')"
                 :options="sorts"
-                @update:model-value="emit('change', props.role, $event as ArchiveSort)"
+                @update:model-value="emit('change', props.role, $event)"
             />
         </div>
     </div>

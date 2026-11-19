@@ -4,7 +4,7 @@ import { TooltipProvider } from "reka-ui";
 const { t } = useI18n();
 const { isLoading, complete } = useLoading();
 const { isOpen } = useMenu();
-const pageCovered = useState<boolean>("page-covered", () => false);
+const { pageCovered } = usePageTransition();
 const isFinePointer = useMediaQuery("(hover: hover) and (pointer: fine)");
 const reduced = usePreferredReducedMotion();
 const mounted = useMounted();
@@ -34,7 +34,7 @@ onMounted(() => complete("shell"));
         </div>
         <div
             v-if="pageCovered"
-            class="fixed inset-0 z-[45] bg-paper"
+            class="fixed inset-0 z-page-cover bg-paper"
             style="opacity: 0"
             aria-hidden="true"
             data-page-cover

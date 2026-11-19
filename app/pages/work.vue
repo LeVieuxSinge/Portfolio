@@ -23,10 +23,16 @@ usePageSeo(() => t("pages.work.title"), () => t("pages.work.note"));
             :label="t('pages.work.listLabel')"
         />
         <section class="section-space flex flex-col justify-between gap-10 pb-20 md:flex-row md:items-end md:gap-[50px] md:pb-[110px]">
-            <h2 class="max-w-[500px] text-[29px] leading-tight font-semibold tracking-[-0.035em] md:text-[38px]">
+            <h2
+                data-reveal
+                class="max-w-[500px] text-[29px] leading-tight font-semibold tracking-[-0.035em] md:text-[38px]"
+            >
                 {{ t('pages.work.invitation') }}
             </h2>
-            <ActionLink :to="localePath('/about')">
+            <ActionLink
+                data-reveal
+                :to="localePath('/about')"
+            >
                 {{ t('pages.work.aboutCv') }}
             </ActionLink>
         </section>

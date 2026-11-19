@@ -5,14 +5,15 @@ export default defineNuxtPlugin({
         if (!import.meta.dev && !new URLSearchParams(location.search).has("startup")) return;
         const bootstrapAt = performance.now();
         const tasks: PerformanceEntry[] = [];
+        let timer: ReturnType<typeof setTimeout> | undefined;
         const observer = PerformanceObserver.supportedEntryTypes.includes("longtask")
             ? new PerformanceObserver(list => tasks.push(...list.getEntries()))
             : undefined;
         observer?.observe({ type: "longtask", buffered: true });
-        app.hook("app:mounted", () => {
+        const stopMounted = app.hook("app:mounted", () => {
             const mountedAt = performance.now();
             performance.mark("portfolio:mounted");
-            setTimeout(() => {
+            timer = setTimeout(() => {
                 tasks.push(...observer?.takeRecords() || []);
                 observer?.disconnect();
                 const startupTasks = tasks.filter(task => task.startTime < mountedAt);
@@ -25,6 +26,12 @@ export default defineNuxtPlugin({
                 }));
             }, 0);
         });
-        if (import.meta.hot) import.meta.hot.dispose(() => observer?.disconnect());
+        function dispose() {
+            clearTimeout(timer);
+            observer?.disconnect();
+            stopMounted();
+        }
+        if (import.meta.hot) import.meta.hot.dispose(dispose);
+        app.vueApp.onUnmount(dispose);
     },
 });

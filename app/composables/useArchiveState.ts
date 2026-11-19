@@ -4,16 +4,9 @@ import { archiveQuery, normalizeArchiveQuery } from "#shared/utils/catalog";
 export function useArchiveState() {
     const route = useRoute();
     const router = useRouter();
-    const app = useNuxtApp();
-    const queryReady = shallowRef(!app.isHydrating);
-    const initialState = useState(`archive-hydration:${route.path}`, () => normalizeArchiveQuery(route.query));
-    const state = computed(() => queryReady.value ? normalizeArchiveQuery(route.query) : initialState.value);
-    onMounted(() => {
-        queryReady.value = true;
-    });
-    const query = computed(() => archiveQuery(state.value));
+    const { state, query, queryReady } = useArchiveContext();
     function update(role: ProfileId | "", sort: ArchiveSort) {
-        const next = { ...route.query, ...archiveQuery({ role, sort }) };
+        const next = { ...route.query, ...archiveQuery(normalizeArchiveQuery({ role, sort })) };
         if (!role) delete next.role;
         return router.push({ query: next, hash: route.hash });
     }

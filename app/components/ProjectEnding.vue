@@ -18,10 +18,16 @@ const nextWork = computed(() => nextSelectedProject(projects, props.project.slug
         :aria-label="t('pages.project.selectedNavigation')"
     >
         <div class="min-w-0">
-            <h2 class="mb-[30px] text-[29px] font-semibold tracking-[-0.025em] md:text-[46px]">
+            <h2
+                data-reveal
+                class="mb-[30px] text-[29px] font-semibold tracking-[-0.025em] md:text-[46px]"
+            >
                 {{ t('pages.project.more') }}
             </h2>
-            <ActionLink :to="localePath('/work')">
+            <ActionLink
+                data-reveal
+                :to="localePath('/work')"
+            >
                 {{ t('pages.project.back') }}
             </ActionLink>
         </div>
@@ -29,10 +35,16 @@ const nextWork = computed(() => nextSelectedProject(projects, props.project.slug
             v-if="nextWork"
             class="min-w-0 self-end text-right md:ml-auto md:self-auto"
         >
-            <p class="eyebrow mb-[18px]">
+            <p
+                data-reveal
+                class="eyebrow mb-[18px]"
+            >
                 {{ t('pages.project.next') }}
             </p>
-            <ActionLink :to="localePath(`/project/${nextWork.slug}`)">
+            <ActionLink
+                data-reveal
+                :to="localePath(`/project/${nextWork.slug}`)"
+            >
                 {{ nextWork.title }}
             </ActionLink>
         </div>
@@ -46,10 +58,16 @@ const nextWork = computed(() => nextSelectedProject(projects, props.project.slug
             v-if="neighbors.previous"
             class="min-w-0"
         >
-            <p class="eyebrow mb-[18px]">
+            <p
+                data-reveal
+                class="eyebrow mb-[18px]"
+            >
                 {{ t('pages.project.previous') }}
             </p>
-            <ActionLink :to="{ path: localePath(`/project/${neighbors.previous.slug}`), query }">
+            <ActionLink
+                data-reveal
+                :to="{ path: localePath(`/project/${neighbors.previous.slug}`), query }"
+            >
                 {{ neighbors.previous.title }}
             </ActionLink>
         </div>
@@ -57,10 +75,16 @@ const nextWork = computed(() => nextSelectedProject(projects, props.project.slug
             v-if="neighbors.next"
             class="min-w-0 self-end text-right md:ml-auto"
         >
-            <p class="eyebrow mb-[18px]">
+            <p
+                data-reveal
+                class="eyebrow mb-[18px]"
+            >
                 {{ t('pages.project.next') }}
             </p>
-            <ActionLink :to="{ path: localePath(`/project/${neighbors.next.slug}`), query }">
+            <ActionLink
+                data-reveal
+                :to="{ path: localePath(`/project/${neighbors.next.slug}`), query }"
+            >
                 {{ neighbors.next.title }}
             </ActionLink>
         </div>

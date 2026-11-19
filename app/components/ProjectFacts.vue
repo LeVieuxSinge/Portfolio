@@ -7,7 +7,10 @@ const { t } = useI18n();
 
 <template>
     <dl class="mt-10 flex min-w-0 flex-col gap-6 md:mt-[60px] md:flex-row md:gap-[35px]">
-        <div class="min-w-0 flex-1">
+        <div
+            data-reveal
+            class="min-w-0 flex-1"
+        >
             <dt class="eyebrow mb-3">
                 {{ t('pages.project.client') }}
             </dt>
@@ -15,7 +18,10 @@ const { t } = useI18n();
                 {{ project.client }}
             </dd>
         </div>
-        <div class="min-w-0 md:flex-[1.4]">
+        <div
+            class="min-w-0 md:flex-[1.4]"
+            data-reveal
+        >
             <dt class="eyebrow mb-3">
                 {{ t('pages.project.role') }}
             </dt>
@@ -27,7 +33,10 @@ const { t } = useI18n();
                 />
             </dd>
         </div>
-        <div class="min-w-0 md:flex-[1.55]">
+        <div
+            class="min-w-0 md:flex-[1.55]"
+            data-reveal
+        >
             <dt class="eyebrow mb-3">
                 {{ t('pages.project.tags') }}
             </dt>
@@ -36,11 +45,14 @@ const { t } = useI18n();
                     v-for="tag in project.tags"
                     :key="tag"
                     :tag="tag"
-                    :project-slug="project.slug"
+                    :label="project.tagLabels?.[tag]"
                 />
             </dd>
         </div>
-        <div class="min-w-0 md:flex-[0.4]">
+        <div
+            class="min-w-0 md:flex-[0.4]"
+            data-reveal
+        >
             <dt class="eyebrow mb-3">
                 {{ t('pages.project.year') }}
             </dt>

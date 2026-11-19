@@ -12,6 +12,7 @@ watch(() => props.title, () => nextTick(fit));
     >
         <p
             v-if="note"
+            data-reveal
             class="ml-auto max-w-[350px] text-[15px] leading-relaxed md:text-base"
         >
             {{ note }}
@@ -21,6 +22,7 @@ watch(() => props.title, () => nextTick(fit));
             :class="note ? 'mt-12 md:mt-16' : ''"
         >
             <h1
+                data-reveal
                 class="display-type min-w-0 text-[15.2vw] md:text-[clamp(90px,12.4vw,194px)]"
                 :class="count !== undefined ? 'w-[calc(100%-38px)] md:w-[calc(100%-48px)]' : ''"
             >

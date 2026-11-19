@@ -47,6 +47,13 @@
 }
 @utility eyebrow { font-family: var(--font-mono); font-size: 11px; line-height: 1.6; text-transform: uppercase; color: var(--color-muted); }
 @utility section-label { font-family: var(--font-mono); font-size: 11px; line-height: 1.8; text-transform: uppercase; border-bottom: 1px solid var(--color-line); padding-bottom: 22px; margin-bottom: 45px; }
+@utility badge-shell { display: inline-flex; max-width: 100%; border: 1px solid var(--color-line); border-radius: 9999px; font-family: var(--font-mono); line-height: 1.5; }
+/* Shared stacking order: content/preview → cover → menu → header → loader → cursor/noise → tooltip/skip link. */
+@utility z-project-preview { z-index: 30; }
+@utility z-page-cover { z-index: 45; }
+@utility z-overlay-ui { z-index: 50; }
+@utility z-site-header { z-index: 55; }
+@utility z-entry-loader { z-index: 60; }
 @utility z-animated-noise { z-index: 70; }
 @utility z-custom-cursor { z-index: 65; }
 
@@ -55,6 +62,7 @@
     .action-link::after { content: ""; position: absolute; bottom: 4px; inset-inline: 0; height: 1px; background: currentColor; }
     .action-link:hover::after, .action-link:focus-visible::after { animation: underline-cycle 480ms ease both; }
     .action-link--small { font-size: 13px; font-weight: 500; gap: 14px; }
+    .action-link--contact { font-size: 25px; line-height: calc(20 / 14); }
     .action-link--secondary::after { transform: scaleX(0); transform-origin: left; transition: transform 240ms ease; }
     .action-link--secondary:hover::after, .action-link--secondary:focus-visible::after { animation: none; transform: scaleX(1); }
     .tooltip-content { z-index: 80; border: 1px solid var(--color-line); border-radius: 4px; background: var(--color-paper); color: var(--color-ink); padding: 7px 10px; font: 400 11px/1.5 var(--font-sans); max-width: min(250px, calc(100vw - 40px)); }
@@ -76,6 +84,7 @@
         .project-row--archive .project-name { font-size: 21px; }
         .action-link { font-size: 23px; }
         .action-link--small { font-size: 13px; }
+        .action-link--contact { font-size: 14px; }
         .section-label { padding-bottom: 17px; margin-bottom: 32px; }
     }
     @media (max-width: 360px) { .project-name { font-size: 24px; } }
@@ -105,6 +114,7 @@ main#main { view-transition-name: page; }
 @counter-style entry-digits { system: numeric; symbols: "0" "1" "2" "3" "4" "5" "6" "7" "8" "9"; pad: 3 "0"; }
 .entry-counter { counter-reset: entry var(--entry-count); }
 .entry-counter::after { content: counter(entry, entry-digits); }
+/* Keep the first-paint counter in step with motionDurations.entryProgress (2000ms). */
 .entry-counter:not([data-owned]) { animation: entry-progress-start 2s linear both; }
 .loading-background { animation: overlay-background-in 360ms ease-out both; }
 @keyframes entry-progress-start { from { --entry-count: 0; } to { --entry-count: 99; } }

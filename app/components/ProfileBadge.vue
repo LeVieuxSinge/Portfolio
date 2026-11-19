@@ -1,16 +1,17 @@
 <script setup lang="ts">
+import { profiles } from "#shared/data/site";
 import type { ProfileId } from "#shared/types/portfolio";
 
 const props = defineProps<{ profile: ProfileId }>();
 const { t } = useI18n();
-const swatches: Record<ProfileId, string> = { frontend: "bg-frontend", uiux: "bg-uiux", art: "bg-art", programming: "bg-programming" };
+const swatch = computed(() => profiles.find(profile => profile.id === props.profile)!.swatch);
 </script>
 
 <template>
-    <span class="inline-flex max-w-full items-center gap-[7px] rounded-full border border-line px-2.5 py-[5px] font-mono text-[10px] leading-normal text-ink">
+    <span class="badge-shell items-center gap-[7px] px-2.5 py-[5px] text-[10px] text-ink">
         <span
             class="size-[7px] shrink-0"
-            :class="swatches[props.profile]"
+            :class="swatch"
             aria-hidden="true"
         />
         <span class="min-w-0 [overflow-wrap:anywhere]">{{ t(`role.${props.profile}`) }}</span>

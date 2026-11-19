@@ -1,0 +1,87 @@
+import type { ProjectRecord } from "../../types/portfolio.ts";
+
+export default {
+    slug: "ryker",
+    title: "Ryker Configurator",
+    client: "BRP",
+    year: 2023,
+    contributions: [
+        "uiuxdesigner",
+        "frontenddeveloper",
+    ],
+    tags: [
+        "vue",
+        "sketchfab",
+        "javascript",
+    ],
+    featuredOrder: 1,
+    hero: "/images/projects/ryker/0.webp",
+    media: [
+        {
+            type: "video",
+            src: "/images/projects/ryker/showcase.webm",
+            width: 1920,
+            height: 1080,
+            altKey: "pages.project.items.ryker.media.0",
+            poster: "/images/projects/ryker/0.webp",
+        },
+        {
+            type: "image",
+            src: "/images/projects/ryker/0.webp",
+            width: 1920,
+            height: 1080,
+            altKey: "pages.project.items.ryker.media.1",
+        },
+        {
+            type: "image",
+            src: "/images/projects/ryker/1.webp",
+            width: 1920,
+            height: 1080,
+            altKey: "pages.project.items.ryker.media.2",
+        },
+        {
+            type: "image",
+            src: "/images/projects/ryker/2.webp",
+            width: 1920,
+            height: 1080,
+            altKey: "pages.project.items.ryker.media.3",
+        },
+        {
+            type: "image",
+            src: "/images/projects/ryker/3.webp",
+            width: 1920,
+            height: 1080,
+            altKey: "pages.project.items.ryker.media.4",
+        },
+        {
+            type: "image",
+            src: "/images/projects/ryker/4.webp",
+            width: 1920,
+            height: 1080,
+            altKey: "pages.project.items.ryker.media.5",
+        },
+        {
+            type: "image",
+            src: "/images/projects/ryker/5.webp",
+            width: 828,
+            height: 1792,
+            altKey: "pages.project.items.ryker.media.6",
+        },
+        {
+            type: "image",
+            src: "/images/projects/ryker/6.webp",
+            width: 828,
+            height: 1792,
+            altKey: "pages.project.items.ryker.media.7",
+        },
+        {
+            type: "image",
+            src: "/images/projects/ryker/7.webp",
+            width: 828,
+            height: 1792,
+            altKey: "pages.project.items.ryker.media.8",
+        },
+    ],
+    links: [],
+    contentKey: "pages.project.items.ryker",
+} satisfies ProjectRecord;
